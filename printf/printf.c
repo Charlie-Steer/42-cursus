@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/06/13 19:39:219 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/06/15 12:01:29 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void print_format_specifier(char *str, va_list args)
         ft_putchar_fd('%', 1);
 }
 
-void ft_printf(char *str, ...)
+int ft_printf(char const *str, ...)
 {
     va_list args;
     void    *arg;
