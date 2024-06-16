@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/06/15 12:01:29 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/06/15 22:10:30 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-static void print_format_specifier(char *str, va_list args)
+static void print_format_specifier(const char *str, va_list args)
 {
     if (*str == 'c')
         ft_putchar_fd(va_arg(args, int), 1);
@@ -71,6 +71,7 @@ int ft_printf(char const *str, ...)
         }
     }
     va_end(args);
+	return (1234);
 }
 
 int main()

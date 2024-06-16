@@ -1,7 +1,6 @@
-#VARIABLES
-
-NAME = libft.a
-SOURCES =\
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+SOURCES = \
 	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c\
 	ft_strlen.c ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c ft_strlcpy.c\
 	ft_strlcat.c ft_toupper.c ft_tolower.c ft_strchr.c ft_strrchr.c\
@@ -9,32 +8,61 @@ SOURCES =\
 	ft_strdup.c ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c\
 	ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c\
 	ft_putnbr_fd.c
-BONUS = ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c ft_lstlast_bonus.c\
-		ft_lstadd_back_bonus.c ft_lstdelone_bonus.c ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c
+BSOURCES = \
+	ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
+	ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c \
+	ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c
 OBJECTS = $(SOURCES:.c=.o)
-BONUS_OBJECTS = $(BONUS:.c=.o)
-FLAGS = -Wall -Wextra -Werror
+BOBJECTS = $(BSOURCES:.c=.o)
+LPATH = .
+LNAME = ft
+FLNAME = lib$(LNAME)
+NAME = $(FLNAME).a
+
+# Testing
+MAIN = tests.c
+EXENAME = $(FLNAME)_tester
 
 
-#RULES
+# LIBRARY CREATION
 
 %.o: %.c
-	@gcc $(FLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "$@ compiled."
 
 $(NAME): $(OBJECTS)
-	@ar rcs $(NAME) $(OBJECTS)
+	@ar rcs $(NAME) $^
+	@echo "$@ created."
 
 all: $(NAME)
 
-bonus: $(BONUS_OBJECTS)
-	@ar rcs $(NAME) $(BONUS_OBJECTS)
+bonus: $(BOBJECTS)
+	@ar rcs $(NAME) $(BOBJECTS)
+	@echo "Bonus objects added to $(NAME)."
 
 clean:
-	@rm -f *.o
+	@rm -f $(OBJECTS) $(BOBJECTS)
+	@echo "Clean performed."
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(EXENAME)
+	@echo "Full clean performed."
 
 re: fclean all
+	@echo "Library re-built."
 
-.PHONY: $(NAME) all clean fclean re bonus
+
+# TESTING
+
+$(EXENAME): $(NAME) $(MAIN)
+	@$(CC) $(MAIN) -L$(LPATH) -l$(LNAME) -o $(EXENAME)
+	@chmod +x $(EXENAME)
+	@echo "Tests compiled."
+
+tcomp: $(EXENAME)
+
+test: tcomp
+	@./$(EXENAME)
+
+
+.PHONY: all bonus clean fclean re tcomp test
