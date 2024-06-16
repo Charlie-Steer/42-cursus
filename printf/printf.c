@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/06/15 22:10:30 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/06/16 19:47:40 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,16 @@ int ft_printf(char const *str, ...)
         if (*str != '%')
         {
             ft_putchar_fd(*str, 1);
-            i++;
+            str++;
+			i++;
             continue ;
         }
-        i++;
-        if (*str == '%')
-            ft_putchar_fd(*str, 1);
         else
         {
-            void *test = (void *)7;
+			str++;
+			i++;
             print_format_specifier(str, args);
+			str++;
         }
     }
     va_end(args);

@@ -7,22 +7,22 @@ BOBJECTS = $(BSOURCES:.c=.o)
 DEV_OBJECTS = $(SOURCES:.c=.dev.o)
 DEV_BOBJECTS = $(BSOURCES:.c=.dev.o)
 
+# printf
+NAME = libftprintf.a
+PROJECT_PATH = .
+PROJECT_SHORT_NAME = ftprintf
+PROJECT_FULL_NAME = lib$(PROJECT_SHORT_NAME)
+DEV_NAME = $(PROJECT_FULL_NAME).dev.a
+
 # libft
 LIBFT_PATH = ./libft/
 LIBFT_SHORT_NAME = ft
 LIBFT_NAME = lib$(LIBFT_SHORT_NAME).a
 LIBFT = $(LIBFT_PATH)$(LIBFT_NAME)
 
-# printf
-PROJECT_PATH = .
-PROJECT_SHORT_NAME = ftprintf
-PROJECT_FULL_NAME = lib$(PROJECT_SHORT_NAME)
-NAME = $(PROJECT_FULL_NAME).a
-DEV_NAME = $(PROJECT_FULL_NAME).dev.a
-
 # Testing
 MAIN = printf.c
-EXENAME = $(PROJECT_FULLNAME_NAME).tests
+EXENAME = $(PROJECT_FULL_NAME).test
 DEV_EXTENSION = .dev
 DEV_EXENAME = $(EXENAME)$(DEV_EXTENSION)
 DEV_CFLAGS = -Wno-unused-variable -Wno-unused-parameter \
@@ -51,7 +51,7 @@ clean:
 	@echo "Clean performed."
 
 fclean: clean
-	@rm -f $(NAME) $(DEV_NAME) $(EXENAME)
+	@rm -f $(NAME) $(DEV_NAME) $(EXENAME) $(DEV_EXENAME)
 	@make -C $(LIBFT_PATH) fclean
 	@echo "Full clean performed."
 
@@ -105,6 +105,7 @@ $(DEV_EXENAME): $(DEV_NAME) $(MAIN)
 dev_tcomp: $(DEV_EXENAME)
 
 dev_test: dev_tcomp
+	@echo "TESTS: \n"
 	@./$(DEV_EXENAME)
 
 

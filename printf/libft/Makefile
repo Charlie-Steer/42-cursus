@@ -15,9 +15,9 @@ BSOURCES = \
 OBJECTS = $(SOURCES:.c=.o)
 BOBJECTS = $(BSOURCES:.c=.o)
 LPATH = .
+NAME = libft.a
 LNAME = ft
 FLNAME = lib$(LNAME)
-NAME = $(FLNAME).a
 
 # Testing
 MAIN = tests.c
