@@ -26,7 +26,7 @@ EXENAME = $(PROJECT_FULL_NAME).test
 DEV_EXTENSION = .dev
 DEV_EXENAME = $(EXENAME)$(DEV_EXTENSION)
 DEV_CFLAGS = -Wno-unused-variable -Wno-unused-parameter \
-	-Wno-unused-but-set-parameter
+	-Wno-unused-but-set-parameter -Wno-unused-but-set-variable
 
 
 # LIBRARY CREATION

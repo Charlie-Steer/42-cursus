@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/06/17 17:32:18 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:27:40 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,15 @@ int ft_printf(char const *str, ...)
 		{
 			while (ft_strchr(flags, *str))
 			{
+				str++;
 			}
-			while (ft_isdigit(*(str)++)) // I'm not sure how this behaves or if it's possible in one line.
+			while (ft_isdigit(*str))
 			{
+				str++;
 			}
-			str++;
-			i++;
 			print_format_specifier(str, args);
 			str++;
+			i++;
 		}
 	}
 	va_end(args);
