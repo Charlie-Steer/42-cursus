@@ -26,6 +26,7 @@ Manage all the following flags:
 - ' ': A blank should be left before a positive number (or empty string) produced by a signed conversion.
 - '+': A sign is always placed before a number **(produced by a sign conversion?). '+' overrides a ' ' if both are used.
 ---
+
 ## Man Notes
 arg 1: "format string"
 
@@ -37,5 +38,11 @@ Inbetween the '%' sign and the 'conversion specifier', there may be (in the foll
 - minimum field width.
 - precision.
 - length modifier.
+- conversion specifier.
 
 Error if insufficient arguments provided.
+
+## Other Notes
+
+### conversion specification structure
+%(flags)(minimum field width).(decimal width)(conversion specifier)

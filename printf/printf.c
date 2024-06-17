@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/06/17 13:09:08 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:32:18 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,19 @@ static void print_format_specifier(const char *str, va_list args)
 
 int ft_printf(char const *str, ...)
 {
+	char *flags;
+	char *conversion_specifiers;
 	va_list args;
 	void *arg;
 	int str_len;
 	int i;
 
-	va_start(args, str);
 
+	flags = "-0.# +";
+	conversion_specifiers = "cspdiuxX%";
 	str_len = strlen(str);
+	
+	va_start(args, str);
 
 	while (i < str_len)
 	{
@@ -60,6 +65,12 @@ int ft_printf(char const *str, ...)
 		}
 		else
 		{
+			while (ft_strchr(flags, *str))
+			{
+			}
+			while (ft_isdigit(*(str)++)) // I'm not sure how this behaves or if it's possible in one line.
+			{
+			}
 			str++;
 			i++;
 			print_format_specifier(str, args);

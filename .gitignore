@@ -1,5 +1,6 @@
-#VSCode
+#Custom
 .vscode/
+*.sw*
 
 # Prerequisites
 *.d
