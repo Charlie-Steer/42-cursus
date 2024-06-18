@@ -1,5 +1,4 @@
-#include "libft/libft.h"
-#include <stdio.h>
+#include "libftprintf.h"
 
 void original_printf_tests_1()
 {
@@ -20,6 +19,10 @@ void original_printf_tests_2()
 	printf("%.4x\n", 0xda);
 	printf("%#.4X\n", 0xda);
 	printf("%.4u\n", 84);
+	printf("%4.4i\n", 10);
+	printf("%8.4i\n", 10);
+	printf("%012.8i\n", 10);
+	printf("%012.8i\n", 10);
 }
 
 void original_printf_tests_3()
@@ -47,17 +50,11 @@ void original_printf_tests_5()
 
 int main()
 {
-	char *p_char = "h2llo";
-
-
-	printf("%s\n", p_char);
-	printf("%d, %p\n", ft_isdigit(*p_char), p_char);
-	p_char++;
-	printf("%d\n, %p\n", ft_isdigit((*p_char)++), p_char);
-	printf("%d\n %p\n", ft_isdigit((*(p_char))), p_char);
-	p_char++;
-	printf("%s\n", p_char);
-
+	// original_printf_tests_1();
+	// original_printf_tests_2();
+	// printf("%.4vello", 32);
+	ft_printf("hello %d world", 420);
+	// printf("%d", ft_isalnum('a'));
 
 	return (0);
 }

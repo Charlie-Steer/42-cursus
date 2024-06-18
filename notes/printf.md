@@ -46,3 +46,7 @@ Error if insufficient arguments provided.
 
 ### conversion specification structure
 %(flags)(minimum field width).(decimal width)(conversion specifier)
+
+## Concerns
+- What about duplicate flags?
+- Are macros legal? Better if global var?
