@@ -53,6 +53,7 @@ int main()
 	// original_printf_tests_1();
 	// original_printf_tests_2();
 	// printf("%.4vello", 32);
+	printf("tests.c executes.\n");
 	ft_printf("hello %d world", 420);
 	// printf("%d", ft_isalnum('a'));
 

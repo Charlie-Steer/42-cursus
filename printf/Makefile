@@ -16,8 +16,6 @@ DEV_NAME = $(PROJECT_FULL_NAME).dev.a
 
 # libft
 LIBFT_PATH = ./libft/
-LIBFT_SOURCES = $(wildcard $(LIBFT_PATH)*.c)
-LIBFT_OBJECTS = $(LIBFT_SOURCES:.c=.o)
 LIBFT_SHORT_NAME = ft
 LIBFT_NAME = lib$(LIBFT_SHORT_NAME).a
 LIBFT = $(LIBFT_PATH)$(LIBFT_NAME)
@@ -31,16 +29,17 @@ DEV_CFLAGS = -Wno-unused-variable -Wno-unused-parameter \
 	-Wno-unused-but-set-parameter -Wno-unused-but-set-variable \
 	-Wno-unused-function
 
+
 # LIBRARY CREATION
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "$@ compiled."
 
-all: $(NAME)
+all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJECTS) $(LIBFT_OBJECTS)
-	@ar rcs $(NAME) $(OBJECTS) $(LIBFT_OBJECTS)
+$(NAME): $(OBJECTS)
+	@ar rcs $(NAME) $^
 	@echo "$@ created."
 
 bonus: $(NAME) $(BOBJECTS)
@@ -60,28 +59,33 @@ fclean: clean
 re: fclean all
 	@echo "Library re-built."
 
+
 # DEV LIBRARY CREATION
 
 %.dev.o: %.c
-	@$(CC) $(CFLAGS) $(DEV_CFLAGS) -I$(LIBFT_PATH) -c $< -o $@
+	@$(CC) $(CFLAGS) $(DEV_CFLAGS) -c $< -o $@
 	@echo "$@ compiled."
 
-$(DEV_NAME): $(DEV_OBJECTS) $(DEV_BOBJECTS) $(LIBFT_OBJECTS)
-	@ar rcs $(DEV_NAME) $(DEV_OBJECTS) $(LIBFT_OBJECTS)
-	@echo "$@ created."
+$(DEV_NAME): $(DEV_OBJECTS) $(DEV_BOBJECTS)
+	@ar rcs $(DEV_NAME) $^
 
-dev_all: $(DEV_NAME)
+dev_all: $(LIBFT) $(DEV_NAME)
+
 
 # LIBFT COMPILATION
 
-$(LIBFT_OBJECTS): $(LIBFT_SOURCES)
-	@echo "Compiling libft..."
+$(LIBFT):
+	@echo Compiling libft...
 	@make -C $(LIBFT_PATH) all
-	@echo "Libft compiled."
+	@echo Libft compiled.
+
+libft: $(LIBFT)
+
 
 # TESTING FULL
-$(EXENAME): $(NAME) $(MAIN)
-	@$(CC) $(MAIN) -L$(LIBFT_PATH) -L$(PROJECT_PATH) -l$(LIBFT_SHORT_NAME) -l$(PROJECT_SHORT_NAME) -o $(EXENAME)
+#! This rule is untested.
+$(EXENAME): $(LIBFT) $(NAME) $(MAIN)
+	@$(CC) $(MAIN) -L$(PROJECT_PATH) -L$(LIBFT_PATH) -l$(PROJECT_SHORT_NAME) -l$(LIBFT_SHORT_NAME) -o $(EXENAME)
 	@chmod +x $(EXENAME)
 	@echo "Tests compiled."
 
@@ -90,10 +94,12 @@ tcomp: $(EXENAME)
 test: tcomp
 	@./$(EXENAME)
 
+
 # TESTING DEV
-$(DEV_EXENAME): $(DEV_NAME) $(MAIN)
-	@$(CC) $(DEV_CFLAGS) $(MAIN) -L$(LIBFT_PATH) -L$(PROJECT_PATH) \
-	-l$(LIBFT_SHORT_NAME) -l$(PROJECT_SHORT_NAME)$(DEV_EXTENSION) -o $(DEV_EXENAME)
+
+$(DEV_EXENAME): $(LIBFT) $(DEV_NAME) $(MAIN)
+	@$(CC) $(DEV_CFLAGS) $(MAIN) -L$(PROJECT_PATH) -L$(LIBFT_PATH) \
+	-l$(PROJECT_SHORT_NAME)$(DEV_EXTENSION) -l$(LIBFT_SHORT_NAME) -o $(DEV_EXENAME)
 	@chmod +x $(DEV_EXENAME)
 	@echo "Tests compiled."
 
@@ -102,5 +108,6 @@ dev_tcomp: $(DEV_EXENAME)
 dev_test: dev_tcomp
 	@echo "TESTS: \n"
 	@./$(DEV_EXENAME)
+
 
 .PHONY: all bonus clean fclean re dev_all libft tcomp test dev_tcomp dev_test

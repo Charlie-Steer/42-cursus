@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf.c                                           :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/06/18 15:49:03 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:04:15 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,6 @@ int ft_printf(char const *str, ...)
 			char conversion_specifier = *(str + conv_spec_parts_lens[0]
 			+ conv_spec_parts_lens[1] + conv_spec_parts_lens[2]
 			+ conv_spec_parts_lens[3]);
-			printf("conversion specifier: %c\n", conversion_specifier);
 
 			while (ft_strchr(flags, *str))
 			{

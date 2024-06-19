@@ -50,3 +50,9 @@ Error if insufficient arguments provided.
 ## Concerns
 - What about duplicate flags?
 - Are macros legal? Better if global var?
+
+
+## COMPLETION CHECKLIST!
+
+- function starts with "ft_".
+- Rules to compile BONUS added. Make sure that it doesn't compile bonus and add it to the library outright!!!!
