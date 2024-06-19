@@ -26,19 +26,19 @@ EXENAME = $(PROJECT_FULL_NAME).test
 DEV_EXTENSION = .dev
 DEV_EXENAME = $(EXENAME)$(DEV_EXTENSION)
 DEV_CFLAGS = -Wno-unused-variable -Wno-unused-parameter \
+	-Wno-unused-but-set-parameter -Wno-unused-but-set-variable \
 	-Wno-unused-function
 
-HEADERS = -I$(LIBFT_PATH)
 
 # LIBRARY CREATION
 
 %.o: %.c
-	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "$@ compiled."
 
 all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJECTS) $(LIBFT)
+$(NAME): $(OBJECTS)
 	@ar rcs $(NAME) $^
 	@echo "$@ created."
 
@@ -63,10 +63,10 @@ re: fclean all
 # DEV LIBRARY CREATION
 
 %.dev.o: %.c
-	@$(CC) $(CFLAGS) $(DEV_CFLAGS) $(HEADERS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(DEV_CFLAGS) -c $< -o $@
 	@echo "$@ compiled."
 
-$(DEV_NAME): $(DEV_OBJECTS) $(DEV_BOBJECTS) $(LIBFT)
+$(DEV_NAME): $(DEV_OBJECTS) $(DEV_BOBJECTS)
 	@ar rcs $(DEV_NAME) $^
 
 dev_all: $(LIBFT) $(DEV_NAME)
@@ -83,10 +83,9 @@ libft: $(LIBFT)
 
 
 # TESTING FULL
-# @$(CC) $(MAIN) -L$(PROJECT_PATH) -L$(LIBFT_PATH) -l$(PROJECT_SHORT_NAME) -l$(LIBFT_SHORT_NAME) -o $(EXENAME)
 #! This rule is untested.
 $(EXENAME): $(LIBFT) $(NAME) $(MAIN)
-	@$(CC) $(MAIN) $(DEV_NAME) $(LIBFT) -o $(EXENAME)
+	@$(CC) $(MAIN) -L$(PROJECT_PATH) -L$(LIBFT_PATH) -l$(PROJECT_SHORT_NAME) -l$(LIBFT_SHORT_NAME) -o $(EXENAME)
 	@chmod +x $(EXENAME)
 	@echo "Tests compiled."
 
@@ -97,10 +96,10 @@ test: tcomp
 
 
 # TESTING DEV
-#	@$(CC) $(DEV_CFLAGS) $(MAIN) -L$(PROJECT_PATH) -L$(LIBFT_PATH) \
-	-l$(PROJECT_SHORT_NAME)$(DEV_EXTENSION) -l$(LIBFT_SHORT_NAME) -o $(DEV_EXENAME)
+
 $(DEV_EXENAME): $(LIBFT) $(DEV_NAME) $(MAIN)
-	@$(CC) $(DEV_CFLAGS) $(MAIN) $(DEV_NAME) $(LIBFT) -o $(DEV_EXENAME)
+	@$(CC) $(DEV_CFLAGS) $(MAIN) -L$(PROJECT_PATH) -L$(LIBFT_PATH) \
+	-l$(PROJECT_SHORT_NAME)$(DEV_EXTENSION) -l$(LIBFT_SHORT_NAME) -o $(DEV_EXENAME)
 	@chmod +x $(DEV_EXENAME)
 	@echo "Tests compiled."
 

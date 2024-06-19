@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/06/19 15:04:15 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:24:30 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ int ft_printf(char const *str, ...)
 	
 	va_start(args, str);
 
+	i = 0;
 	while (i < str_len)
 	{
 		if (*str != '%')
