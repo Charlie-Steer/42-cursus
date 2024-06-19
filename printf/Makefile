@@ -38,7 +38,7 @@ HEADERS = -I$(LIBFT_PATH)
 
 all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJECTS) $(LIBFT)
+$(NAME): $(OBJECTS)
 	@ar rcs $(NAME) $^
 	@echo "$@ created."
 
@@ -66,7 +66,7 @@ re: fclean all
 	@$(CC) $(CFLAGS) $(DEV_CFLAGS) $(HEADERS) -c $< -o $@
 	@echo "$@ compiled."
 
-$(DEV_NAME): $(DEV_OBJECTS) $(DEV_BOBJECTS) $(LIBFT)
+$(DEV_NAME): $(DEV_OBJECTS) $(DEV_BOBJECTS)
 	@ar rcs $(DEV_NAME) $^
 
 dev_all: $(LIBFT) $(DEV_NAME)
@@ -83,10 +83,9 @@ libft: $(LIBFT)
 
 
 # TESTING FULL
-# @$(CC) $(MAIN) -L$(PROJECT_PATH) -L$(LIBFT_PATH) -l$(PROJECT_SHORT_NAME) -l$(LIBFT_SHORT_NAME) -o $(EXENAME)
 #! This rule is untested.
-$(EXENAME): $(LIBFT) $(NAME) $(MAIN)
-	@$(CC) $(MAIN) $(DEV_NAME) $(LIBFT) -o $(EXENAME)
+$(EXENAME): $(MAIN) $(NAME) $(LIBFT)
+	@$(CC) $(MAIN) $(DEV_NAME) $(LIBFT) $(HEADERS) -o $(EXENAME)
 	@chmod +x $(EXENAME)
 	@echo "Tests compiled."
 
@@ -97,10 +96,8 @@ test: tcomp
 
 
 # TESTING DEV
-#	@$(CC) $(DEV_CFLAGS) $(MAIN) -L$(PROJECT_PATH) -L$(LIBFT_PATH) \
-	-l$(PROJECT_SHORT_NAME)$(DEV_EXTENSION) -l$(LIBFT_SHORT_NAME) -o $(DEV_EXENAME)
-$(DEV_EXENAME): $(LIBFT) $(DEV_NAME) $(MAIN)
-	@$(CC) $(DEV_CFLAGS) $(MAIN) $(DEV_NAME) $(LIBFT) -o $(DEV_EXENAME)
+$(DEV_EXENAME): $(MAIN) $(DEV_NAME) $(LIBFT)
+	@$(CC) $(DEV_CFLAGS) $(MAIN) $(DEV_NAME) $(LIBFT) $(HEADERS) -o $(DEV_EXENAME)
 	@chmod +x $(DEV_EXENAME)
 	@echo "Tests compiled."
 
