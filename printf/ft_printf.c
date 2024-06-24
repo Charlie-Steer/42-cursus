@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/06/24 14:08:29 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/06/24 16:26:54 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,8 @@ int ft_printf(char const *str, ...)
 			else if (conv_spec == 'u' || conv_spec == 'x' || conv_spec == 'X')
 			{
 				*arg = va_arg(args, unsigned int);
+				char *temp = ft_itoa((unsigned int)(*arg));
+				arg_len = strlen(temp);
 			}
 			arg_len = get_arg_len();
 		}

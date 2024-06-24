@@ -23,6 +23,14 @@ void original_printf_tests_2()
 	printf("%8.4i\n", 10);
 	printf("%012.8i\n", 10);
 	printf("%012.8i\n", 10);
+	printf("%012.8x\n", 0XAF);
+	printf("%#012.8x\n", 0XAF);
+	printf("%#012.12x\n", 0XAF);
+	printf("%#08.12x\n", 0XAF);
+	printf("%#8.12x\n", 0XAF);
+	printf("%12.8s\n", "Hello!");
+	printf("%12s\n", "Hello!");
+	printf("%.8s World\n", "Hello!");
 }
 
 void original_printf_tests_3()
@@ -52,10 +60,13 @@ int main()
 {
 	// original_printf_tests_1();
 	// original_printf_tests_2();
-	// printf("%.4vello", 32);
-	printf("tests.c executes.\n");
-	ft_printf("hello %d world", 420);
-	// printf("%d", ft_isalnum('a'));
+	// original_printf_tests_3();
+	// original_printf_tests_4();
+	// original_printf_tests_5();
+	printf("%s\n", ft_itoa((unsigned int)1234567890));
+	printf("%s\n", ft_itoa((int)1234567890));
+	printf("%s\n", ft_itoa((unsigned int)2234567890));
+	printf("%s\n", ft_itoa((int)2234567890));
 
 	return (0);
 }
