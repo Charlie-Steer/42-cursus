@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/06/22 21:07:41 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:08:29 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,11 @@ static int *get_conv_spec_parts_lens(const char *str)
 	return (conv_spec_parts_lens);
 }
 
+static int *get_arg_len(t_conv_spec_data conv_spec_data, )
+{
+	if 
+}
+
 int ft_printf(char const *str, ...)
 {
 	va_list args;
@@ -180,6 +185,30 @@ int ft_printf(char const *str, ...)
 			conv_spec_data = inst_conv_spec_data_struct();
 			parse_conversion_specification(conv_spec_data, str);
 			// IMPLEMENT: Find out argument length depending on argument type.
+			void *arg;
+			char conv_spec = conv_spec_data.conversion_specifier;
+			//! '%' missing?
+			if (conv_spec == 'c' || conv_spec == 'd' || conv_spec == 'i')
+			{
+				*arg = va_arg(args, int);
+				char *temp = ft_itoa((int)(*arg));
+				arg_len = strlen(temp);
+			}
+			else if (conv_spec == 's')
+			{
+				*arg = va_arg(args, const char *);
+				arg_len = ft_strlen((char *)arg);
+			}
+			else if (conv_spec == 'p')
+			{
+				*arg = va_arg(args, void *);
+				//! CONTINUE WORKING ON GETTING LENGTHS
+			}
+			else if (conv_spec == 'u' || conv_spec == 'x' || conv_spec == 'X')
+			{
+				*arg = va_arg(args, unsigned int);
+			}
+			arg_len = get_arg_len();
 		}
 	}
 }

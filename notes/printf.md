@@ -4,15 +4,15 @@ int ft_printf(char const *, ...);
 ```
 
 Implement following conversions:
-- c
-- s
-- p
-- d
-- i
-- u
-- x
-- X
-- %
+- c. Constant length.
+- s. ft_strlen().
+- p. ft_itoa_base + ft_strlen()?
+- d. ft_itoa + strlen.
+- i. ft_itoa + strlen.
+- u. ft_itoa + strlen?
+- x. ft_itoa_base + strlen.
+- X. ft_itoa_base + strlen.
+- %. Constant length.
 
 ## Bonus
 Manage any possible combinations:
