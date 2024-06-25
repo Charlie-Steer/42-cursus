@@ -63,10 +63,19 @@ int main()
 	// original_printf_tests_3();
 	// original_printf_tests_4();
 	// original_printf_tests_5();
-	printf("%s\n", ft_itoa((unsigned int)1234567890));
-	printf("%s\n", ft_itoa((int)1234567890));
-	printf("%s\n", ft_itoa((unsigned int)2234567890));
-	printf("%s\n", ft_itoa((int)2234567890));
+	//printf("%s\n", ft_itoa((unsigned int)1234567890));
+	//printf("%s\n", ft_itoa((int)1234567890));
+	//printf("%s\n", ft_itoa((unsigned int)2234567890));
+	//printf("%s\n", ft_itoa((int)2234567890));
+	char *str;
+	char **strstr;
+	printf("%p\n", str);
+	printf("%p\n", strstr);
+	printf("%d\n", (int)str);
+	printf("%d\n", (int)strstr);
+	printf("%08d\n", (int)str);
+	printf("%08p\n", str);
+	printf("%8p\n", str);
 
 	return (0);
 }
