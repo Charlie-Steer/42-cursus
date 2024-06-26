@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include "./libft/libft.h"
 
+// Get power of base^exp.
+// Negative bases allowed. Negative exponents NOT allowed.
 long ft_pow(long base, long exp)
 {
 	long result;
@@ -10,10 +12,15 @@ long ft_pow(long base, long exp)
 	return (base * ft_pow(base, exp - 1));
 }
 
+// Returns the length of the string to write the given decimal number.
 int ft_numlen(long num, int account_sign)
 {
 	int len;
 
+	if (num == 0)
+		return (1);
+	else if (num < 0)
+		return (-1);
 	len = 0;
 	if (account_sign && num < 0)
 		len++;
@@ -25,27 +32,31 @@ int ft_numlen(long num, int account_sign)
 	return (len);
 }
 
-//! THIS ISN'T WORKING
-char *ft_numlen_base(long num, char *base, int account_sign)
+// Returns the length of the string to write the given number in the given base.
+int ft_numlen_base(long num, char *base, int account_sign)
 {
 	int len;
+	int base_len;
 
+	if (num == 0)
+		return (1);
+	else if (num < 0)
+		return (-1);
 	len = 0;
+	base_len = ft_strlen(base);
 	if (account_sign && num < 0)
 		len++;
 	while (num)
 	{
-		num /= ft_strlen(num);
+		num /= base_len;
 		len++;
 	}
 	return (len);
-
 }
 
 // Returns a newly allocated string with the given number in the given base.
-// No negative numbers, input should be unsigned.
+// NO NEGATIVE NUMBERS SHOULD BE PASSED.
 // The returned string's memory has to be handled by the user.
-//! THIS ISN'T WORKING
 char *ft_itoa_base(unsigned long n, char *base)
 {
 	int base_len;
@@ -54,18 +65,19 @@ char *ft_itoa_base(unsigned long n, char *base)
 	int str_len;
 
 	base_len = ft_strlen(base);
-	str_len = 20;
+	str_len = ft_numlen_base(n, base, 0);
+	if (str_len == -1)
+		return (NULL);
 	str = malloc(str_len + 1);
 	i = 0;
 	if (!str)
 		return (NULL);
-
-	ft_memset(str, 1, str_len);
+	if (n == 0)
+		str[0] = base[0];
 	while (n)
 	{
-		printf("n: %3d	str: %s\n", n, str);
-		str[str_len - i] = base[n % base_len];
-		n /= 10;
+		str[str_len - 1 - i] = base[n % base_len];
+		n /= base_len;
 		i++;
 	}
 	return (str);
@@ -73,16 +85,26 @@ char *ft_itoa_base(unsigned long n, char *base)
 
 int main(void)
 {
-	//printf("%d\n", sizeof(int));
-	//printf("%d\n", sizeof(long));
-	//printf("%d\n", sizeof(long long));
-	//printf("%d\n", 7/10);
-	//printf("%d\n", 27/10);
-
-	char *s1 = ft_itoa_base(26, "0123456789ABCDEF");
+	char *base = "0123456789ABCDEF";
+	char *s1 = ft_itoa_base(26, base);
+	char *s2 = ft_itoa_base(365, base);
+	char *s3 = ft_itoa_base(5000, base);
+	char *s4 = ft_itoa_base(4095, base);
+	char *s51 = ft_itoa_base(1, base);
+	char *s5 = ft_itoa_base(0, base);
+	char *s6 = ft_itoa_base(-365, base);
 	printf("%s\n", s1);
-
-	//printf("%ld\n", ft_pow(-2, 7));
-	//printf("%ld\n", ft_pow(2, 32));
-	//printf("%ld\n", ft_pow(-2, 32));
+	printf("%s\n", s2);
+	printf("%s\n", s3);
+	printf("%s\n", s4);
+	printf("%s\n", s51);
+	printf("%s\n", s5);
+	// printf("%s\n", s6);
+	// printf("%d\n", ft_numlen_base(0, base, 0));
+	// printf("%d\n", ft_numlen_base(0, base, 1));
+	// printf("%d\n", ft_numlen_base(1, base, 0));
+	// printf("%d\n", ft_numlen_base(-1, base, 0));
+	// printf("%d\n", ft_numlen_base(-27, base, 1));
+	// printf("%d\n", ft_numlen_base(-365, base, 0));
+	// printf("%d\n", ft_numlen_base(-365, base, 1));
 }

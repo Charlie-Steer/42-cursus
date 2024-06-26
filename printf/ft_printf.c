@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/06/24 16:26:54 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:54:26 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,46 +38,6 @@ static void print_format_specifier(const char *str, va_list args)
 	}
 	else if (*str == '%')
 		ft_putchar_fd('%', 1);
-}
-
-static int check_if_right_padding(char c)
-{
-	if (c == '-')
-		return (1);
-	else
-		return (0);
-}
-
-static int check_if_zero_padding(char c)
-{
-	if (c == '0')
-		return (1);
-	else
-		return (0);
-}
-
-static int check_if_alternate_form(char c)
-{
-	if (c == '#')
-		return (1);
-	else
-		return (0);
-}
-
-static int check_if_blank_prepended(char c)
-{
-	if (c == ' ')
-		return (1);
-	else
-		return (0);
-}
-
-static int check_if_sign(char c)
-{
-	if (c == '+')
-		return (1);
-	else
-		return (0);
 }
 
 static t_conv_spec_data inst_conv_spec_data_struct()
@@ -121,49 +81,20 @@ static t_conv_spec_data parse_conversion_specification(
 	return (conv_spec_data);
 }
 
-// Returned pointer needs to be freed.
-static int *get_conv_spec_parts_lens(const char *str)
+//! UNTESTED
+static int get_arg_len(char conv_spec, va_list args)
 {
-	char *flags;
-	char *conversion_specifiers;
-	int *conv_spec_parts_lens;
-	int mem_block_len;
-
-	flags = "-0# +.";
-	conversion_specifiers = "cspdiuxX%";
-	mem_block_len = sizeof(int) * 5;
-	conv_spec_parts_lens = malloc(mem_block_len);
-
-	ft_bzero(conv_spec_parts_lens, mem_block_len);
-
-	while (ft_strchr(flags, *str))
-	{
-		conv_spec_parts_lens[0]++;
-		str++;
-	}
-	while (ft_isdigit(*str))
-	{
-		conv_spec_parts_lens[1]++;
-		str++;
-	}
-	if (*str == '.')
-	{
-		conv_spec_parts_lens[2] = 1;
-		str++;
-		while (ft_isdigit(*str))
-		{
-			conv_spec_parts_lens[3]++;
-			str++;
-		}
-	}
-	if (ft_strchr(conversion_specifiers, *str))
-		conv_spec_parts_lens[4] = 1;
-	return (conv_spec_parts_lens);
-}
-
-static int *get_arg_len(t_conv_spec_data conv_spec_data, )
-{
-	if 
+	int arg_len;
+	char *hex_base = "0123456789ABCDEF";
+	//! '%' missing?
+	if (conv_spec == 'c' || conv_spec == 'd' || conv_spec == 'i')
+		arg_len = ft_numlen(va_arg(args, int), 1);
+	else if (conv_spec == 's')
+		arg_len = ft_strlen(va_arg(args, const char *));
+	else if (conv_spec == 'p')
+		arg_len = ft_numlen_base(va_arg(args, void *), hex_base, 0);
+	else if (conv_spec == 'u' || conv_spec == 'x' || conv_spec == 'X')
+		arg_len = ft_numlen_base(va_arg(args, unsigned int), hex_base, 0);
 }
 
 int ft_printf(char const *str, ...)
@@ -184,33 +115,7 @@ int ft_printf(char const *str, ...)
 		{
 			conv_spec_data = inst_conv_spec_data_struct();
 			parse_conversion_specification(conv_spec_data, str);
-			// IMPLEMENT: Find out argument length depending on argument type.
-			void *arg;
-			char conv_spec = conv_spec_data.conversion_specifier;
-			//! '%' missing?
-			if (conv_spec == 'c' || conv_spec == 'd' || conv_spec == 'i')
-			{
-				*arg = va_arg(args, int);
-				char *temp = ft_itoa((int)(*arg));
-				arg_len = strlen(temp);
-			}
-			else if (conv_spec == 's')
-			{
-				*arg = va_arg(args, const char *);
-				arg_len = ft_strlen((char *)arg);
-			}
-			else if (conv_spec == 'p')
-			{
-				*arg = va_arg(args, void *);
-				//! CONTINUE WORKING ON GETTING LENGTHS
-			}
-			else if (conv_spec == 'u' || conv_spec == 'x' || conv_spec == 'X')
-			{
-				*arg = va_arg(args, unsigned int);
-				char *temp = ft_itoa((unsigned int)(*arg));
-				arg_len = strlen(temp);
-			}
-			arg_len = get_arg_len();
+			arg_len = get_arg_len(conv_spec_data.conversion_specifier, args);
 		}
 	}
 }
