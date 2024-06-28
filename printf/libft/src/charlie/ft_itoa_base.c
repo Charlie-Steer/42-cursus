@@ -1,58 +1,16 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include "./libft/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa_base.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/28 12:54:43 by cargonz2          #+#    #+#             */
+/*   Updated: 2024/06/28 16:42:30 by cargonz2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// Get power of base^exp.
-// Negative bases allowed. Negative exponents NOT allowed.
-long ft_pow(long base, long exp)
-{
-	long result;
-	if (exp == 0)
-		return 1;
-	return (base * ft_pow(base, exp - 1));
-}
-
-// Returns the length of the string to write the given decimal number.
-int ft_numlen(long num, int account_sign)
-{
-	int len;
-
-	if (num == 0)
-		return (1);
-	else if (num < 0)
-		return (-1);
-	len = 0;
-	if (account_sign && num < 0)
-		len++;
-	while (num)
-	{
-		num /= 10;
-		len++;
-	}
-	return (len);
-}
-
-// Returns the length of the string to write the given number in the given base.
-int ft_numlen_base(long num, char *base, int account_sign)
-{
-	int len;
-	int base_len;
-
-	if (num == 0)
-		return (1);
-	else if (num < 0)
-		return (-1);
-	len = 0;
-	base_len = ft_strlen(base);
-	if (account_sign && num < 0)
-		len++;
-	while (num)
-	{
-		num /= base_len;
-		len++;
-	}
-	return (len);
-}
+#include "charlie.h"
 
 // Returns a newly allocated string with the given number in the given base.
 // NO NEGATIVE NUMBERS SHOULD BE PASSED.
@@ -83,6 +41,7 @@ char *ft_itoa_base(unsigned long n, char *base)
 	return (str);
 }
 
+/*
 int main(void)
 {
 	char *base = "0123456789ABCDEF";
@@ -108,3 +67,4 @@ int main(void)
 	// printf("%d\n", ft_numlen_base(-365, base, 0));
 	// printf("%d\n", ft_numlen_base(-365, base, 1));
 }
+*/
