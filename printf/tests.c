@@ -1,4 +1,5 @@
-#include "libftprintf.h"
+//#include "libftprintf.h"
+#include "ft_printf.c"
 
 void original_printf_tests_1()
 {
@@ -56,6 +57,39 @@ void original_printf_tests_5()
 	printf("%#X\n", 0x3f);
 }
 
+void test_get_arg_len(const int conv_specifier, ...)
+{
+	va_list args;
+	va_start(args, conv_specifier);
+	printf("%d\n", get_arg_len((const char)conv_specifier, args));
+}
+
+void run_test_suite__get_arg_len()
+{
+	printf("CHARS:\n");
+	test_get_arg_len('c', 't');
+	printf("\nINTEGERS:\n");
+	test_get_arg_len('d', 420420);
+	test_get_arg_len('d', 0);
+	test_get_arg_len('d', 1234567890);
+	test_get_arg_len('d', 12345678901);
+	printf("\nSTRINGS:\n");
+	test_get_arg_len('s', "yo");
+	test_get_arg_len('s', "");
+	test_get_arg_len('s', " ");
+	test_get_arg_len('s', "hello_world");
+	printf("\nPOINTERS:\n");
+	int *p1;
+	long *p2;
+	printf("%p, %p\n", p1, p2);
+	test_get_arg_len('p', p1);
+	test_get_arg_len('p', p2);
+	printf("\nUNSIGNED INTEGERS\n");
+	test_get_arg_len('u', 123456);
+	printf("\nHEXADECIMAL NUMBERS:\n");
+	test_get_arg_len('x', 123456);
+}
+
 int main()
 {
 	// original_printf_tests_1();
@@ -67,15 +101,20 @@ int main()
 	//printf("%s\n", ft_itoa((int)1234567890));
 	//printf("%s\n", ft_itoa((unsigned int)2234567890));
 	//printf("%s\n", ft_itoa((int)2234567890));
-	char *str;
-	char **strstr;
-	printf("%p\n", str);
-	printf("%p\n", strstr);
-	printf("%d\n", (int)str);
-	printf("%d\n", (int)strstr);
-	printf("%08d\n", (int)str);
-	printf("%08p\n", str);
-	printf("%8p\n", str);
+	//char *str;
+	//char **strstr;
+	//printf("%p\n", str);
+	//printf("%p\n", strstr);
+	//printf("%d\n", (int)str);
+	//printf("%d\n", (int)strstr);
+	//printf("%08d\n", (int)str);
+	//printf("%08p\n", str);
+	//printf("%8p\n", str);
 
+	ft_printf("hola %s test\n", "hello_world");
+	//run_test_suite__get_arg_len();
+	//char *i;
+	//unsigned long n = &i;
+	//printf("%lu\n", n);
 	return (0);
 }

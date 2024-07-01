@@ -15,17 +15,17 @@ PROJECT_FULL_NAME = lib$(PROJECT_SHORT_NAME)
 DEV_NAME = $(PROJECT_FULL_NAME).dev.a
 
 # libft
-LIBFT_PATH = ./libft/
+LIBFT_PATH = libft/lib
 LIBFT_SHORT_NAME = ft
 LIBFT_NAME = lib$(LIBFT_SHORT_NAME).a
-LIBFT = $(LIBFT_PATH)$(LIBFT_NAME)
+LIBFT = $(LIBFT_PATH)/$(LIBFT_NAME)
 
 # Testing
 MAIN = tests.c
 EXENAME = $(PROJECT_FULL_NAME).test
 DEV_EXTENSION = .dev
 DEV_EXENAME = $(EXENAME)$(DEV_EXTENSION)
-DEV_CFLAGS = -Wno-unused-variable -Wno-unused-but-set-variable \
+DEV_CFLAGS = -Wno-unused-variable \
 			 -Wno-unused-parameter -Wno-unused-function
 
 HEADERS = -I$(LIBFT_PATH)

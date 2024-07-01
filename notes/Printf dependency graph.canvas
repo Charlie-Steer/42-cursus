@@ -1,19 +1,19 @@
 {
 	"nodes":[
-		{"id":"5c4b5519989a6518","x":-286,"y":-140,"width":197,"height":60,"color":"4","type":"text","text":"Read \"Minimum width\""},
-		{"id":"5ae8c3452b7d3e05","x":-254,"y":-40,"width":133,"height":60,"color":"4","type":"text","text":"Read if '0' flag"},
+		{"id":"5c4b5519989a6518","type":"text","text":"Read \"Minimum width\"","x":-286,"y":-140,"width":197,"height":60,"color":"4"},
+		{"id":"5ae8c3452b7d3e05","type":"text","text":"Read if '0' flag","x":-254,"y":-40,"width":133,"height":60,"color":"4"},
 		{"id":"d4775fb440faddb0","type":"text","text":"Read if '.' flag and value","x":-278,"y":60,"width":182,"height":100,"color":"4"},
 		{"id":"c55774acfa58bba5","type":"text","text":"Read if '#' flag","x":-265,"y":280,"width":176,"height":50,"color":"4"},
 		{"id":"582f6de4a52851a3","type":"text","text":"Read if ' ' flag","x":-274,"y":360,"width":194,"height":60,"color":"4"},
-		{"id":"c67bd90a51516acf","x":-265,"y":450,"width":176,"height":60,"color":"4","type":"text","text":"Read if '+' flag"},
-		{"id":"13c38c462668903d","x":-540,"y":328,"width":140,"height":60,"color":"5","type":"text","text":"Print '0x'"},
+		{"id":"c67bd90a51516acf","type":"text","text":"Read if '+' flag","x":-265,"y":450,"width":176,"height":60,"color":"4"},
+		{"id":"13c38c462668903d","type":"text","text":"Print '0x'","x":-540,"y":328,"width":140,"height":60,"color":"5"},
 		{"id":"2af0eaed989a7607","type":"text","text":"Print ' '","x":-540,"y":420,"width":140,"height":60,"color":"5"},
 		{"id":"5b99371012dde0fd","type":"text","text":"Print sign","x":-540,"y":535,"width":140,"height":60,"color":"5"},
 		{"id":"58be321e4318bccb","type":"text","text":"Print Minimum width as appropriate mix of '0's and ' 's.","x":-840,"y":-160,"width":220,"height":100,"color":"5"},
-		{"id":"e70042617e309eae","x":-1080,"y":298,"width":180,"height":60,"color":"5","type":"text","text":"print arg"},
-		{"id":"e37ba03b02afd00d","x":-1320,"y":160,"width":160,"height":80,"color":"1","type":"text","text":"Print '-' flag right ' 's"},
-		{"id":"0f3bdf0fa148d9fd","x":360,"y":160,"width":206,"height":90,"color":"4","type":"text","text":"Read conversion specifier"},
-		{"id":"4cbb6f78f9a8889f","x":120,"y":-40,"width":207,"height":60,"color":"2","type":"text","text":"Calculate arg len"}
+		{"id":"e70042617e309eae","type":"text","text":"print arg","x":-1080,"y":298,"width":180,"height":60,"color":"5"},
+		{"id":"e37ba03b02afd00d","type":"text","text":"Print '-' flag right ' 's","x":-1320,"y":160,"width":160,"height":80,"color":"1"},
+		{"id":"0f3bdf0fa148d9fd","type":"text","text":"Read conversion specifier","x":360,"y":160,"width":206,"height":90,"color":"4"},
+		{"id":"4cbb6f78f9a8889f","type":"text","text":"Calculate arg len","x":100,"y":-40,"width":207,"height":60,"color":"2"}
 	],
 	"edges":[
 		{"id":"6dbacc74a05138cc","fromNode":"c55774acfa58bba5","fromSide":"left","toNode":"e70042617e309eae","toSide":"right"},
