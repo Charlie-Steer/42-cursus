@@ -27,8 +27,8 @@
               "state": {
                 "file": "Printf dependency graph.canvas",
                 "viewState": {
-                  "x": -390.5741322154791,
-                  "y": 237.9472348611202,
+                  "x": -320.64021294451555,
+                  "y": 274.89345636276136,
                   "zoom": -0.40000000000000013
                 }
               }
@@ -46,8 +46,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -114,7 +113,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Printf dependency graph.canvas",
+                "file": "printf.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -131,7 +130,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Printf dependency graph.canvas",
+                "file": "printf.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -154,7 +153,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Printf dependency graph.canvas"
+                "file": "printf.md"
               }
             }
           }
@@ -175,10 +174,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "35379ace303b9b72",
+  "active": "f3990f204e769443",
   "lastOpenFiles": [
-    "libft_notes.md",
     "Printf dependency graph.canvas",
+    "libft_notes.md",
     "printf.md"
   ]
 }

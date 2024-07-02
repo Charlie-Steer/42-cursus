@@ -57,6 +57,61 @@ void original_printf_tests_5()
 	printf("%#X\n", 0x3f);
 }
 
+void decimal_numbers_tests()
+{
+	printf("%d\n", 7);
+	printf("% d\n", 7);
+	printf("%3d\n", 7);
+	printf("% 3d\n", 7);
+	printf("% 3d\n", 777);
+	printf("% -3dPADDING\n", 7);
+	printf("% -3dPADDING\n", 777);
+	printf("---\n");
+	printf("%3d\n", 9);
+	printf("%.3d\n", 9);
+	printf("%3.3d\n", 9);
+	printf("%6.3d\n", 9);
+	printf("%3.6d\n", 9);
+	printf("---\n");
+	printf("%-3dPADDING\n", 9);
+	printf("%-.3dPADDING\n", 9);
+	printf("%-3.3dPADDING\n", 9);
+	printf("%-6.3dPADDING\n", 9);
+	printf("%-3.6dPADDING\n", 9);
+	printf("---\n");
+	printf("%03d\n", 9);
+	printf("%0.3d\n", 9);
+	printf("%03.3d\n", 9);
+	printf("%06.3d\n", 9);
+	printf("%03.6d\n", 9);
+	printf("---\n");
+	printf("%.4d\n", 5);
+	printf("---\n");
+	printf("---\n");
+	printf("% 3d\n", 9);
+	printf("% .3d\n", 9);
+	printf("% 3.3d\n", 9);
+	printf("% 6.3d\n", 9);
+	printf("% 3.6d\n", 9);
+	printf("---\n");
+	printf("% -3dPADDING\n", 9);
+	printf("% -.3dPADDING\n", 9);
+	printf("% -3.3dPADDING\n", 9);
+	printf("% -6.3dPADDING\n", 9);
+	printf("% -3.6dPADDING\n", 9);
+	printf("---\n");
+	printf("% 03d\n", 9);
+	printf("% 0.3d\n", 9);
+	printf("% 03.3d\n", 9);
+	printf("% 06.3d\n", 9);
+	printf("% 03.6d\n", 9);
+	printf("---\n");
+	printf("% .4d\n", 5);
+	printf("---\n");
+	printf("% 6.3d\n", 9);
+	printf("%+ 6.3d\n", 9);
+}
+
 void test_get_arg_len(const int conv_specifier, ...)
 {
 	va_list args;
@@ -90,31 +145,12 @@ void run_test_suite__get_arg_len()
 	test_get_arg_len('x', 123456);
 }
 
+
+
 int main()
 {
-	// original_printf_tests_1();
-	// original_printf_tests_2();
-	// original_printf_tests_3();
-	// original_printf_tests_4();
-	// original_printf_tests_5();
-	//printf("%s\n", ft_itoa((unsigned int)1234567890));
-	//printf("%s\n", ft_itoa((int)1234567890));
-	//printf("%s\n", ft_itoa((unsigned int)2234567890));
-	//printf("%s\n", ft_itoa((int)2234567890));
-	//char *str;
-	//char **strstr;
-	//printf("%p\n", str);
-	//printf("%p\n", strstr);
-	//printf("%d\n", (int)str);
-	//printf("%d\n", (int)strstr);
-	//printf("%08d\n", (int)str);
-	//printf("%08p\n", str);
-	//printf("%8p\n", str);
 
-	ft_printf("hola %s test\n", "hello_world");
-	//run_test_suite__get_arg_len();
-	//char *i;
-	//unsigned long n = &i;
-	//printf("%lu\n", n);
+	decimal_numbers_tests();
+	//ft_printf("hola %s test\n", "hello_world");
 	return (0);
 }
