@@ -1,6 +1,31 @@
 //#include "libftprintf.h"
 #include "ft_printf.c"
 
+void test_printf_int(char *fstr, int n)
+{
+	static int test_num = 1;
+	printf("TEST #%02d\n", test_num);
+
+	printf("inputs	|\"%s\", %d\n", fstr, n);
+
+	printf("printf	|");
+	fflush(stdout);
+	int orig_ret_val = printf(fstr, n);
+	printf("\n");
+
+	printf("ft	|");
+	fflush(stdout);
+	int ft_ret_val = ft_printf(fstr, n);
+	printf("\n");
+
+	//printf("ret: ");
+	printf("returns	|%d, ", orig_ret_val);
+	printf("%d\n", ft_ret_val);
+	printf("\n");
+	test_num++;
+	fflush(stdout);
+}
+
 void original_printf_tests_1()
 {
 	printf("%4i\n", 10);
@@ -59,6 +84,7 @@ void original_printf_tests_5()
 
 void decimal_numbers_tests()
 {
+	printf("\nPRINTF()\n");
 	printf("%d\n", 7);
 	printf("% d\n", 7);
 	printf("%3d\n", 7);
@@ -112,6 +138,114 @@ void decimal_numbers_tests()
 	printf("%+ 6.3d\n", 9);
 }
 
+
+void print_title(char *str) {
+    char *temp = strdup(str); // Duplicate the string to allow modification
+    if (temp == NULL) {
+        perror("Failed to allocate memory");
+        return;
+    }
+    char *original_temp = temp;
+    while (*temp != '\0') {
+        *temp = ft_toupper((int)(*temp)); // Use toupper instead of ft_toupper
+        temp++;
+    }
+    printf("\n\n%s:\n\n", original_temp);
+    free(original_temp); // Free the duplicated string
+}
+
+
+void ft_decimal_numbers_tests()
+{
+	test_printf_int("%d", 7);
+	print_title("Sign");
+	test_printf_int("%+d", 7);
+	test_printf_int("%+d", -7);
+	print_title("Blank");
+	test_printf_int("% d", 7);
+	test_printf_int("% d", -7);
+	print_title("Right Pad");
+	test_printf_int("%-3dP", +7);
+	test_printf_int("% -3dP", +7);
+	test_printf_int("% -11dP", +7);
+	print_title("Min Width");
+	test_printf_int("%3d", 7);
+	test_printf_int("%1d", 7);
+	test_printf_int("%11d", 7);
+	print_title("Zero Pad");
+	test_printf_int("%03d", 7);
+	test_printf_int("%01d", 7);
+	test_printf_int("%011d", 7);
+	print_title("Point Pad");
+	test_printf_int("%.3d", 7);
+	test_printf_int("%.11d", 7);
+	print_title("Mixed Flags");
+	test_printf_int("%6.3d", 7);
+	test_printf_int("%3.6d", 7);
+	test_printf_int("%22.11d", 7);
+	test_printf_int("%11.22d", 7);
+	//test_printf_int("% 6.3d", 7);
+	//test_printf_int("% 3.6d", 7);
+	//test_printf_int("% 22.11d", 7);
+	//test_printf_int("% 11.22d", 7);
+
+	////
+	//ft_printf("%3d\n", -7);
+	//ft_printf("%-d\n", -7);
+	//ft_printf("%d\n", 7);
+	//ft_printf("%a\n", 7);
+	//ft_printf("% d\n", 7);
+	//ft_printf("%3d\n", 7);
+	//ft_printf("% 3d\n", 7);
+	//ft_printf("% 3d\n", 777);
+	//ft_printf("% -3dPADDING\n", 7);
+	//ft_printf("% -3dPADDING\n", 777);
+	//ft_printf("---\n");
+	//ft_printf("%3d\n", 9);
+	//ft_printf("%.3d\n", 9);
+	//ft_printf("%3.3d\n", 9);
+	//ft_printf("%6.3d\n", 9);
+	//ft_printf("%3.6d\n", 9);
+	//ft_printf("---\n");
+	//ft_printf("%-3dPADDING\n", 9);
+	//ft_printf("%-.3dPADDING\n", 9);
+	//ft_printf("%-3.3dPADDING\n", 9);
+	//ft_printf("%-6.3dPADDING\n", 9);
+	//ft_printf("%-3.6dPADDING\n", 9);
+	//ft_printf("---\n");
+	//ft_printf("%03d\n", 9);
+	//ft_printf("%0.3d\n", 9);
+	//ft_printf("%03.3d\n", 9);
+	//ft_printf("%06.3d\n", 9);
+	//ft_printf("%03.6d\n", 9);
+	//ft_printf("---\n");
+	//ft_printf("%.4d\n", 5);
+	//ft_printf("---\n");
+	//ft_printf("---\n");
+	//ft_printf("% 3d\n", 9);
+	//ft_printf("% .3d\n", 9);
+	//ft_printf("% 3.3d\n", 9);
+	//ft_printf("% 6.3d\n", 9);
+	//ft_printf("% 3.6d\n", 9);
+	//ft_printf("---\n");
+	//ft_printf("% -3dPADDING\n", 9);
+	//ft_printf("% -.3dPADDING\n", 9);
+	//ft_printf("% -3.3dPADDING\n", 9);
+	//ft_printf("% -6.3dPADDING\n", 9);
+	//ft_printf("% -3.6dPADDING\n", 9);
+	//ft_printf("---\n");
+	//ft_printf("% 03d\n", 9);
+	//ft_printf("% 0.3d\n", 9);
+	//ft_printf("% 03.3d\n", 9);
+	//ft_printf("% 06.3d\n", 9);
+	//ft_printf("% 03.6d\n", 9);
+	//ft_printf("---\n");
+	//ft_printf("% .4d\n", 5);
+	//ft_printf("---\n");
+	//ft_printf("% 6.3d\n", 9);
+	//ft_printf("%+ 6.3d\n", 9);
+}
+
 void test_get_arg_len(const int conv_specifier, ...)
 {
 	va_list args;
@@ -149,8 +283,8 @@ void run_test_suite__get_arg_len()
 
 int main()
 {
-
-	decimal_numbers_tests();
+	//decimal_numbers_tests();
+	ft_decimal_numbers_tests();
 	//ft_printf("hola %s test\n", "hello_world");
 	return (0);
 }

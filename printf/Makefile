@@ -25,8 +25,9 @@ MAIN = tests.c
 EXENAME = $(PROJECT_FULL_NAME).test
 DEV_EXTENSION = .dev
 DEV_EXENAME = $(EXENAME)$(DEV_EXTENSION)
-DEV_CFLAGS = -Wno-unused-variable -Wno-unused-but-set-variable \
-			 -Wno-unused-parameter -Wno-unused-function
+DEV_CFLAGS = -Wno-unused-variable \
+	-Wno-unused-parameter  -Wno-unused-function \
+	#-Wno-unused-but-set-variable
 
 HEADERS = -I$(LIBFT_PATH)
 

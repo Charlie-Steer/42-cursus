@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:15:53 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/01/01 23:10:55 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/03 14:55:17 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+// MODIFIED FROM ORIG EXERCISE!
 void	ft_putnbr_fd(int n, int fd)
 {
 	if (n < 0)

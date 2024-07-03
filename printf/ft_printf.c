@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/02 18:15:58 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:43:13 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,41 +98,69 @@ int print_str(char *str, t_conv_spec_data conv_specification)
 	return (print_len);
 }
 
-//! UNTESTED
+//! Remove on delivery!
+void test_print_parsed_cs(t_conv_spec_data cs)
+{
+	printf("cs:		%c\n", cs.conversion_specifier);
+	printf("min_width:	%d\n", cs.min_width);
+	printf("pt_width:	%d\n", cs.point_width);
+	printf("alt?:		%d\n", cs.has_alternate);
+	printf("blank?:		%d\n", cs.has_blank);
+	printf("point?:		%d\n", cs.has_point);
+	printf("right_pad?:	%d\n", cs.has_right_pad);
+	printf("sign?:		%d\n", cs.has_sign);
+	printf("zero_pad?:	%d\n", cs.has_zero_pad);
+}
+
 int print_int(int n, t_conv_spec_data cs)
 {
 	int i;
 	int n_len;
 	int print_len;
 
+	//test_print_parsed_cs(cs);
+	i = 0;
 	n_len = ft_numlen(n, 1);
 	print_len = n_len;
-	i = 0;
-	if (cs.has_sign)
-	{
-		if (n < 0)
-			ft_putchar_fd('-', 1);
-		else
-			ft_putchar_fd('+', 1);
-	}
+	if (cs.has_sign && n >= 0)
+		ft_putchar_fd('+', 1);
 	else if (cs.has_blank && (n_len >= cs.min_width || cs.has_right_pad))
 		ft_putchar_fd(' ', 1);
 	if (cs.has_right_pad)
 	{
 		ft_putnbr_fd(n, 1);
-		while (i < cs.min_width - n_len - cs.has_blank - cs.min_width)
+		while (i < cs.min_width - n_len - cs.has_blank) //! -cs.point_width?
+		{
 			ft_putchar_fd(' ', 1);
+			i++;
+		}
 		return (print_len);
 	}
-	else if (cs.min_width != 0)
+	else if (cs.min_width > 0)
 	{
 		char pad_char = ' ';
 		if (cs.has_zero_pad)
 			pad_char = '0';
-		while (i < cs.min_width - n_len - cs.point_width -
-			(cs.has_blank || cs.has_sign))
+		i = 0;
+		while (i < cs.min_width - n_len - cs.point_width - (cs.has_blank || cs.has_sign))
+		{
 			ft_putchar_fd(pad_char, 1);
+			i++;
+		}
+		i = 0;
 	}
+
+	if (cs.point_width > 0)
+	{
+		while (i < cs.point_width - n_len - cs.min_width - (cs.has_blank || cs.has_sign))
+		{
+			ft_putchar_fd('0', 1);
+			i++;
+		}
+		i = 0; //! Probably unnecessary.
+	}
+
+	//! RETURN UNTESTED
 	int left_pad_subtractors = (cs.has_sign || cs.has_blank) + cs.point_width;
 	print_len = n_len + left_pad_subtractors;
 	int left_pad_len = (cs.min_width - left_pad_subtractors);
@@ -143,8 +171,11 @@ int print_int(int n, t_conv_spec_data cs)
 	return (print_len);
 }
 
-void print_format_specifier(char c, va_list args)
+int print_format_specifier(char c, va_list args, t_conv_spec_data conv_spec)
 {
+	int print_len;
+
+	print_len = 0; //! May be unnecessary to initialize.
 	if (c == 'c')
 	{
 		ft_putchar_fd(va_arg(args, int), 1);
@@ -154,7 +185,10 @@ void print_format_specifier(char c, va_list args)
 		ft_putstr_fd(va_arg(args, char *), 1);
 	}
 	else if (c == 'd' || c == 'i')
-		ft_putnbr_fd(va_arg(args, int), 1);
+	{
+		//ft_putnbr_fd(va_arg(args, int), 1);
+		print_len = print_int(va_arg(args, int), conv_spec);
+	}
 	else if (c == 'p')
 	{
 	}
@@ -169,51 +203,61 @@ void print_format_specifier(char c, va_list args)
 	}
 	else if (c == '%')
 		ft_putchar_fd('%', 1);
+	return (print_len);
 }
 
 t_conv_spec_data inst_conv_spec_data_struct()
 {
-	t_conv_spec_data conv_spec_data;
+	t_conv_spec_data conv_spec;
 
-	conv_spec_data.has_blank = 0;
-	conv_spec_data.has_sign = 0;
-	conv_spec_data.has_zero_pad = 0;
-	conv_spec_data.has_right_pad = 0;
-	conv_spec_data.has_alternate = 0;
-	conv_spec_data.has_point = 0;
-	conv_spec_data.min_width = 0;
-	conv_spec_data.point_width = 0;
-	return (conv_spec_data);
+	conv_spec.has_blank = 0;
+	conv_spec.has_sign = 0;
+	conv_spec.has_zero_pad = 0;
+	conv_spec.has_right_pad = 0;
+	conv_spec.has_alternate = 0;
+	conv_spec.has_point = 0;
+	conv_spec.min_width = 0;
+	conv_spec.point_width = 0;
+	return (conv_spec);
 }
 
 //? Check if Null char?
 //? Add conversion specifier length to struct?
 t_conv_spec_data parse_conversion_specification(
-	t_conv_spec_data conv_spec_data, const char *str)
+	t_conv_spec_data conv_spec, const char *str)
 {
 	str++;
 	while (!ft_strchr(CONVERSION_SPECIFIERS, *str))
 	{
 		if (ft_memcmp((void *)str, (void *)" ", 1) == 0)
-			conv_spec_data.has_blank = 1;
+			conv_spec.has_blank = 1;
 		else if (ft_memcmp((void *)str, (void *)"+", 1) == 0)
-			conv_spec_data.has_sign = 1;
+			conv_spec.has_sign = 1;
 		else if (ft_memcmp((void *)str, (void *)"0", 1) == 0)
-			conv_spec_data.has_zero_pad = 1;
+			conv_spec.has_zero_pad = 1;
 		else if (ft_memcmp((void *)str, (void *)"-", 1) == 0)
-			conv_spec_data.has_right_pad = 1;
+			conv_spec.has_right_pad = 1;
 		else if (ft_memcmp((void *)str, (void *)"#", 1) == 0)
-			conv_spec_data.has_alternate = 1;
+			conv_spec.has_alternate = 1;
 		else if (ft_memcmp((void *)str, (void *)".", 1) == 0)
-			conv_spec_data.has_point = 1;
-		else if (ft_isdigit(*str) && !conv_spec_data.has_point)
-			conv_spec_data.min_width = ft_atoi(str);
-		else if (ft_isdigit(*str) && conv_spec_data.has_point)
-			conv_spec_data.point_width = ft_atoi(str);
+			conv_spec.has_point = 1;
+		else if (ft_isdigit(*str) && !conv_spec.has_point)
+		{
+			conv_spec.min_width = ft_atoi(str);
+			//printf("min_width: %d\n", conv_spec.min_width);
+			str += ft_numlen((long)conv_spec.min_width, 0);
+			continue ;
+		}
+		else if (ft_isdigit(*str) && conv_spec.has_point)
+		{
+			conv_spec.point_width = ft_atoi(str);
+			str += ft_numlen((long)conv_spec.point_width, 0);
+			continue ;
+		}
 		str++;
 	}
-	conv_spec_data.conversion_specifier = *str;
-	return (conv_spec_data);
+	conv_spec.conversion_specifier = *str;
+	return (conv_spec);
 }
 
 int get_arg_len(char conv_spec, va_list args)
@@ -240,11 +284,33 @@ int get_arg_len(char conv_spec, va_list args)
 	return (arg_len);
 }
 
+int get_conv_spec_str_len(const char *str)
+{
+	int len;
+
+	len = 1;
+	str++;
+	//printf("char: %d\n", (int)*str);
+	while (!ft_strchr(CONVERSION_SPECIFIERS, *str) && *str != '\0')
+	{
+		len++;
+		str++;
+		//printf("char: %d\n", (int)*str);
+	}
+	if (*str == '\0')
+		return (-1);
+	else
+	{
+		len++;
+		return (len);
+	}
+}
+
 int ft_printf(char const *str, ...)
 {
 	va_list args;
 	int arg_len;
-	t_conv_spec_data conv_spec_data;
+	t_conv_spec_data conv_spec;
 
 	va_start(args, str);
 	while (*str)
@@ -256,21 +322,15 @@ int ft_printf(char const *str, ...)
 		}
 		else
 		{
-			conv_spec_data = inst_conv_spec_data_struct();
-			conv_spec_data = parse_conversion_specification(conv_spec_data, str);
+			conv_spec = inst_conv_spec_data_struct();
+			conv_spec = parse_conversion_specification(conv_spec, str);
 			//! VA_ARG USE INSIDE GET_ARG_LEN() IS PROBLEMATIC.
-			arg_len = get_arg_len(conv_spec_data.conversion_specifier, args);
-			print_format_specifier(conv_spec_data.conversion_specifier, args);
-			str += 2; //! Temp
+			//arg_len = get_arg_len(conv_spec.conversion_specifier, args);
+			int cs_str_len = get_conv_spec_str_len(str);
+			//printf("%d\n", cs_str_len);
+			int cs_print_len = print_format_specifier(conv_spec.conversion_specifier, args, conv_spec);
+			str += cs_str_len; //! Temp
 		}
 	}
 	return(1234);
 }
-
-/*
-int main()
-{
-	ft_printf("hello %c world", 'y');
-	return (0);
-}
-*/
