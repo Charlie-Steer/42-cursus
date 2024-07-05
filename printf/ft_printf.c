@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/03 16:43:13 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/05 15:50:06 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,87 @@ int print_int(int n, t_conv_spec_data cs)
 	return (print_len);
 }
 
+int determine_cs_print_len(char *n_str, t_conv_spec_data cs)
+{
+	int	print_len;
+	int	arg_len;
+
+	arg_len = ft_strlen(n_str);
+	print_len = arg_len;
+	if (cs.conversion_specifier == 'd') //! THIS IS A TYPE CHECK. MIGHT NOT BE NEEDED.
+	{
+		if ((cs.has_blank || cs.has_sign) && n_str[0] != '-')
+			print_len += 1;
+		if (cs.point_width > print_len)
+		{
+			print_len = cs.point_width;
+			if ((cs.has_blank || cs.has_sign) && n_str[0] != '-')
+				print_len += 1;
+		}
+		if (cs.min_width > print_len)
+			print_len = cs.min_width;
+	}
+	printf("PRINT_LEN: %d\n", print_len);
+	return (print_len);
+}
+void print_int_logic(char *print_str, int n, char *n_str, t_conv_spec_data cs)
+{
+	int		arg_len = ft_strlen(n_str);
+	int		i;
+	char	pad_char = ' ';
+
+	i = 0;
+	if (cs.has_sign && n >= 0)
+	{
+		*print_str = '+';
+		print_str++;
+	}
+	else if (cs.has_blank && n >= 0)
+	{
+		*print_str = ' ';
+		print_str++;
+	}
+	
+	int min_width_comp = arg_len + cs.point_width + ((cs.has_sign || cs.has_blank) && n_str[0] != '-');
+	if (cs.min_width > min_width_comp && !cs.has_right_pad)
+	{
+		if (cs.has_zero_pad)
+			pad_char = '0';
+		while (cs.min_width > min_width_comp++)
+		{
+			*print_str = pad_char;
+			print_str++;
+		}
+	}
+	int point_width_comp = arg_len + ((cs.has_sign || cs.has_blank) && n_str[0] != '-');
+	//! ISSUE: '-' SIGN WOULD BE PRINTED AFTER 0s.
+	if (cs.point_width > point_width_comp) //! This if statement migth be combined with while loop.
+	{
+		while(cs.point_width > point_width_comp++)
+		{
+			*print_str = '0';
+			print_str++;
+		}
+	}
+	//! WIP AS I MIGHT GET KICKED OUT OF MY SESSION.
+	if (cs.has_right_pad && cs.min_width > cs.point_width + arg_len + ((cs.has_sign || cs.has_blank) && n_str[0] != '-'))
+	{
+		
+	}
+}
+
+int new_print_int(int n, t_conv_spec_data cs)
+{
+	char *n_str = ft_itoa(n); //! I HAVE TO FREE THIS
+	int print_len = determine_cs_print_len(n_str, cs);
+	char *print_str = malloc(print_len);
+	if (!print_str)
+		return (-1);
+	print_int_logic(print_str, n, n_str, cs);
+	free (n_str);
+	return (print_len);
+}
+
 int print_format_specifier(char c, va_list args, t_conv_spec_data conv_spec)
 {
 	int print_len;
@@ -187,7 +268,8 @@ int print_format_specifier(char c, va_list args, t_conv_spec_data conv_spec)
 	else if (c == 'd' || c == 'i')
 	{
 		//ft_putnbr_fd(va_arg(args, int), 1);
-		print_len = print_int(va_arg(args, int), conv_spec);
+		//print_len = print_int(va_arg(args, int), conv_spec);
+		print_len = new_print_int(va_arg(args, int), conv_spec);
 	}
 	else if (c == 'p')
 	{

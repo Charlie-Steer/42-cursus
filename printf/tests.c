@@ -17,12 +17,16 @@ void test_printf_int(char *fstr, int n)
 	fflush(stdout);
 	int ft_ret_val = ft_printf(fstr, n);
 	printf("\n");
+	fflush(stdout);
 
-	//printf("ret: ");
 	printf("returns	|%d, ", orig_ret_val);
 	printf("%d\n", ft_ret_val);
 	printf("\n");
-	test_num++;
+
+	//// cs print len test.
+	//printf("cslen|%d", determine_cs_print_len(ft_itoa(n)));
+	//test_num++;
+
 	fflush(stdout);
 }
 
@@ -158,6 +162,7 @@ void print_title(char *str) {
 void ft_decimal_numbers_tests()
 {
 	test_printf_int("%d", 7);
+	test_printf_int("%d", -7);
 	print_title("Sign");
 	test_printf_int("%+d", 7);
 	test_printf_int("%+d", -7);
@@ -184,10 +189,10 @@ void ft_decimal_numbers_tests()
 	test_printf_int("%3.6d", 7);
 	test_printf_int("%22.11d", 7);
 	test_printf_int("%11.22d", 7);
-	//test_printf_int("% 6.3d", 7);
-	//test_printf_int("% 3.6d", 7);
-	//test_printf_int("% 22.11d", 7);
-	//test_printf_int("% 11.22d", 7);
+	test_printf_int("% 6.3d", 7);
+	test_printf_int("% 3.6d", 7);
+	test_printf_int("% 22.11d", 7);
+	test_printf_int("% 11.22d", 7);
 
 	////
 	//ft_printf("%3d\n", -7);
@@ -283,8 +288,23 @@ void run_test_suite__get_arg_len()
 
 int main()
 {
-	//decimal_numbers_tests();
-	ft_decimal_numbers_tests();
-	//ft_printf("hola %s test\n", "hello_world");
+	//ft_decimal_numbers_tests();
+	print_title("Sign Mixed");
+	printf("%6.3d\n", 6);
+	printf("%6.3d\n", -6);
+	printf("%.3d\n", 666);
+	printf("%.3d\n", -666);
+	printf("%.6d\n", 666);
+	printf("%.6d\n", -666);
+	printf("%-12.6dP\n", 777);
+	printf("%-12.6dP\n", -777);
+	printf("%-7.6dP\n", 777);
+	printf("%-7.6dP\n", -777);
+	//printf("%s\n", ft_itoa_signless(365));
+	//printf("%s\n", ft_itoa_signless(-365));
+	//printf("%s\n", ft_itoa_signless(1));
+	//printf("%s\n", ft_itoa_signless(-1));
+	//printf("%s\n", ft_itoa_signless(2147483647));
+	//printf("%s\n", ft_itoa_signless(-2147483648));
 	return (0);
 }

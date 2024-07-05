@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:54:43 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/06/28 16:42:30 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/05 13:33:46 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "charlie.h"
+#include "libft.h"
 
 // Returns a newly allocated string with the given number in the given base.
 // NO NEGATIVE NUMBERS SHOULD BE PASSED.
