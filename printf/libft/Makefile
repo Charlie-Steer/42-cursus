@@ -19,7 +19,8 @@ ORIG_SRCS = \
 	ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c
 
 ADD_SRCS = \
-	ft_itoa_base.c ft_numlen_base.c ft_numlen.c ft_pow.c ft_itoa_signless.c
+	ft_itoa_base.c ft_numlen_base.c ft_numlen.c ft_pow.c ft_itoa_signless.c \
+	ft_max.c
 
 ORIG_OBJECTS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(ORIG_SRCS))
 ADD_OBJECTS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(ADD_SRCS))

@@ -15,10 +15,12 @@ PROJECT_FULL_NAME = lib$(PROJECT_SHORT_NAME)
 DEV_NAME = $(PROJECT_FULL_NAME).dev.a
 
 # libft
-LIBFT_PATH = libft/lib
+LIBFT_PATH = libft
+LIBFT_ARCH_PATH = libft/lib
+#LIBFT_PATH = libft/lib
 LIBFT_SHORT_NAME = ft
 LIBFT_NAME = lib$(LIBFT_SHORT_NAME).a
-LIBFT = $(LIBFT_PATH)/$(LIBFT_NAME)
+LIBFT = $(LIBFT_ARCH_PATH)/$(LIBFT_NAME)
 
 # Testing
 MAIN = tests.c
@@ -29,7 +31,7 @@ DEV_CFLAGS = -Wno-unused-variable \
 	-Wno-unused-parameter  -Wno-unused-function \
 	#-Wno-unused-but-set-variable
 
-HEADERS = -I$(LIBFT_PATH)
+HEADERS = -I$(LIBFT)/include
 
 # LIBRARY CREATION
 
