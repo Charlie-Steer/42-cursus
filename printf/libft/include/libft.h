@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 16:37:49 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/05 16:57:36 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/09 20:29:58 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			ft_numlen_base(long num, char *base, int account_sign);
 char		*ft_itoa_base(unsigned long n, char *base);
 int			ft_numlen(long num, int account_sign);
 long		ft_pow(long base, long exp);
-char		*ft_itoa_signless(int n);
+char		*ft_itoa_unsigned(unsigned int n);
 int			ft_max(int a, int b);
 
 // Original 1

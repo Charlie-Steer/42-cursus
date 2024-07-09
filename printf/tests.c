@@ -1,5 +1,4 @@
-//#include "libftprintf.h"
-#include "ft_printf.c"
+#include "libftprintf.h"
 
 void test_printf_int(char *fstr, int n)
 {
@@ -30,118 +29,86 @@ void test_printf_int(char *fstr, int n)
 	fflush(stdout);
 }
 
-void original_printf_tests_1()
+void test_printf_unsigned(char *fstr, unsigned int n)
 {
-	printf("%4i\n", 10);
-	printf("%-4ihello\n", 10);
-	printf("%012i\n", 4312531);
-	printf("%-04i'0'gets ignored with '-'\n", 10);
+	static int test_num = 1;
+	printf("TEST #%02d\n", test_num);
+
+	printf("inputs	|\"%s\", %u\n", fstr, n);
+
+	printf("printf	|");
+	fflush(stdout);
+	int orig_ret_val = printf(fstr, n);
+	printf("\n");
+
+	printf("ft	|");
+	fflush(stdout);
+	int ft_ret_val = ft_printf(fstr, n);
+	printf("\n");
+	fflush(stdout);
+
+	printf("returns	|%d, ", orig_ret_val);
+	printf("%d\n", ft_ret_val);
+	printf("\n");
+
+	test_num++;
+
+	fflush(stdout);
 }
 
-void original_printf_tests_2()
+void test_printf_char(char *fstr, char c)
 {
-	printf("\nminimum width and '.'\n");
-	printf("%4i\n", 10);
-	printf("%4x\n", 0xda);
-	printf("%#4X\n", 0xda);
-	printf("%4u\n", 84);
-	printf("%.4i\n", 10);
-	printf("%.4x\n", 0xda);
-	printf("%#.4X\n", 0xda);
-	printf("%.4u\n", 84);
-	printf("%4.4i\n", 10);
-	printf("%8.4i\n", 10);
-	printf("%012.8i\n", 10);
-	printf("%012.8i\n", 10);
-	printf("%012.8x\n", 0XAF);
-	printf("%#012.8x\n", 0XAF);
-	printf("%#012.12x\n", 0XAF);
-	printf("%#08.12x\n", 0XAF);
-	printf("%#8.12x\n", 0XAF);
-	printf("%12.8s\n", "Hello!");
-	printf("%12s\n", "Hello!");
-	printf("%.8s World\n", "Hello!");
+	static int test_num = 1;
+	printf("TEST #%02d\n", test_num);
+
+	printf("inputs	|\"%s\", %c\n", fstr, c);
+
+	printf("printf	|");
+	fflush(stdout);
+	int orig_ret_val = printf(fstr, c);
+	printf("\n");
+
+	printf("ft	|");
+	fflush(stdout);
+	int ft_ret_val = ft_printf(fstr, c);
+	printf("\n");
+	fflush(stdout);
+
+	printf("returns	|%d, ", orig_ret_val);
+	printf("%d\n", ft_ret_val);
+	printf("\n");
+
+	test_num++;
+
+	fflush(stdout);
 }
 
-void original_printf_tests_3()
+void test_printf_string(char *fstr, char *s)
 {
-	printf("\nformat specifier 'u'\n");
-	printf("%u\n", -42);
-}
+	static int test_num = 1;
+	printf("TEST #%02d\n", test_num);
 
-void original_printf_tests_4()
-{
-	printf("\n' ' & '+':\n");
-	printf("%    i\n", 10);
-	printf("%    +i\n", 10);
-	printf("%    +i\n", -10);
-}
+	printf("inputs	|\"%s\", %s\n", fstr, s);
 
-void original_printf_tests_5()
-{
-	printf("\n'#':\n");
-	printf("%x\n", 0xff);
-	printf("%X\n", 0x3f);
-	printf("%#x\n", 0xff);
-	printf("%#X\n", 0x3f);
-}
+	printf("printf	|");
+	fflush(stdout);
+	int orig_ret_val = printf(fstr, s);
+	printf("\n");
 
-void decimal_numbers_tests()
-{
-	printf("\nPRINTF()\n");
-	printf("%d\n", 7);
-	printf("% d\n", 7);
-	printf("%3d\n", 7);
-	printf("% 3d\n", 7);
-	printf("% 3d\n", 777);
-	printf("% -3dPADDING\n", 7);
-	printf("% -3dPADDING\n", 777);
-	printf("---\n");
-	printf("%3d\n", 9);
-	printf("%.3d\n", 9);
-	printf("%3.3d\n", 9);
-	printf("%6.3d\n", 9);
-	printf("%3.6d\n", 9);
-	printf("---\n");
-	printf("%-3dPADDING\n", 9);
-	printf("%-.3dPADDING\n", 9);
-	printf("%-3.3dPADDING\n", 9);
-	printf("%-6.3dPADDING\n", 9);
-	printf("%-3.6dPADDING\n", 9);
-	printf("---\n");
-	printf("%03d\n", 9);
-	printf("%0.3d\n", 9);
-	printf("%03.3d\n", 9);
-	printf("%06.3d\n", 9);
-	printf("%03.6d\n", 9);
-	printf("---\n");
-	printf("%.4d\n", 5);
-	printf("---\n");
-	printf("---\n");
-	printf("% 3d\n", 9);
-	printf("% .3d\n", 9);
-	printf("% 3.3d\n", 9);
-	printf("% 6.3d\n", 9);
-	printf("% 3.6d\n", 9);
-	printf("---\n");
-	printf("% -3dPADDING\n", 9);
-	printf("% -.3dPADDING\n", 9);
-	printf("% -3.3dPADDING\n", 9);
-	printf("% -6.3dPADDING\n", 9);
-	printf("% -3.6dPADDING\n", 9);
-	printf("---\n");
-	printf("% 03d\n", 9);
-	printf("% 0.3d\n", 9);
-	printf("% 03.3d\n", 9);
-	printf("% 06.3d\n", 9);
-	printf("% 03.6d\n", 9);
-	printf("---\n");
-	printf("% .4d\n", 5);
-	printf("---\n");
-	printf("% 6.3d\n", 9);
-	printf("%+ 6.3d\n", 9);
-}
+	printf("ft	|");
+	fflush(stdout);
+	int ft_ret_val = ft_printf(fstr, s);
+	printf("\n");
+	fflush(stdout);
 
+	printf("returns	|%d, ", orig_ret_val);
+	printf("%d\n", ft_ret_val);
+	printf("\n");
+
+	test_num++;
+
+	fflush(stdout);
+}
 
 void print_title(char *str) {
     char *temp = strdup(str); // Duplicate the string to allow modification
@@ -158,6 +125,61 @@ void print_title(char *str) {
     free(original_temp); // Free the duplicated string
 }
 
+// void decimal_numbers_tests()
+// {
+// 	printf("\nPRINTF()\n");
+// 	printf("%d\n", 7);
+// 	printf("% d\n", 7);
+// 	printf("%3d\n", 7);
+// 	printf("% 3d\n", 7);
+// 	printf("% 3d\n", 777);
+// 	printf("% -3dPADDING\n", 7);
+// 	printf("% -3dPADDING\n", 777);
+// 	printf("---\n");
+// 	printf("%3d\n", 9);
+// 	printf("%.3d\n", 9);
+// 	printf("%3.3d\n", 9);
+// 	printf("%6.3d\n", 9);
+// 	printf("%3.6d\n", 9);
+// 	printf("---\n");
+// 	printf("%-3dPADDING\n", 9);
+// 	printf("%-.3dPADDING\n", 9);
+// 	printf("%-3.3dPADDING\n", 9);
+// 	printf("%-6.3dPADDING\n", 9);
+// 	printf("%-3.6dPADDING\n", 9);
+// 	printf("---\n");
+// 	printf("%03d\n", 9);
+// 	printf("%0.3d\n", 9);
+// 	printf("%03.3d\n", 9);
+// 	printf("%06.3d\n", 9);
+// 	printf("%03.6d\n", 9);
+// 	printf("---\n");
+// 	printf("%.4d\n", 5);
+// 	printf("---\n");
+// 	printf("---\n");
+// 	printf("% 3d\n", 9);
+// 	printf("% .3d\n", 9);
+// 	printf("% 3.3d\n", 9);
+// 	printf("% 6.3d\n", 9);
+// 	printf("% 3.6d\n", 9);
+// 	printf("---\n");
+// 	printf("% -3dPADDING\n", 9);
+// 	printf("% -.3dPADDING\n", 9);
+// 	printf("% -3.3dPADDING\n", 9);
+// 	printf("% -6.3dPADDING\n", 9);
+// 	printf("% -3.6dPADDING\n", 9);
+// 	printf("---\n");
+// 	printf("% 03d\n", 9);
+// 	printf("% 0.3d\n", 9);
+// 	printf("% 03.3d\n", 9);
+// 	printf("% 06.3d\n", 9);
+// 	printf("% 03.6d\n", 9);
+// 	printf("---\n");
+// 	printf("% .4d\n", 5);
+// 	printf("---\n");
+// 	printf("% 6.3d\n", 9);
+// 	printf("%+ 6.3d\n", 9);
+// }
 
 void ft_decimal_numbers_tests()
 {
@@ -255,44 +277,72 @@ void ft_decimal_numbers_tests()
 	//ft_printf("%+ 6.3d\n", 9);
 }
 
-void test_get_arg_len(const int conv_specifier, ...)
+void unsigned_print_tests()
 {
-	va_list args;
-	va_start(args, conv_specifier);
-	printf("%d\n", get_arg_len((const char)conv_specifier, args));
+	test_printf_unsigned("%u", 7);
+	test_printf_unsigned("%u", -7);
+	print_title("Sign");
+	test_printf_unsigned("%+u", 7);
+	test_printf_unsigned("%+u", -7);
+	print_title("Blank");
+	test_printf_unsigned("% u", 7);
+	test_printf_unsigned("% u", -7);
+	print_title("Right Pad");
+	test_printf_unsigned("%-3uP", +7);
+	test_printf_unsigned("% -3uP", +7);
+	test_printf_unsigned("% -11uP", +7);
+	print_title("Min Width");
+	test_printf_unsigned("%3u", 7);
+	test_printf_unsigned("%1u", 7);
+	test_printf_unsigned("%11u", 7);
+	print_title("Zero Pad");
+	test_printf_unsigned("%03u", 7);
+	test_printf_unsigned("%01u", 7);
+	test_printf_unsigned("%011u", 7);
+	print_title("Point Pad");
+	test_printf_unsigned("%.3u", 7);
+	test_printf_unsigned("%.11u", 7);
+	print_title("Mixed Flags");
+	test_printf_unsigned("%6.3u", 7);
+	test_printf_unsigned("%3.6u", 7);
+	test_printf_unsigned("%22.11u", 7);
+	test_printf_unsigned("%11.22u", 7);
+	test_printf_unsigned("% 6.3u", 7);
+	test_printf_unsigned("% 3.6u", 7);
+	test_printf_unsigned("% 22.11u", 7);
+	test_printf_unsigned("% 11.22u", 7);
+	print_title("Multi-CS");
+	//test_printf_unsigned("Hello %-03d World % 4.2d!", 7, 9);
+	printf("Hello %-03u World % 4.2u!\n", 7, 9);
+	ft_printf("Hello %-03u World % 4.2u!\n", 7, 9);
 }
 
-void run_test_suite__get_arg_len()
+void tests_printf_char()
 {
-	printf("CHARS:\n");
-	test_get_arg_len('c', 't');
-	printf("\nINTEGERS:\n");
-	test_get_arg_len('d', 420420);
-	test_get_arg_len('d', 0);
-	test_get_arg_len('d', 1234567890);
-	test_get_arg_len('d', 12345678901);
-	printf("\nSTRINGS:\n");
-	test_get_arg_len('s', "yo");
-	test_get_arg_len('s', "");
-	test_get_arg_len('s', " ");
-	test_get_arg_len('s', "hello_world");
-	printf("\nPOINTERS:\n");
-	int *p1;
-	long *p2;
-	printf("%p, %p\n", p1, p2);
-	test_get_arg_len('p', p1);
-	test_get_arg_len('p', p2);
-	printf("\nUNSIGNED INTEGERS\n");
-	test_get_arg_len('u', 123456);
-	printf("\nHEXADECIMAL NUMBERS:\n");
-	test_get_arg_len('x', 123456);
+	test_printf_char("%cP", '\0');
+	test_printf_char("%cP", '\n');
+	test_printf_char("%cP", ' ');
+	test_printf_char("%cP", '7');
+	test_printf_char("%cP", 'a');
+	test_printf_char("%cP", '~');
 }
 
-
+void tests_printf_string()
+{
+	test_printf_string("%sP", "hello");
+	test_printf_string("%sP", " ");
+	test_printf_string("%sP", "");
+	test_printf_string("% sP", "hello");
+	test_printf_string("% sP", " ");
+	test_printf_string("% sP", "");
+}
 
 int main()
 {
-	ft_decimal_numbers_tests();
+	//ft_decimal_numbers_tests();
+	//unsigned_print_tests();
+	tests_printf_char();
+	tests_printf_string();
 	//print_title("Sign Mixed");
 	//printf("%6.3d\n", 6);
 	//printf("%6.3d\n", -6);

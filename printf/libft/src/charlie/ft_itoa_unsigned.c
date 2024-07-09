@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa_signless.c                                 :+:      :+:    :+:   */
+/*   ft_itoa_unsigned.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:02:25 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/05 13:33:55 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/09 20:46:15 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../include/libft.h"
 
-static int	intlen(int n)
+static int	uintlen(unsigned int n)
 {
 	int	len;
 
@@ -27,13 +27,13 @@ static int	intlen(int n)
 	return (len);
 }
 
-char	*ft_itoa_signless(int n)
+char	*ft_itoa_unsigned(unsigned int n)
 {
 	int		len;
 	char	*str;
 	int		digit;
 
-	len = intlen(n);
+	len = uintlen(n);
 	str = malloc((len + 1) * sizeof(char));
 	if (str == NULL)
 		return (NULL);
@@ -44,8 +44,6 @@ char	*ft_itoa_signless(int n)
 	while (n != 0)
 	{
 		digit = n % 10;
-		if (digit < 0)
-			digit = -digit;
 		str[len] = digit + '0';
 		n /= 10;
 		len--;
