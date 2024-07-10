@@ -1,6 +1,6 @@
 CC = clang
 CFLAGS = -Wall -Wextra -Werror
-SOURCES = ft_printf.c print_int.c print_unsigned_int.c print_char_and_str.c
+SOURCES = ft_printf.c print_int.c print_unsigned_int.c print_char_and_str.c print_hex.c
 BSOURCES =
 OBJECTS = $(SOURCES:.c=.o)
 BOBJECTS = $(BSOURCES:.c=.o)

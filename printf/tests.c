@@ -110,6 +110,35 @@ void test_printf_string(char *fstr, char *s)
 	fflush(stdout);
 }
 
+void test_printf_hex(char *fstr, unsigned int n)
+{
+	static int test_num = 1;
+	printf("TEST #%02d\n", test_num);
+
+	printf("inputs	|\"%s\", %x\n", fstr, n);
+
+	printf("printf	|");
+	fflush(stdout);
+	int orig_ret_val = printf(fstr, n);
+	printf("\n");
+
+	printf("ft	|");
+	fflush(stdout);
+	int ft_ret_val = ft_printf(fstr, n);
+	printf("\n");
+	fflush(stdout);
+
+	printf("returns	|%d, ", orig_ret_val);
+	printf("%d\n", ft_ret_val);
+	printf("\n");
+
+	//// cs print len test.
+	//printf("cslen|%d", determine_cs_print_len(ft_itoa(n)));
+	test_num++;
+
+	fflush(stdout);
+}
+
 void print_title(char *str) {
     char *temp = strdup(str); // Duplicate the string to allow modification
     if (temp == NULL) {
@@ -337,12 +366,150 @@ void tests_printf_string()
 	test_printf_string("% sP", "");
 }
 
+void tests_printf_hex()
+{
+	test_printf_hex("%x", 7);
+	test_printf_hex("%x", -7);
+	print_title("Sign");
+	test_printf_hex("%+x", 7);
+	test_printf_hex("%+x", -7);
+	print_title("Blank");
+	test_printf_hex("% x", 7);
+	test_printf_hex("% x", -7);
+	print_title("Right Pad");
+	test_printf_hex("%-3xP", +7);
+	test_printf_hex("% -3xP", +7);
+	test_printf_hex("% -11xP", +7);
+	print_title("Min Width");
+	test_printf_hex("%3x", 7);
+	test_printf_hex("%1x", 7);
+	test_printf_hex("%11x", 7);
+	print_title("Zero Pad");
+	test_printf_hex("%03x", 7);
+	test_printf_hex("%01x", 7);
+	test_printf_hex("%011x", 7);
+	print_title("Point Pad");
+	test_printf_hex("%.3x", 7);
+	test_printf_hex("%.11x", 7);
+	print_title("Mixed Flags");
+	test_printf_hex("%6.3x", 7);
+	test_printf_hex("%3.6x", 7);
+	test_printf_hex("%22.11x", 7);
+	test_printf_hex("%11.22x", 7);
+	test_printf_hex("% 6.3x", 7);
+	test_printf_hex("% 3.6x", 7);
+	test_printf_hex("% 22.11x", 7);
+	test_printf_hex("% 11.22x", 7);
+
+	test_printf_hex("%xP", 200);
+	test_printf_hex("%xP", -200);
+	print_title("Sign");
+	test_printf_hex("%+xP", 200);
+	test_printf_hex("%+xP", -200);
+	print_title("Blank");
+	test_printf_hex("% xP", 200);
+	test_printf_hex("% xP", -200);
+	print_title("Right Pad");
+	test_printf_hex("%-3xP", +200);
+	test_printf_hex("% -3xP", +200);
+	test_printf_hex("% -11xP", +200);
+	print_title("Min Width");
+	test_printf_hex("%3xP", 200);
+	test_printf_hex("%1xP", 200);
+	test_printf_hex("%11xP", 200);
+	print_title("Zero Pad");
+	test_printf_hex("%03xp", 200);
+	test_printf_hex("%01xP", 200);
+	test_printf_hex("%011xP", 200);
+	print_title("Point Pad");
+	test_printf_hex("%.3xP", 200);
+	test_printf_hex("%.11xP", 200);
+	print_title("Mixed Flags");
+	test_printf_hex("%6.3xP", 200);
+	test_printf_hex("%3.6xP", 200);
+	test_printf_hex("%22.11xP", 200);
+	test_printf_hex("%11.22xP", 200);
+	test_printf_hex("% 6.3xP", 200);
+	test_printf_hex("% 3.6xP", 200);
+	test_printf_hex("% 22.11xP", 200);
+	test_printf_hex("% 11.22xP", 200);
+
+	print_title("Alternate Form Flags");
+
+	test_printf_hex("%#X", 7);
+	test_printf_hex("%#X", -7);
+	print_title("Sign");
+	test_printf_hex("%#+X", 7);
+	test_printf_hex("%#+X", -7);
+	print_title("Blank");
+	test_printf_hex("%# X", 7);
+	test_printf_hex("%# X", -7);
+	print_title("Right Pad");
+	test_printf_hex("%#-3XP", +7);
+	test_printf_hex("%# -3XP", +7);
+	test_printf_hex("%# -11XP", +7);
+	print_title("Min Width");
+	test_printf_hex("%#3X", 7);
+	test_printf_hex("%#1X", 7);
+	test_printf_hex("%#11X", 7);
+	print_title("Zero Pad");
+	test_printf_hex("%#03X", 7);
+	test_printf_hex("%#01X", 7);
+	test_printf_hex("%#011X", 7);
+	print_title("Point Pad");
+	test_printf_hex("%#.3X", 7);
+	test_printf_hex("%#.11X", 7);
+	print_title("Mixed Flags");
+	test_printf_hex("%#6.3X", 7);
+	test_printf_hex("%#3.6X", 7);
+	test_printf_hex("%#22.11X", 7);
+	test_printf_hex("%#11.22X", 7);
+	test_printf_hex("%# 6.3X", 7);
+	test_printf_hex("%# 3.6X", 7);
+	test_printf_hex("%# 22.11X", 7);
+	test_printf_hex("%# 11.22X", 7);
+	
+	test_printf_hex("%#XP", 200);
+	test_printf_hex("%#XP", -200);
+	print_title("Sign");
+	test_printf_hex("%#+XP", 200);
+	test_printf_hex("%#+XP", -200);
+	print_title("Blank");
+	test_printf_hex("%# XP", 200);
+	test_printf_hex("%# XP", -200);
+	print_title("Right Pad");
+	test_printf_hex("%#-3XP", +200);
+	test_printf_hex("%# -3XP", +200);
+	test_printf_hex("%# -11XP", +200);
+	print_title("Min Width");
+	test_printf_hex("%#3XP", 200);
+	test_printf_hex("%#1XP", 200);
+	test_printf_hex("%#11XP", 200);
+	print_title("Zero Pad");
+	test_printf_hex("%#03Xp", 200);
+	test_printf_hex("%#01XP", 200);
+	test_printf_hex("%#011XP", 200);
+	print_title("Point Pad");
+	test_printf_hex("%#.3XP", 200);
+	test_printf_hex("%#.11XP", 200);
+	print_title("Mixed Flags");
+	test_printf_hex("%#6.3XP", 200);
+	test_printf_hex("%#3.6XP", 200);
+	test_printf_hex("%#22.11XP", 200);
+	test_printf_hex("%#11.22XP", 200);
+	test_printf_hex("%# 6.3XP", 200);
+	test_printf_hex("%# 3.6XP", 200);
+	test_printf_hex("%# 22.11XP", 200);
+	test_printf_hex("%# 11.22XP", 200);
+}
+
 int main()
 {
 	//ft_decimal_numbers_tests();
 	//unsigned_print_tests();
-	tests_printf_char();
-	tests_printf_string();
+	// tests_printf_char();
+	// tests_printf_string();
+	tests_printf_hex();
 	//print_title("Sign Mixed");
 	//printf("%6.3d\n", 6);
 	//printf("%6.3d\n", -6);

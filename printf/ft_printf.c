@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/09 22:36:17 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/10 23:15:34 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,15 @@ int determine_cs_print_len(char *n_str, t_conv_spec_data cs)
 		if (cs.min_width > print_len)
 			print_len = cs.min_width;
 	}
+	else if (cs.conversion_specifier == 'x' || cs.conversion_specifier == 'X')
+	{
+		if (cs.point_width > print_len)
+			print_len = cs.point_width;
+		if (cs.has_alternate)
+			print_len += 2;
+		if (cs.min_width > print_len)
+			print_len = cs.min_width;
+	}
 	return (print_len);
 }
 
@@ -75,13 +84,9 @@ int print_format_specifier(char c, va_list args, t_conv_spec_data conv_spec)
 	{
 	}
 	else if (c == 'u')
-		print_len = print_unsigned_int(va_arg(args, int), conv_spec);
-	else if (c == 'x')
-	{
-	}
-	else if (c == 'X')
-	{
-	}
+		print_len = print_unsigned_int(va_arg(args, unsigned int), conv_spec);
+	else if (c == 'x' || c == 'X')
+		print_len = print_hex(va_arg(args, unsigned int), conv_spec);
 	else if (c == '%')
 		ft_putchar_fd('%', 1);
 	return (print_len);

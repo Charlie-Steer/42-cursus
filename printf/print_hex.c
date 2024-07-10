@@ -1,46 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_int.c                                        :+:      :+:    :+:   */
+/*   print_hex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 19:06:04 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/10 22:58:46 by cargonz2         ###   ########.fr       */
+/*   Created: 2024/07/10 19:26:51 by cargonz2          #+#    #+#             */
+/*   Updated: 2024/07/10 23:36:43 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-static int print_blank_or_sign(char *print_str, char *n_str, t_conv_spec_data cs)
+//! DO TESTS FIRST TO SEE IF YOU CAN REPURPOSE INT LOGIC.
+
+static char *print_alternate(char *print_str, t_conv_spec_data cs)
 {
-	int progress = 0;
-	if (cs.has_sign && *n_str != '-')
+	char *hex_string;
+
+	if (cs.has_alternate) //! WOULD BE CLEANER TO HAVE THIS CHECK ON THE MAIN FUNCTION. SEE IF IT FITS.
 	{
-		*print_str = '+';
-		progress++;
+		hex_string = malloc(3);
+		if (hex_string == NULL)
+			return (NULL);
+		ft_memcpy(hex_string, "0x", 3);
+		if (cs.conversion_specifier == 'X')
+			hex_string[1] = 'X';
+		ft_memmove(print_str, hex_string, 2);
+		free(hex_string);
+		print_str += 2;
 	}
-	else if (cs.has_blank && *n_str != '-')
-	{
-		*print_str = ' ';
-		progress++;
-	}
-	else if (*n_str == '-')
-	{
-		*print_str = '-';
-		progress++;
-	}
-	return (progress);
+	return (print_str);
 }
 
 static int print_min_width(char *print_str, char *n_str, t_conv_spec_data cs, int arg_len)
 {
 	int		progress;
 	char	pad_char;
+	int		min_width_comp;
 
 	progress = 0;
 	pad_char = ' ';
-	int min_width_comp = ft_max(arg_len, cs.point_width) + ((cs.has_sign || cs.has_blank) && n_str[0] != '-');
+	min_width_comp = ft_max(arg_len, cs.point_width);
+	if (cs.has_alternate)
+		min_width_comp += 2;
 	if (cs.min_width > min_width_comp && !cs.has_right_pad)
 	{
 		if (cs.has_zero_pad)
@@ -64,17 +67,16 @@ static void print_int_logic(char *print_str, int n, char *n_str, t_conv_spec_dat
 	saved_pointer = print_str;
 	if (cs.has_zero_pad)
 	{
-		print_str += print_blank_or_sign(print_str, n_str, cs);
+		print_str = print_alternate(print_str, cs);
 		print_str += print_min_width(print_str, n_str, cs, arg_len);
 	}
 	else
 	{
 		print_str += print_min_width(print_str, n_str, cs, arg_len);
-		print_str += print_blank_or_sign(print_str, n_str, cs);
+		print_str = print_alternate(print_str, cs);
 	}
-	//int point_width_comp = arg_len + ((cs.has_sign || cs.has_blank) && n_str[0] != '-');
 	int point_width_comp = arg_len;
-	if (cs.point_width > point_width_comp) //!: This if statement migth be combined with while loop.
+	if (cs.point_width > point_width_comp) //! This if statement migth be combined with while loop.
 	{
 		while(cs.point_width > point_width_comp++)
 		{
@@ -86,7 +88,9 @@ static void print_int_logic(char *print_str, int n, char *n_str, t_conv_spec_dat
 		n_str++;
 	ft_memmove(print_str, n_str, arg_len);
 	print_str += arg_len;
-	int right_pad_comp = cs.point_width + arg_len + ((cs.has_sign || cs.has_blank) && n_str[0] != '-');
+	int right_pad_comp = cs.point_width + arg_len; //! TEST arglen
+	if (cs.has_alternate)
+		right_pad_comp += 2;
 	if (cs.has_right_pad && cs.min_width > right_pad_comp)
 	{
 		while (cs.min_width > right_pad_comp++)
@@ -98,9 +102,12 @@ static void print_int_logic(char *print_str, int n, char *n_str, t_conv_spec_dat
 	ft_putstr_fd(saved_pointer, 1);
 }
 
-int print_int(int n, t_conv_spec_data cs)
+int print_hex(unsigned int n, t_conv_spec_data cs)
 {
-	char *n_str = ft_itoa(n); //!: I HAVE TO FREE THIS
+	char *base = "0123456789abcdef";
+	if (cs.conversion_specifier == 'X')
+		base = "0123456789ABCDEF";
+	char *n_str = ft_itoa_base(n, base);
 	int print_len = determine_cs_print_len(n_str, cs);
 	char *print_str = malloc(print_len + 1);
 	if (!print_str)

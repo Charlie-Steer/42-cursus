@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 18:53:10 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/09 21:10:55 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/10 20:33:12 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,3 +36,4 @@ int	print_int(int n, t_conv_spec_data cs);
 int	print_unsigned_int(unsigned int n, t_conv_spec_data cs);
 int print_char(int c);
 int print_str(char *str, t_conv_spec_data conv_specification);
+int print_hex(unsigned int n, t_conv_spec_data cs);

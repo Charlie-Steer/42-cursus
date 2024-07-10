@@ -6,11 +6,11 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:57:28 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/05 13:34:00 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/10 20:55:54 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../include/libft.h"
 
 // Returns the length of the string to write the given number in the given base.
 int ft_numlen_base(long num, char *base, int account_sign)

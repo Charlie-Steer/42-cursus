@@ -6,11 +6,11 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:54:43 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/05 13:33:46 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/10 20:55:52 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../include/libft.h"
 
 // Returns a newly allocated string with the given number in the given base.
 // NO NEGATIVE NUMBERS SHOULD BE PASSED.
@@ -30,6 +30,7 @@ char *ft_itoa_base(unsigned long n, char *base)
 	i = 0;
 	if (!str)
 		return (NULL);
+	str[str_len] = '\0';
 	if (n == 0)
 		str[0] = base[0];
 	while (n)
