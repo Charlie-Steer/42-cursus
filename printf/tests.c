@@ -646,11 +646,11 @@ void tests_printf_pointer()
 
 int main()
 {
-	//ft_decimal_numbers_tests();
-	//unsigned_print_tests();
-	// tests_printf_char();
-	// tests_printf_string();
-	// tests_printf_hex();
+	ft_decimal_numbers_tests();
+	unsigned_print_tests();
+	tests_printf_char();
+	tests_printf_string();
+	tests_printf_hex();
 	tests_printf_pointer();
 	//print_title("Sign Mixed");
 	//printf("%6.3d\n", 6);

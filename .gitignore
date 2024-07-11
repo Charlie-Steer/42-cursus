@@ -2,6 +2,7 @@
 .vscode/
 *.sw*
 *.dev*
+*.test*
 
 # Prerequisites
 *.d

@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/11 21:47:17 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/11 22:55:37 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int determine_cs_print_len(char *n_str, t_conv_spec_data cs)
 
 	arg_len = ft_strlen(n_str);
 	print_len = arg_len;
-	if (cs.conversion_specifier == 'd') //! THIS IS A TYPE CHECK. MIGHT NOT BE NEEDED.
+	if (cs.conversion_specifier == 'd')
 	{
 		if ((cs.has_blank || cs.has_sign) && n_str[0] != '-')
 			print_len += 1;

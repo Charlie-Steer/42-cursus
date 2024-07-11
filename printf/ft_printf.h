@@ -6,14 +6,14 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 18:53:10 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/11 22:05:39 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/11 22:55:33 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft/include/libft.h"
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <stdarg.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <stdarg.h>
 
 typedef struct s_conv_spec_data
 {
