@@ -1,6 +1,6 @@
 CC = clang
 CFLAGS = -Wall -Wextra -Werror
-SOURCES = ft_printf.c print_int.c print_unsigned_int.c print_char_and_str.c print_hex.c
+SOURCES = ft_printf.c print_int.c print_unsigned_int.c print_char_and_str.c print_hex.c print_pointer.c
 BSOURCES =
 OBJECTS = $(SOURCES:.c=.o)
 BOBJECTS = $(BSOURCES:.c=.o)
@@ -17,7 +17,6 @@ DEV_NAME = $(PROJECT_FULL_NAME).dev.a
 # libft
 LIBFT_PATH = libft
 LIBFT_ARCH_PATH = libft/lib
-#LIBFT_PATH = libft/lib
 LIBFT_SHORT_NAME = ft
 LIBFT_NAME = lib$(LIBFT_SHORT_NAME).a
 LIBFT = $(LIBFT_ARCH_PATH)/$(LIBFT_NAME)
@@ -31,7 +30,7 @@ DEV_CFLAGS = -Wno-unused-variable \
 	-Wno-unused-parameter  -Wno-unused-function \
 	#-Wno-unused-but-set-variable
 
-HEADERS = -I$(LIBFT)/include
+HEADERS = -I libft/include
 
 # LIBRARY CREATION
 
@@ -39,7 +38,7 @@ HEADERS = -I$(LIBFT)/include
 	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 	@echo "$@ compiled."
 
-all: $(LIBFT) $(NAME)
+all: $(NAME) $(LIBFT)
 
 $(NAME): $(OBJECTS)
 	@ar rcs $(NAME) $^
@@ -88,7 +87,7 @@ libft: $(LIBFT)
 # TESTING FULL
 #! This rule is untested.
 $(EXENAME): $(MAIN) $(NAME) $(LIBFT)
-	@$(CC) $(MAIN) $(DEV_NAME) $(LIBFT) $(HEADERS) -o $(EXENAME)
+	@$(CC) $(CFLAGS) $(MAIN) $(NAME) $(LIBFT) $(HEADERS) -o $(EXENAME)
 	@chmod +x $(EXENAME)
 	@echo "Tests compiled."
 

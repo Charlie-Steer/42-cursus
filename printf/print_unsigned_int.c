@@ -6,13 +6,13 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:06:04 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/09 20:40:56 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/11 21:48:23 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-static int print_min_width(char *print_str, char *n_str, t_conv_spec_data cs, int arg_len)
+static int print_min_width(char *print_str, t_conv_spec_data cs, int arg_len)
 {
 	int		progress;
 	char	pad_char;
@@ -34,14 +34,13 @@ static int print_min_width(char *print_str, char *n_str, t_conv_spec_data cs, in
 	return (progress);
 }
 
-static void print_int_logic(char *print_str, int n, char *n_str, t_conv_spec_data cs)
+static void print_uint_logic(char *print_str, char *n_str, t_conv_spec_data cs)
 {
 	int		arg_len = ft_strlen(n_str);
 	char	*saved_pointer;
-	char	pad_char = ' ';
 
 	saved_pointer = print_str;
-	print_str += print_min_width(print_str, n_str, cs, arg_len);
+	print_str += print_min_width(print_str, cs, arg_len);
 	int point_width_comp = arg_len;
 	if (cs.point_width > point_width_comp) //!: This if statement migth be combined with while loop.
 	{
@@ -76,7 +75,7 @@ int print_unsigned_int(unsigned int n, t_conv_spec_data cs)
 	if (!print_str)
 		return (-1);
 	print_str[print_len] = '\0';
-	print_int_logic(print_str, n, n_str, cs);
+	print_uint_logic(print_str, n_str, cs);
 	free(n_str);
 	return (print_len);
 }

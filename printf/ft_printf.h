@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libftprintf.h                                      :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 18:53:10 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/10 20:33:12 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/11 22:05:39 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft/include/libft.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <stdarg.h>
 
 typedef struct s_conv_spec_data
 {
@@ -35,5 +35,6 @@ int	determine_cs_print_len(char *n_str, t_conv_spec_data cs);
 int	print_int(int n, t_conv_spec_data cs);
 int	print_unsigned_int(unsigned int n, t_conv_spec_data cs);
 int print_char(int c);
-int print_str(char *str, t_conv_spec_data conv_specification);
+int print_str(char *str);
 int print_hex(unsigned int n, t_conv_spec_data cs);
+int print_pointer(unsigned int n, t_conv_spec_data cs);

@@ -6,11 +6,11 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:06:04 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/10 22:58:46 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/11 21:48:03 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 static int print_blank_or_sign(char *print_str, char *n_str, t_conv_spec_data cs)
 {
@@ -55,11 +55,10 @@ static int print_min_width(char *print_str, char *n_str, t_conv_spec_data cs, in
 	return (progress);
 }
 
-static void print_int_logic(char *print_str, int n, char *n_str, t_conv_spec_data cs)
+static void print_int_logic(char *print_str, char *n_str, t_conv_spec_data cs)
 {
 	int		arg_len = ft_strlen(n_str);
 	char	*saved_pointer;
-	char	pad_char = ' ';
 
 	saved_pointer = print_str;
 	if (cs.has_zero_pad)
@@ -74,7 +73,7 @@ static void print_int_logic(char *print_str, int n, char *n_str, t_conv_spec_dat
 	}
 	//int point_width_comp = arg_len + ((cs.has_sign || cs.has_blank) && n_str[0] != '-');
 	int point_width_comp = arg_len;
-	if (cs.point_width > point_width_comp) //!: This if statement migth be combined with while loop.
+	if (cs.point_width > point_width_comp) //! This if statement migth be combined with while loop.
 	{
 		while(cs.point_width > point_width_comp++)
 		{
@@ -100,13 +99,13 @@ static void print_int_logic(char *print_str, int n, char *n_str, t_conv_spec_dat
 
 int print_int(int n, t_conv_spec_data cs)
 {
-	char *n_str = ft_itoa(n); //!: I HAVE TO FREE THIS
+	char *n_str = ft_itoa(n); //! I HAVE TO FREE THIS
 	int print_len = determine_cs_print_len(n_str, cs);
 	char *print_str = malloc(print_len + 1);
 	if (!print_str)
 		return (-1);
 	print_str[print_len] = '\0';
-	print_int_logic(print_str, n, n_str, cs);
+	print_int_logic(print_str, n_str, cs);
 	free(n_str);
 	return (print_len);
 }

@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/10 23:15:34 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/11 21:47:17 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define CONVERSION_SPECIFIERS "cspdiuxX%"
 #define FLAGS "-0# +."
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 void test_print_parsed_cs(t_conv_spec_data cs)
 {
@@ -37,7 +37,7 @@ int determine_cs_print_len(char *n_str, t_conv_spec_data cs)
 
 	arg_len = ft_strlen(n_str);
 	print_len = arg_len;
-	if (cs.conversion_specifier == 'd') //!: THIS IS A TYPE CHECK. MIGHT NOT BE NEEDED.
+	if (cs.conversion_specifier == 'd') //! THIS IS A TYPE CHECK. MIGHT NOT BE NEEDED.
 	{
 		if ((cs.has_blank || cs.has_sign) && n_str[0] != '-')
 			print_len += 1;
@@ -66,6 +66,16 @@ int determine_cs_print_len(char *n_str, t_conv_spec_data cs)
 		if (cs.min_width > print_len)
 			print_len = cs.min_width;
 	}
+	else if (cs.conversion_specifier == 'p')
+	{
+		if (cs.point_width > print_len)
+			print_len = cs.point_width;
+		print_len += 2;
+		if ((cs.has_blank || cs.has_sign))
+			print_len += 1;
+		if (cs.min_width > print_len)
+			print_len = cs.min_width;
+	}
 	return (print_len);
 }
 
@@ -73,20 +83,19 @@ int print_format_specifier(char c, va_list args, t_conv_spec_data conv_spec)
 {
 	int print_len;
 
-	print_len = 0; //!: May be unnecessary to initialize.
+	print_len = 0; //! May be unnecessary to initialize.
 	if (c == 'c')
 		print_len = print_char(va_arg(args, int));
 	else if (c == 's')
-		print_len = print_str(va_arg(args, char *), conv_spec);
+		print_len = print_str(va_arg(args, char *));
 	else if (c == 'd' || c == 'i')
 		print_len = print_int(va_arg(args, int), conv_spec);
-	else if (c == 'p')
-	{
-	}
 	else if (c == 'u')
 		print_len = print_unsigned_int(va_arg(args, unsigned int), conv_spec);
 	else if (c == 'x' || c == 'X')
 		print_len = print_hex(va_arg(args, unsigned int), conv_spec);
+	else if (c == 'p')
+		print_len = print_pointer(va_arg(args, unsigned int), conv_spec);
 	else if (c == '%')
 		ft_putchar_fd('%', 1);
 	return (print_len);
@@ -172,7 +181,6 @@ int ft_printf(char const *str, ...)
 {
 	int					print_len;
 	va_list				args;
-	int					arg_len;
 	t_conv_spec_data	conv_spec;
 
 	print_len = 0;

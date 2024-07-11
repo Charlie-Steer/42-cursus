@@ -1,4 +1,4 @@
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 void test_printf_int(char *fstr, int n)
 {
@@ -139,6 +139,35 @@ void test_printf_hex(char *fstr, unsigned int n)
 	fflush(stdout);
 }
 
+void test_printf_pointer(char *fstr, void *n)
+{
+	static int test_num = 1;
+	printf("TEST #%02d\n", test_num);
+
+	printf("inputs	|\"%s\", %p\n", fstr, n);
+
+	printf("printf	|");
+	fflush(stdout);
+	int orig_ret_val = printf(fstr, n);
+	printf("\n");
+
+	printf("ft	|");
+	fflush(stdout);
+	int ft_ret_val = ft_printf(fstr, n);
+	printf("\n");
+	fflush(stdout);
+
+	printf("returns	|%d, ", orig_ret_val);
+	printf("%d\n", ft_ret_val);
+	printf("\n");
+
+	//// cs print len test.
+	//printf("cslen|%d", determine_cs_print_len(ft_itoa(n)));
+	test_num++;
+
+	fflush(stdout);
+}
+
 void print_title(char *str) {
     char *temp = strdup(str); // Duplicate the string to allow modification
     if (temp == NULL) {
@@ -246,7 +275,7 @@ void ft_decimal_numbers_tests()
 	test_printf_int("% 11.22d", 7);
 	print_title("Multi-CS");
 	//test_printf_int("Hello %-03d World % 4.2d!", 7, 9);
-	printf("Hello %-03d World % 4.2d!\n", 7, 9);
+	//printf("Hello %-03d World % 4.2d!\n", 7, 9);
 	ft_printf("Hello %-03d World % 4.2d!\n", 7, 9);
 
 	////
@@ -342,7 +371,7 @@ void unsigned_print_tests()
 	test_printf_unsigned("% 11.22u", 7);
 	print_title("Multi-CS");
 	//test_printf_unsigned("Hello %-03d World % 4.2d!", 7, 9);
-	printf("Hello %-03u World % 4.2u!\n", 7, 9);
+	//printf("Hello %-03u World % 4.2u!\n", 7, 9);
 	ft_printf("Hello %-03u World % 4.2u!\n", 7, 9);
 }
 
@@ -503,13 +532,126 @@ void tests_printf_hex()
 	test_printf_hex("%# 11.22XP", 200);
 }
 
+void tests_printf_pointer()
+{
+	int a = 5;
+    int *p = &a;
+    test_printf_pointer("%p", p);
+    test_printf_pointer("%p", p);
+    print_title("Sign");
+    test_printf_pointer("%+p", p);
+    test_printf_pointer("%+p", p);
+    print_title("Blank");
+    test_printf_pointer("% p", p);
+    test_printf_pointer("% p", p);
+    print_title("Right Pad");
+    test_printf_pointer("%-3pP", p);
+    test_printf_pointer("% -3pP", p);
+    test_printf_pointer("% -11pP", p);
+    print_title("Min Width");
+    test_printf_pointer("%3p", p);
+    test_printf_pointer("%1p", p);
+    test_printf_pointer("%11p", p);
+    print_title("Zero Pad");
+    test_printf_pointer("%03pp", p);
+    test_printf_pointer("%01p", p);
+    test_printf_pointer("%011p", p);
+    print_title("Point Pad");
+    test_printf_pointer("%.3p", p);
+    test_printf_pointer("%.11p", p);
+    print_title("Mixed Flags");
+    test_printf_pointer("%6.3p", p);
+    test_printf_pointer("%3.6p", p);
+    test_printf_pointer("%22.11p", p);
+    test_printf_pointer("%11.22p", p);
+    test_printf_pointer("% 6.3p", p);
+    test_printf_pointer("% 3.6p", p);
+    test_printf_pointer("% 22.11p", p);
+    test_printf_pointer("% 11.22p", p);
+
+    test_printf_pointer("%pP", p);
+    test_printf_pointer("%pP", p);
+    print_title("Sign");
+    test_printf_pointer("%+pP", p);
+    test_printf_pointer("%+pP", p);
+    print_title("Blank");
+    test_printf_pointer("% pP", p);
+    test_printf_pointer("% pP", p);
+    print_title("Right Pad");
+    test_printf_pointer("%-3pP", p);
+    test_printf_pointer("% -3pP", p);
+    test_printf_pointer("% -11pP", p);
+    print_title("Min Width");
+    test_printf_pointer("%3pP", p);
+    test_printf_pointer("%1pP", p);
+    test_printf_pointer("%11pP", p);
+    print_title("Zero Pad");
+    test_printf_pointer("%03pp", p);
+    test_printf_pointer("%01pP", p);
+    test_printf_pointer("%011pP", p);
+    print_title("Point Pad");
+    test_printf_pointer("%.3pP", p);
+    test_printf_pointer("%.11pP", p);
+    print_title("Mixed Flags");
+    test_printf_pointer("%6.3pP", p);
+    test_printf_pointer("%3.6pP", p);
+    test_printf_pointer("%22.11pP", p);
+    test_printf_pointer("%11.22pP", p);
+    test_printf_pointer("% 6.3pP", p);
+    test_printf_pointer("% 3.6pP", p);
+    test_printf_pointer("% 22.11pP", p);
+    test_printf_pointer("% 11.22pP", p);
+
+    print_title("Alternate Form Flags");
+
+    test_printf_pointer("%#p", p);
+    test_printf_pointer("%#p", p);
+    print_title("Sign");
+    test_printf_pointer("%#+p", p);
+    test_printf_pointer("%#+p", p);
+    print_title("Blank");
+    test_printf_pointer("%# p", p);
+    test_printf_pointer("%# p", p);
+    print_title("Right Pad");
+    test_printf_pointer("%#-3pP", p);
+    test_printf_pointer("%# -3pP", p);
+    test_printf_pointer("%# -11pP", p);
+    print_title("Min Width");
+    test_printf_pointer("%#3p", p);
+    test_printf_pointer("%#1p", p);
+    test_printf_pointer("%#11p", p);
+    print_title("Zero Pad");
+    test_printf_pointer("%#03p", p);
+    test_printf_pointer("%#01p", p);
+    test_printf_pointer("%#011p", p);
+    print_title("Point Pad");
+    test_printf_pointer("%#.3p", p);
+    test_printf_pointer("%#.11p", p);
+    print_title("Mixed Flags");
+    test_printf_pointer("%#6.3p", p);
+    test_printf_pointer("%#3.6p", p);
+    test_printf_pointer("%#22.11p", p);
+    test_printf_pointer("%#11.22p", p);
+    test_printf_pointer("%# 6.3p", p);
+    test_printf_pointer("%# 3.6p", p);
+    test_printf_pointer("%# 22.11p", p);
+    test_printf_pointer("%# 11.22p", p);
+
+	print_title("Additional Tests");
+	test_printf_pointer("%+14p", p);
+	test_printf_pointer("% 14p", p);
+	test_printf_pointer("%+014p", p);
+	test_printf_pointer("% 014p", p);
+}
+
 int main()
 {
 	//ft_decimal_numbers_tests();
 	//unsigned_print_tests();
 	// tests_printf_char();
 	// tests_printf_string();
-	tests_printf_hex();
+	// tests_printf_hex();
+	tests_printf_pointer();
 	//print_title("Sign Mixed");
 	//printf("%6.3d\n", 6);
 	//printf("%6.3d\n", -6);

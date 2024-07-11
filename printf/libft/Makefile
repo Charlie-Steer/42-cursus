@@ -22,15 +22,15 @@ ADD_SRCS = \
 	ft_itoa_base.c ft_numlen_base.c ft_numlen.c ft_pow.c ft_itoa_unsigned.c \
 	ft_max.c
 
+OBJECTS = $(ORIG_OBJECTS) $(ADD_OBJECTS)
 ORIG_OBJECTS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(ORIG_SRCS))
 ADD_OBJECTS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(ADD_SRCS))
-OBJECTS = $(ORIG_OBJECTS) $(ADD_OBJECTS)
 
+NAME = $(LIB_DIR)/$(LONG_NAME).a
 LONG_NAME = lib$(SHORT_NAME)
 SHORT_NAME = ft
-NAME = $(LIB_DIR)/$(LONG_NAME).a
 
-INCLUDE = -Iinclude/
+INCLUDE = -Iinclude
 
 # Testing
 MAIN = tests.c
