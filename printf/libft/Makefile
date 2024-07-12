@@ -20,7 +20,7 @@ ORIG_SRCS = \
 
 ADD_SRCS = \
 	ft_itoa_base.c ft_numlen_base.c ft_numlen.c ft_pow.c ft_itoa_unsigned.c \
-	ft_max.c
+	ft_max.c ft_numlen_base_unsigned.c
 
 OBJECTS = $(ORIG_OBJECTS) $(ADD_OBJECTS)
 ORIG_OBJECTS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(ORIG_SRCS))

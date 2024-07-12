@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 15:43:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/11 21:48:09 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:20:11 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static void print_pointer_logic(char *print_str, char *n_str, t_conv_spec_data c
 	ft_putstr_fd(saved_pointer, 1);
 }
 
-int print_pointer(unsigned int n, t_conv_spec_data cs)
+int print_pointer(unsigned long n, t_conv_spec_data cs)
 {
 	char *base = "0123456789abcdef";
 	char *n_str = ft_itoa_base(n, base);

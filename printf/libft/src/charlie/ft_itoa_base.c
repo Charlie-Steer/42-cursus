@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:54:43 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/10 20:55:52 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:20:09 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ char *ft_itoa_base(unsigned long n, char *base)
 	int str_len;
 
 	base_len = ft_strlen(base);
-	str_len = ft_numlen_base(n, base, 0);
+	str_len = ft_numlen_base_unsigned(n, base);
 	if (str_len == -1)
 		return (NULL);
 	str = malloc(str_len + 1);
-	i = 0;
 	if (!str)
 		return (NULL);
 	str[str_len] = '\0';
+	i = 0;
 	if (n == 0)
 		str[0] = base[0];
 	while (n)
