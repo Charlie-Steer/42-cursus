@@ -6,15 +6,13 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 19:26:51 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/11 21:47:40 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/16 22:31:14 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-//! DO TESTS FIRST TO SEE IF YOU CAN REPURPOSE INT LOGIC.
-
-static char *print_alternate(char *print_str, t_conv_spec_data cs)
+static char *print_alternate(char *print_str, t_conv_spec cs)
 {
 	char *hex_string;
 
@@ -24,7 +22,7 @@ static char *print_alternate(char *print_str, t_conv_spec_data cs)
 		if (hex_string == NULL)
 			return (NULL);
 		ft_memcpy(hex_string, "0x", 3);
-		if (cs.conversion_specifier == 'X')
+		if (cs.conv_specifier == 'X')
 			hex_string[1] = 'X';
 		ft_memmove(print_str, hex_string, 2);
 		free(hex_string);
@@ -33,7 +31,7 @@ static char *print_alternate(char *print_str, t_conv_spec_data cs)
 	return (print_str);
 }
 
-static int print_min_width(char *print_str, t_conv_spec_data cs, int arg_len)
+static int print_min_width(char *print_str, t_conv_spec cs, int arg_len)
 {
 	int		progress;
 	char	pad_char;
@@ -58,7 +56,7 @@ static int print_min_width(char *print_str, t_conv_spec_data cs, int arg_len)
 	return (progress);
 }
 
-static void print_int_logic(char *print_str, char *n_str, t_conv_spec_data cs)
+static void print_int_logic(char *print_str, char *n_str, t_conv_spec cs)
 {
 	int		arg_len = ft_strlen(n_str);
 	char	*saved_pointer;
@@ -101,10 +99,10 @@ static void print_int_logic(char *print_str, char *n_str, t_conv_spec_data cs)
 	ft_putstr_fd(saved_pointer, 1);
 }
 
-int print_hex(unsigned int n, t_conv_spec_data cs)
+int print_hex(unsigned int n, t_conv_spec cs)
 {
 	char *base = "0123456789abcdef";
-	if (cs.conversion_specifier == 'X')
+	if (cs.conv_specifier == 'X')
 		base = "0123456789ABCDEF";
 	char *n_str = ft_itoa_base(n, base);
 	int print_len = determine_cs_print_len(n_str, cs);

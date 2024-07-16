@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/12 19:21:54 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/12 21:12:27 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,7 @@
 
 #include "ft_printf.h"
 
-// void	test_print_parsed_cs(t_conv_spec_data cs)
-// {
-// 	printf("cs:		%c\n", cs.conv_specifier);
-// 	printf("min_width:	%d\n", cs.min_width);
-// 	printf("pt_width:	%d\n", cs.point_width);
-// 	printf("alt?:		%d\n", cs.has_alternate);
-// 	printf("blank?:		%d\n", cs.has_blank);
-// 	printf("point?:		%d\n", cs.has_point);
-// 	printf("right_pad?:	%d\n", cs.has_right_pad);
-// 	printf("sign?:		%d\n", cs.has_sign);
-// 	printf("zero_pad?:	%d\n", cs.has_zero_pad);
-// }
-
-int	print_format_specifier(const char c, va_list args, t_conv_spec_data cs)
+int	print_format_specifier(const char c, va_list args, t_conv_spec cs)
 {
 	int	print_len;
 
@@ -51,9 +38,9 @@ int	print_format_specifier(const char c, va_list args, t_conv_spec_data cs)
 	return (print_len);
 }
 
-t_conv_spec_data	inst_conv_spec_data_struct(void)
+t_conv_spec	inst_conv_spec_data_struct(void)
 {
-	t_conv_spec_data	cs;
+	t_conv_spec	cs;
 
 	cs.has_blank = 0;
 	cs.has_sign = 0;
@@ -88,10 +75,10 @@ int	get_conv_spec_str_len(const char *str)
 
 int	ft_printf(char const *str, ...)
 {
-	va_list				args;
-	t_conv_spec_data	cs;
-	int					cs_str_len;
-	int					print_len;
+	va_list		args;
+	t_conv_spec	cs;
+	int			cs_str_len;
+	int			print_len;
 
 	print_len = 0;
 	va_start(args, str);
@@ -108,7 +95,7 @@ int	ft_printf(char const *str, ...)
 			cs = inst_conv_spec_data_struct();
 			cs = parse_conversion_specification(cs, str);
 			cs_str_len = get_conv_spec_str_len(str);
-			print_len += print_format_specifier(cs.conversion_specifier, args, cs);
+			print_len += print_format_specifier(cs.conv_specifier, args, cs);
 			str += cs_str_len;
 		}
 	}

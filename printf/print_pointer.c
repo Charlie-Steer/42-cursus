@@ -6,13 +6,13 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 15:43:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/12 13:20:11 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/12 20:48:47 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static char *print_blank_or_sign(char *print_str, t_conv_spec_data cs)
+static char *print_blank_or_sign(char *print_str, t_conv_spec cs)
 {
 	if (cs.has_sign)
 	{
@@ -34,7 +34,7 @@ static char *print_hex_of(char *print_str)
 	return (print_str);
 }
 
-static int print_min_width(char *print_str, t_conv_spec_data cs, int arg_len)
+static int print_min_width(char *print_str, t_conv_spec cs, int arg_len)
 {
 	int		progress;
 	char	pad_char;
@@ -57,7 +57,7 @@ static int print_min_width(char *print_str, t_conv_spec_data cs, int arg_len)
 	return (progress);
 }
 
-static void print_pointer_logic(char *print_str, char *n_str, t_conv_spec_data cs)
+static void print_pointer_logic(char *print_str, char *n_str, t_conv_spec cs)
 {
 	int		arg_len = ft_strlen(n_str);
 	char	*saved_pointer;
@@ -85,7 +85,7 @@ static void print_pointer_logic(char *print_str, char *n_str, t_conv_spec_data c
 	ft_putstr_fd(saved_pointer, 1);
 }
 
-int print_pointer(unsigned long n, t_conv_spec_data cs)
+int print_pointer(unsigned long n, t_conv_spec cs)
 {
 	char *base = "0123456789abcdef";
 	char *n_str = ft_itoa_base(n, base);

@@ -6,13 +6,13 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:45:43 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/12 18:39:41 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/12 20:46:31 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	parse_flag(const char *str, t_conv_spec_data *cs)
+static int	parse_flag(const char *str, t_conv_spec *cs)
 {
 	if (ft_strchr("-0# +.", *str))
 	{
@@ -34,7 +34,7 @@ static int	parse_flag(const char *str, t_conv_spec_data *cs)
 		return (0);
 }
 
-static int	parse_min_width(const char *str, t_conv_spec_data *cs)
+static int	parse_min_width(const char *str, t_conv_spec *cs)
 {
 	int	numlen;
 
@@ -43,7 +43,7 @@ static int	parse_min_width(const char *str, t_conv_spec_data *cs)
 	return (numlen);
 }
 
-static int	parse_point_width(const char *str, t_conv_spec_data *cs)
+static int	parse_point_width(const char *str, t_conv_spec *cs)
 {
 	int	numlen;
 
@@ -52,8 +52,8 @@ static int	parse_point_width(const char *str, t_conv_spec_data *cs)
 	return (numlen);
 }
 
-t_conv_spec_data	parse_conversion_specification(
-	t_conv_spec_data cs, const char *str)
+t_conv_spec	parse_conversion_specification(
+	t_conv_spec cs, const char *str)
 {
 	str++;
 	while (!ft_strchr("cspdiuxX%\0", *str))
@@ -65,6 +65,6 @@ t_conv_spec_data	parse_conversion_specification(
 		else if (ft_isdigit(*str) && cs.has_point)
 			str += parse_point_width(str, &cs);
 	}
-	cs.conversion_specifier = *str;
+	cs.conv_specifier = *str;
 	return (cs);
 }

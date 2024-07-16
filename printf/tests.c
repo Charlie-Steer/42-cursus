@@ -1,5 +1,18 @@
 #include "ft_printf.h"
 
+// void	test_print_parsed_cs(t_conv_spec cs)
+// {
+// 	printf("cs:		%c\n", cs.conv_specifier);
+// 	printf("min_width:	%d\n", cs.min_width);
+// 	printf("pt_width:	%d\n", cs.point_width);
+// 	printf("alt?:		%d\n", cs.has_alternate);
+// 	printf("blank?:		%d\n", cs.has_blank);
+// 	printf("point?:		%d\n", cs.has_point);
+// 	printf("right_pad?:	%d\n", cs.has_right_pad);
+// 	printf("sign?:		%d\n", cs.has_sign);
+// 	printf("zero_pad?:	%d\n", cs.has_zero_pad);
+// }
+
 void test_printf_int(char *fstr, int n)
 {
 	static int test_num = 1;
@@ -646,31 +659,11 @@ void tests_printf_pointer()
 
 int main()
 {
-	ft_decimal_numbers_tests();
+	// ft_decimal_numbers_tests();
 	unsigned_print_tests();
-	tests_printf_char();
-	tests_printf_string();
-	tests_printf_hex();
-	tests_printf_pointer();
-	//print_title("Sign Mixed");
-	//printf("%6.3d\n", 6);
-	//printf("%6.3d\n", -6);
-	//printf("%.3d\n", 666);
-	//printf("%.3d\n", -666);
-	//printf("%.6d\n", 666);
-	//printf("%.6d\n", -666);
-	//printf("%-12.6dP\n", 777);
-	//printf("%-12.6dP\n", -777);
-	//printf("%-7.6dP\n", 777);
-	//printf("%-7.6dP\n", -777);
-	//printf("%+06d\n", 666);
-	//printf("%+6d\n", 666);
-	//printf("%+.6d\n", 666);
-	//printf("%s\n", ft_itoa_signless(365));
-	//printf("%s\n", ft_itoa_signless(-365));
-	//printf("%s\n", ft_itoa_signless(1));
-	//printf("%s\n", ft_itoa_signless(-1));
-	//printf("%s\n", ft_itoa_signless(2147483647));
-	//printf("%s\n", ft_itoa_signless(-2147483648));
+	// tests_printf_char();
+	// tests_printf_string();
+	// tests_printf_hex();
+	// tests_printf_pointer();
 	return (0);
 }
