@@ -1,42 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_int.c                                        :+:      :+:    :+:   */
+/*   print_hexadecimal.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 19:06:04 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/17 17:32:24 by cargonz2         ###   ########.fr       */
+/*   Created: 2024/07/10 19:26:51 by cargonz2          #+#    #+#             */
+/*   Updated: 2024/07/17 18:29:24 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	add_blank_or_sign(char *print_str, char *n_str, t_conv_spec cs)
+static int	add_hex(char *print_str, t_conv_spec cs)
 {
-	int	offset;
+	int		offset;
+	char	*hex_string;
 
 	offset = 0;
-	if (cs.has_sign && *n_str != '-')
+	if (cs.has_alternate)
 	{
-		*print_str = '+';
-		offset++;
-	}
-	else if (cs.has_blank && *n_str != '-')
-	{
-		*print_str = ' ';
-		offset++;
-	}
-	else if (*n_str == '-')
-	{
-		*print_str = '-';
-		offset++;
+		hex_string = malloc(3);
+		if (hex_string == NULL)
+			return (-1);
+		ft_memcpy(hex_string, "0x", 3);
+		if (cs.conv_specifier == 'X')
+			hex_string[1] = 'X';
+		ft_memmove(print_str, hex_string, 2);
+		free(hex_string);
+		offset = 2;
 	}
 	return (offset);
 }
 
-static int	add_min_width(
-	char *print_str, char *n_str, t_conv_spec cs, int arg_len)
+static int	add_min_width(char *print_str, t_conv_spec cs, int arg_len)
 {
 	int		offset;
 	char	pad_char;
@@ -44,8 +41,9 @@ static int	add_min_width(
 
 	offset = 0;
 	pad_char = ' ';
-	min_width_comp = ft_max(arg_len, cs.point_width)
-		+ ((cs.has_sign || cs.has_blank) && n_str[0] != '-');
+	min_width_comp = ft_max(arg_len, cs.point_width);
+	if (cs.has_alternate)
+		min_width_comp += 2;
 	if (cs.min_width > min_width_comp && !cs.has_right_pad)
 	{
 		if (cs.has_zero_pad)
@@ -53,32 +51,29 @@ static int	add_min_width(
 		while (cs.min_width > min_width_comp++)
 		{
 			*print_str = pad_char;
-			offset++;
 			print_str++;
+			offset++;
 		}
 	}
 	return (offset);
 }
 
-static int	add_prefix(char *print_str, char *n_str, t_conv_spec cs,
-						int arg_len)
+static int	add_prefix(char *p_print_str, t_conv_spec cs, int arg_len)
 {
 	int	offset;
 
 	offset = 0;
 	if (cs.has_zero_pad)
 	{
-		offset += add_blank_or_sign(print_str, n_str, cs);
-		print_str += offset;
-		offset += add_min_width(print_str, n_str, cs, arg_len);
-		print_str += offset;
+		offset = add_hex(p_print_str, cs);
+		p_print_str += offset;
+		offset += add_min_width(p_print_str, cs, arg_len);
 	}
 	else
 	{
-		offset += add_min_width(print_str, n_str, cs, arg_len);
-		print_str += offset;
-		offset += add_blank_or_sign(print_str, n_str, cs);
-		print_str += offset;
+		offset = add_min_width(p_print_str, cs, arg_len);
+		p_print_str += offset;
+		offset += add_hex(p_print_str, cs);
 	}
 	return (offset);
 }
@@ -110,15 +105,15 @@ static int	add_arg(char *print_str, char *n_str, int arg_len)
 	return (offset);
 }
 
-static int	add_right_pad(char *print_str, char *n_str, t_conv_spec cs,
-							int arg_len)
+static int	add_right_pad(char *print_str, t_conv_spec cs, int arg_len)
 {
 	int	offset;
 	int	right_pad_comp;
 
 	offset = 0;
-	right_pad_comp = cs.point_width + arg_len + ((cs.has_sign || cs.has_blank)
-			&& n_str[0] != '-');
+	right_pad_comp = cs.point_width + arg_len;
+	if (cs.has_alternate)
+		right_pad_comp += 2;
 	if (cs.has_right_pad && cs.min_width > right_pad_comp)
 	{
 		while (cs.min_width > right_pad_comp++)
@@ -131,7 +126,6 @@ static int	add_right_pad(char *print_str, char *n_str, t_conv_spec cs,
 	return (offset);
 }
 
-// ! Might be best merged to the main function.
 // Type-independent function.
 static char	*allocate_print_str(int print_len)
 {
@@ -144,27 +138,37 @@ static char	*allocate_print_str(int print_len)
 	return (print_str);
 }
 
-int	print_int(int n, t_conv_spec cs)
+static char	*get_hex_base(int conv_specifier)
+{
+	char	*base;
+
+	base = "0123456789abcdef";
+	if (conv_specifier == 'X')
+		base = "0123456789ABCDEF";
+	return (base);
+}
+
+int	print_hexadecimal(unsigned int n, t_conv_spec cs)
 {
 	char	*print_str_orig;
 	char	*n_str;
-	int		print_len;
 	int		arg_len;
+	int		print_len;
 	char	*print_str;
 
-	n_str = ft_itoa(n);
+	n_str = ft_itoa_base(n, get_hex_base(cs.conv_specifier));
+	arg_len = ft_strlen(n_str);
 	print_len = determine_cs_print_len(n_str, cs);
 	print_str = allocate_print_str(print_len);
 	print_str_orig = print_str;
 	if (!print_str)
 		return (-1);
-	arg_len = ft_strlen(n_str);
-	print_str += add_prefix(print_str, n_str, cs, arg_len);
+	print_str += add_prefix(print_str, cs, arg_len);
 	print_str += add_point_width(print_str, cs, arg_len);
 	print_str += add_arg(print_str, n_str, arg_len);
-	add_right_pad(print_str, n_str, cs, arg_len);
+	add_right_pad(print_str, cs, arg_len);
 	ft_putstr_fd(print_str_orig, 1);
-	free(n_str);
-	free(print_str_orig);
+	free (print_str_orig);
+	free (n_str);
 	return (print_len);
 }

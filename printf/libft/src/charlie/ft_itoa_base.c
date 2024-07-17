@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:54:43 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/12 13:20:09 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:13:53 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 // Returns a newly allocated string with the given number in the given base.
 // NO NEGATIVE NUMBERS SHOULD BE PASSED.
 // The returned string's memory has to be handled by the user.
-char *ft_itoa_base(unsigned long n, char *base)
+char	*ft_itoa_base(unsigned long n, char *base)
 {
-	int base_len;
-	char *str;
-	int i;
-	int str_len;
+	int		base_len;
+	char	*str;
+	int		i;
+	int		str_len;
 
 	base_len = ft_strlen(base);
 	str_len = ft_numlen_base_unsigned(n, base);

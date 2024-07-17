@@ -6,17 +6,18 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:57:28 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/12 11:24:04 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:14:36 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
 
-// Returns the length of the string to write the given number in the given base. NUM IS SIGNED!
-int ft_numlen_base(long num, char *base, int account_sign)
+// NUM IS SIGNED!
+// Returns the length of the string to write the given number in the given base.
+int	ft_numlen_base(long num, char *base, int account_sign)
 {
-	int len;
-	int base_len;
+	int	len;
+	int	base_len;
 
 	if (num == 0)
 		return (1);

@@ -657,13 +657,25 @@ void tests_printf_pointer()
 	test_printf_pointer("% 014p", p);
 }
 
+void tests_printf_pointer_problem_tests()
+{
+	int a = 5;
+    int *p = &a;
+    test_printf_pointer("%22.11p", p);
+    test_printf_pointer("% 22.11p", p);
+    test_printf_pointer("%22.11pP", p);
+    test_printf_pointer("% 22.11pP", p);
+    test_printf_pointer("%#22.11pP", p);
+}
+
 int main()
 {
 	// ft_decimal_numbers_tests();
-	unsigned_print_tests();
+	// unsigned_print_tests();
 	// tests_printf_char();
 	// tests_printf_string();
 	// tests_printf_hex();
 	// tests_printf_pointer();
+	tests_printf_pointer_problem_tests();
 	return (0);
 }

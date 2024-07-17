@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/12 21:12:27 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:13:40 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	print_format_specifier(const char c, va_list args, t_conv_spec cs)
 	else if (c == 'u')
 		print_len = print_unsigned_int(va_arg(args, unsigned int), cs);
 	else if (c == 'x' || c == 'X')
-		print_len = print_hex(va_arg(args, unsigned int), cs);
+		print_len = print_hexadecimal(va_arg(args, unsigned int), cs);
 	else if (c == 'p')
 		print_len = print_pointer(va_arg(args, unsigned long), cs);
 	else if (c == '%')
@@ -38,7 +38,7 @@ int	print_format_specifier(const char c, va_list args, t_conv_spec cs)
 	return (print_len);
 }
 
-t_conv_spec	inst_conv_spec_data_struct(void)
+t_conv_spec	init_conv_spec(void)
 {
 	t_conv_spec	cs;
 
@@ -79,6 +79,7 @@ int	ft_printf(char const *str, ...)
 	t_conv_spec	cs;
 	int			cs_str_len;
 	int			print_len;
+	int			cs_print_len;
 
 	print_len = 0;
 	va_start(args, str);
@@ -92,10 +93,15 @@ int	ft_printf(char const *str, ...)
 		}
 		else
 		{
-			cs = inst_conv_spec_data_struct();
+			cs = init_conv_spec();
 			cs = parse_conversion_specification(cs, str);
 			cs_str_len = get_conv_spec_str_len(str);
-			print_len += print_format_specifier(cs.conv_specifier, args, cs);
+
+			cs_print_len = print_format_specifier(cs.conv_specifier, args, cs);
+			if (cs_print_len < 0)
+				return (-1);
+			else
+				print_len += cs_print_len;
 			str += cs_str_len;
 		}
 	}
