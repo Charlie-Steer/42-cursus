@@ -252,7 +252,7 @@ void print_title(char *str) {
 // 	printf("%+ 6.3d\n", 9);
 // }
 
-void ft_decimal_numbers_tests()
+void tests_printf_int()
 {
 	test_printf_int("%d", 7);
 	test_printf_int("%d", -7);
@@ -348,7 +348,7 @@ void ft_decimal_numbers_tests()
 	//ft_printf("%+ 6.3d\n", 9);
 }
 
-void unsigned_print_tests()
+void tests_printf_uint()
 {
 	test_printf_unsigned("%u", 7);
 	test_printf_unsigned("%u", -7);
@@ -666,16 +666,34 @@ void tests_printf_pointer_problem_tests()
     test_printf_pointer("%22.11pP", p);
     test_printf_pointer("% 22.11pP", p);
     test_printf_pointer("%#22.11pP", p);
+    test_printf_pointer("%18.8p", p);
+    test_printf_pointer("% 22.11p", p);
+    test_printf_pointer("%22.11pP", p);
+    test_printf_pointer("% 22.11pP", p);
+    test_printf_pointer("%#22.11pP", p);
+}
+
+void tests_printf_mixed()
+{
+	void *p;
+	printf("\n\nc: %12c\ns: %12s\nd: %12d\ni: %12i\nu: %12u\nx: %#12x\nX: %#12X\np: %12p\n%12%: %%\n",
+		'g', "Charlie", 42, -42, -1, 365, 14649, p);
+	ft_printf("\n\nc: %12c\ns: %12s\nd: %12d\ni: %12i\nu: %12u\nx: %#12x\nX: %#12X\np: %12p\n%%: %%\n",
+		'g', "Charlie", 42, -42, -1, 365, 14649, p);
+	printf("\n\nc: %-12cP\ns: %-12sP\nd: %-12dP\ni: %-12iP\nu: %-12uP\nx: %-#12xP\nX: %-#12XP\np: %-12pP\n%%: %-12%P\n",
+		'g', "Charlie", 42, -42, -1, 365, 14649, p);
+	ft_printf("\n\nc: %-12cP\ns: %-12sP\nd: %-12dP\ni: %-12iP\nu: %-12uP\nx: %-#12xP\nX: %-#12XP\np: %-12pP\n%%: %-12%P\n",
+		'g', "Charlie", 42, -42, -1, 365, 14649, p);
 }
 
 int main()
 {
-	// ft_decimal_numbers_tests();
-	// unsigned_print_tests();
-	// tests_printf_char();
-	// tests_printf_string();
-	// tests_printf_hex();
-	// tests_printf_pointer();
-	tests_printf_pointer_problem_tests();
+	tests_printf_int();
+	tests_printf_uint();
+	tests_printf_char();
+	tests_printf_string();
+	tests_printf_hex();
+	tests_printf_pointer();
+	tests_printf_mixed();
 	return (0);
 }

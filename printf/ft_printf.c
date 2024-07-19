@@ -6,25 +6,23 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/17 17:13:40 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:37:52 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define MAX_INT_STR_LEN 11 //?: Useless?
-#define CONVERSION_SPECIFIERS "cspdiuxX%"
-#define FLAGS "-0# +."
-
 #include "ft_printf.h"
 
-int	print_format_specifier(const char c, va_list args, t_conv_spec cs)
+int	print_conv_spec(va_list args, t_conv_spec cs)
 {
-	int	print_len;
+	int		print_len;
+	char	c;
 
 	print_len = 0;
+	c = cs.conv_specifier;
 	if (c == 'c')
-		print_len = print_char(va_arg(args, int));
+		print_len = print_char(va_arg(args, int), cs);
 	else if (c == 's')
-		print_len = print_str(va_arg(args, char *));
+		print_len = print_str(va_arg(args, char *), cs);
 	else if (c == 'd' || c == 'i')
 		print_len = print_int(va_arg(args, int), cs);
 	else if (c == 'u')
@@ -59,7 +57,7 @@ int	get_conv_spec_str_len(const char *str)
 
 	len = 1;
 	str++;
-	while (!ft_strchr(CONVERSION_SPECIFIERS, *str) && *str != '\0')
+	while (!ft_strchr("cspdiuxX%", *str) && *str != '\0')
 	{
 		len++;
 		str++;
@@ -73,10 +71,18 @@ int	get_conv_spec_str_len(const char *str)
 	}
 }
 
+static t_conv_spec	get_conv_spec_struct(char const *str)
+{
+	t_conv_spec	cs;
+
+	cs = init_conv_spec();
+	cs = parse_conversion_specification(cs, str);
+	return (cs);
+}
+
 int	ft_printf(char const *str, ...)
 {
 	va_list		args;
-	t_conv_spec	cs;
 	int			cs_str_len;
 	int			print_len;
 	int			cs_print_len;
@@ -86,24 +92,19 @@ int	ft_printf(char const *str, ...)
 	while (*str)
 	{
 		if (*str != '%')
-		{
 			ft_putchar_fd(*str, 1);
-			str++;
-			print_len++;
-		}
 		else
 		{
-			cs = init_conv_spec();
-			cs = parse_conversion_specification(cs, str);
 			cs_str_len = get_conv_spec_str_len(str);
-
-			cs_print_len = print_format_specifier(cs.conv_specifier, args, cs);
+			cs_print_len = print_conv_spec(args, get_conv_spec_struct(str));
 			if (cs_print_len < 0)
 				return (-1);
-			else
-				print_len += cs_print_len;
+			print_len += cs_print_len;
 			str += cs_str_len;
+			continue ;
 		}
+		str++;
+		print_len++;
 	}
 	return (print_len);
 }

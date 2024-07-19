@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 18:53:10 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/17 16:37:21 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:36:58 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,15 @@ t_conv_spec	parse_conversion_specification(
 				t_conv_spec cs, const char *str);
 int			determine_cs_print_len(char *n_str, t_conv_spec cs);
 
-int			print_char(int c);
-int			print_str(char *str);
+int			print_char(int c, t_conv_spec cs);
+int			print_str(char *str, t_conv_spec cs);
 int			print_int(int n, t_conv_spec cs);
 int			print_unsigned_int(unsigned int n, t_conv_spec cs);
 int			print_hexadecimal(unsigned int n, t_conv_spec cs);
 int			print_pointer(unsigned long n, t_conv_spec cs);
+
+int			int_add_prefix(char *print_str, char *n_str, t_conv_spec cs,
+				int arg_len);
+int			hexa_add_prefix(char *print_str, t_conv_spec cs, int arg_len);
+char		*get_hex_base(int conv_specifier);
+int			pointer_add_prefix(char *print_str, t_conv_spec cs, int arg_len);

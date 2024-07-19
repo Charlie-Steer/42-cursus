@@ -2,7 +2,8 @@ CC = clang
 CFLAGS = -Wall -Wextra -Werror
 SOURCES = ft_printf.c print_int.c print_unsigned_int.c print_char_and_str.c \
 		  print_hexadecimal.c print_pointer.c determine_print_len.c \
-		  parse_conversion_specification.c
+		  parse_conversion_specification.c print_int_helper.c \
+		  print_hexadecimal_helper.c print_pointer_helper.c
 BSOURCES =
 OBJECTS = $(SOURCES:.c=.o)
 BOBJECTS = $(BSOURCES:.c=.o)
@@ -87,7 +88,6 @@ libft: $(LIBFT)
 
 
 # TESTING FULL
-#! This rule is untested.
 $(EXENAME): $(MAIN) $(NAME) $(LIBFT)
 	@$(CC) $(CFLAGS) $(MAIN) $(NAME) $(LIBFT) $(HEADERS) -o $(EXENAME)
 	@chmod +x $(EXENAME)

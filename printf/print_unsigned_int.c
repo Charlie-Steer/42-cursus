@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   print_unsigned_int.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:06:04 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/16 22:29:54 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:38:37 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	add_min_width(char *print_str, t_conv_spec cs, int arg_len)
+static int	hexa_add_min_width(char *print_str, t_conv_spec cs, int arg_len)
 {
 	int		offset;
 	char	pad_char;
@@ -95,7 +95,7 @@ int	print_unsigned_int(unsigned int n, t_conv_spec cs)
 	print_str[print_len] = '\0';
 	print_str_orig = print_str;
 	arg_len = ft_strlen(n_str);
-	print_str += add_min_width(print_str, cs, arg_len);
+	print_str += hexa_add_min_width(print_str, cs, arg_len);
 	print_str += add_point_width(print_str, cs, arg_len);
 	print_str += add_arg_len(print_str, n_str, arg_len);
 	add_right_pad(print_str, cs, arg_len);
