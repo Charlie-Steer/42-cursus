@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 15:43:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/22 15:06:52 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:34:46 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	add_right_pad(char *print_str, t_conv_spec cs, int arg_len)
 
 	offset = 0;
 	right_pad_comp = cs.point_width + 2 + arg_len
-				+ (cs.has_blank || cs.has_sign);
+		+ (cs.has_blank || cs.has_sign);
 	if (cs.has_right_pad && cs.min_width > right_pad_comp)
 	{
 		while (cs.min_width > right_pad_comp++)
