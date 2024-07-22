@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 15:43:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/19 18:43:41 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:06:52 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,35 @@ static char	*allocate_print_str(int print_len)
 	return (print_str);
 }
 
+static int	add_right_pad(char *print_str, t_conv_spec cs, int arg_len)
+{
+	int	offset;
+	int	right_pad_comp;
+
+	offset = 0;
+	right_pad_comp = cs.point_width + 2 + arg_len
+				+ (cs.has_blank || cs.has_sign);
+	if (cs.has_right_pad && cs.min_width > right_pad_comp)
+	{
+		while (cs.min_width > right_pad_comp++)
+		{
+			*print_str = ' ';
+			print_str++;
+			offset++;
+		}
+	}
+	return (offset);
+}
+
+static int	add_arg(char *print_str, char *n_str, int arg_len)
+{
+	int	offset;
+
+	ft_memmove(print_str, n_str, arg_len);
+	offset = arg_len;
+	return (offset);
+}
+
 int	print_pointer(unsigned long n, t_conv_spec cs)
 {
 	int		print_len;
@@ -54,7 +83,8 @@ int	print_pointer(unsigned long n, t_conv_spec cs)
 	print_str_orig = print_str;
 	print_str += pointer_add_prefix(print_str, cs, arg_len);
 	print_str += print_point_width(print_str, cs, arg_len);
-	ft_memmove(print_str, n_str, arg_len);
+	print_str += add_arg(print_str, n_str, arg_len);
+	add_right_pad(print_str, cs, arg_len);
 	ft_putstr_fd(print_str_orig, 1);
 	free(n_str);
 	free(print_str_orig);

@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:43:45 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/19 18:44:08 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:12:41 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	add_min_width(char *print_str, t_conv_spec cs, int arg_len)
 	pad_char = ' ';
 	min_width_comp = ft_max(arg_len, cs.point_width)
 		+ (cs.has_sign || cs.has_blank) + 2;
-	if (cs.min_width > min_width_comp)
+	if (cs.min_width > min_width_comp && !cs.has_right_pad)
 	{
 		if (cs.has_zero_pad)
 			pad_char = '0';

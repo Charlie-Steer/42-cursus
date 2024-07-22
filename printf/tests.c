@@ -675,10 +675,12 @@ void tests_printf_pointer_problem_tests()
 
 void tests_printf_mixed()
 {
+	//int a = 13;
+	//void *p = &a;
 	void *p;
-	printf("\n\nc: %12c\ns: %12s\nd: %12d\ni: %12i\nu: %12u\nx: %#12x\nX: %#12X\np: %12p\n%12%: %%\n",
+	printf("\n\nc: %12cP\ns: %12sP\nd: %12dP\ni: %12iP\nu: %12uP\nx: %#12xP\nX: %#12XP\np: %12pP\n%12%: %%P\n",
 		'g', "Charlie", 42, -42, -1, 365, 14649, p);
-	ft_printf("\n\nc: %12c\ns: %12s\nd: %12d\ni: %12i\nu: %12u\nx: %#12x\nX: %#12X\np: %12p\n%%: %%\n",
+	ft_printf("\n\nc: %12cP\ns: %12sP\nd: %12dP\ni: %12iP\nu: %12uP\nx: %#12xP\nX: %#12XP\np: %12pP\n%12%: %%P\n",
 		'g', "Charlie", 42, -42, -1, 365, 14649, p);
 	printf("\n\nc: %-12cP\ns: %-12sP\nd: %-12dP\ni: %-12iP\nu: %-12uP\nx: %-#12xP\nX: %-#12XP\np: %-12pP\n%%: %-12%P\n",
 		'g', "Charlie", 42, -42, -1, 365, 14649, p);

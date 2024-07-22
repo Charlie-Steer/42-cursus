@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:06:04 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/19 20:57:46 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:16:18 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,22 @@ static int	add_arg(char *print_str, char *n_str, int arg_len)
 	int	offset;
 
 	if (*n_str == '-')
+	{
 		n_str++;
+		arg_len--;
+	}
 	ft_memmove(print_str, n_str, arg_len);
 	offset = arg_len;
 	return (offset);
 }
 
-static int	add_right_pad(char *print_str, char *n_str, t_conv_spec cs,
-							int arg_len)
+static int	add_right_pad(char *print_str, t_conv_spec cs, int arg_len)
 {
 	int	offset;
 	int	right_pad_comp;
 
 	offset = 0;
-	right_pad_comp = cs.point_width + arg_len + ((cs.has_sign || cs.has_blank)
-			|| n_str[0] == '-');
+	right_pad_comp = cs.point_width + arg_len + (cs.has_sign || cs.has_blank);
 	if (cs.has_right_pad)
 	{
 		while (cs.min_width > right_pad_comp++)
@@ -90,7 +91,7 @@ int	print_int(int n, t_conv_spec cs)
 	print_str += int_add_prefix(print_str, n_str, cs, arg_len);
 	print_str += add_point_width(print_str, cs, arg_len);
 	print_str += add_arg(print_str, n_str, arg_len);
-	add_right_pad(print_str, n_str, cs, arg_len);
+	add_right_pad(print_str, cs, arg_len);
 	ft_putstr_fd(print_str_orig, 1);
 	free(n_str);
 	free(print_str_orig);
