@@ -3,7 +3,17 @@ CFLAGS = -Wall -Wextra -Werror
 SOURCES = ft_printf.c print_int.c print_unsigned_int.c print_char_and_str.c \
 		  print_hexadecimal.c print_pointer.c determine_print_len.c \
 		  parse_conversion_specification.c print_int_helper.c \
-		  print_hexadecimal_helper.c print_pointer_helper.c
+		  print_hexadecimal_helper.c print_pointer_helper.c \
+		  libft_funcs/ft_toupper.c libft_funcs/ft_putchar_fd.c \
+		  libft_funcs/ft_strchr.c libft_funcs/ft_itoa.c \
+		  libft_funcs/ft_putstr_fd.c libft_funcs/ft_memmove.c \
+		  libft_funcs/ft_itoa_unsigned.c libft_funcs/ft_strlen.c \
+		  libft_funcs/ft_max.c libft_funcs/ft_memmove.c \
+		  libft_funcs/ft_itoa_base.c libft_funcs/ft_isdigit.c \
+		  libft_funcs/ft_memcmp.c libft_funcs/ft_atoi.c \
+		  libft_funcs/ft_numlen.c libft_funcs/ft_numlen_base_unsigned.c \
+		  libft_funcs/ft_memcpy.c libft_funcs/ft_bzero.c
+
 BSOURCES =
 OBJECTS = $(SOURCES:.c=.o)
 BOBJECTS = $(BSOURCES:.c=.o)
@@ -17,13 +27,6 @@ PROJECT_SHORT_NAME = ftprintf
 PROJECT_FULL_NAME = lib$(PROJECT_SHORT_NAME)
 DEV_NAME = $(PROJECT_FULL_NAME).dev.a
 
-# libft
-LIBFT_PATH = libft
-LIBFT_ARCH_PATH = libft/lib
-LIBFT_SHORT_NAME = ft
-LIBFT_NAME = lib$(LIBFT_SHORT_NAME).a
-LIBFT = $(LIBFT_ARCH_PATH)/$(LIBFT_NAME)
-
 # Testing
 MAIN = tests.c
 EXENAME = $(PROJECT_FULL_NAME).test
@@ -33,7 +36,8 @@ DEV_CFLAGS = -Wno-unused-variable \
 	-Wno-unused-parameter  -Wno-unused-function \
 	#-Wno-unused-but-set-variable
 
-HEADERS = -I libft/include
+HEADERS = -I .
+
 
 # LIBRARY CREATION
 
@@ -41,7 +45,7 @@ HEADERS = -I libft/include
 	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 	@echo "$@ compiled."
 
-all: $(NAME) $(LIBFT)
+all: $(NAME)
 
 $(NAME): $(OBJECTS)
 	@ar rcs $(NAME) $^
@@ -53,12 +57,10 @@ bonus: $(NAME) $(BOBJECTS)
 
 clean:
 	@rm -f $(OBJECTS) $(BOBJECTS) $(DEV_OBJECTS) $(DEV_BOBJECTS)
-	@make -C $(LIBFT_PATH) clean
 	@echo "Clean performed."
 
 fclean: clean
 	@rm -f $(NAME) $(DEV_NAME) $(EXENAME) $(DEV_EXENAME)
-	@make -C $(LIBFT_PATH) fclean
 	@echo "Full clean performed."
 
 re: fclean all
@@ -74,22 +76,13 @@ re: fclean all
 $(DEV_NAME): $(DEV_OBJECTS) $(DEV_BOBJECTS)
 	@ar rcs $(DEV_NAME) $^
 
-dev_all: $(LIBFT) $(DEV_NAME)
-
-
-# LIBFT COMPILATION
-
-$(LIBFT):
-	@echo Compiling libft...
-	@make -C $(LIBFT_PATH) all
-	@echo Libft compiled.
-
-libft: $(LIBFT)
+dev_all: $(DEV_NAME)
 
 
 # TESTING FULL
-$(EXENAME): $(MAIN) $(NAME) $(LIBFT)
-	@$(CC) $(CFLAGS) $(MAIN) $(NAME) $(LIBFT) $(HEADERS) -o $(EXENAME)
+
+$(EXENAME): $(MAIN) $(NAME)
+	@$(CC) $(CFLAGS) $(MAIN) $(NAME) $(HEADERS) -o $(EXENAME)
 	@chmod +x $(EXENAME)
 	@echo "Tests compiled."
 
@@ -100,8 +93,9 @@ test: tcomp
 
 
 # TESTING DEV
-$(DEV_EXENAME): $(MAIN) $(DEV_NAME) $(LIBFT)
-	@$(CC) $(DEV_CFLAGS) $(MAIN) $(DEV_NAME) $(LIBFT) $(HEADERS) -o $(DEV_EXENAME)
+
+$(DEV_EXENAME): $(MAIN) $(DEV_NAME)
+	@$(CC) $(DEV_CFLAGS) $(MAIN) $(DEV_NAME) $(HEADERS) -o $(DEV_EXENAME)
 	@chmod +x $(DEV_EXENAME)
 	@echo "Tests compiled."
 
@@ -112,4 +106,4 @@ dev_test: dev_tcomp
 	@./$(DEV_EXENAME)
 
 
-.PHONY: all bonus clean fclean re dev_all libft tcomp test dev_tcomp dev_test
+.PHONY: all bonus clean fclean re dev_all tcomp test dev_tcomp dev_test

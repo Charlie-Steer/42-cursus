@@ -1,0 +1,15 @@
+ft_toupper.c
+ft_putchar_fd.c
+ft_strchr.c
+ft_itoa.c
+ft_putstr_fd.c
+ft_memmove.c
+ft_itoa_unsigned.c
+ft_strlen.c
+ft_max.c
+ft_memmove.c
+ft_itoa_base.c
+ft_isdigit.c
+ft_memcmp.c
+ft_atoi.c
+ft_numlen.c

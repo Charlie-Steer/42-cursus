@@ -688,14 +688,184 @@ void tests_printf_mixed()
 		'g', "Charlie", 42, -42, -1, 365, 14649, p);
 }
 
+void tests_francinette_01()
+{
+	//printf("%-s\n", NULL);
+	//printf("%23s\n", NULL);
+	//printf("%p\n", NULL);
+	//printf("%s\n", NULL);
+	printf("%.3s\n", "hello");
+	printf("%.s\n", "hello");
+	printf("%.0s\n", "hello");
+	printf("%.3s%.2s\n", "holla", "bitch");
+	printf("%.2s%.7s\n", "hello", "world");
+	printf("%.7s%.2s\n", "hello", "world");
+	printf("%7.5s\n", "bombastic");
+	printf("%-7.5sP\n", "tubular");
+	printf("%7.3s%7.7sP\n", "hello", "world");
+	//printf("%7.3s%7.5sP\n", "hello", "world");
+	//printf("%7.3s%5.7sP\n\n", "hello", "world");
+
+	printf("%3.3s%7.7sP\n", "hello", "world");
+	printf("%7.3s%3.7sP\n", "hello", "world");
+	printf("%3.3s%3.7sP\n", "hello", "world");
+	printf("%7.7s%7.3sP\n", "hello", "world");
+	printf("%3.7s%7.3sP\n", "hello", "world");
+	printf("%7.7s%3.3sP\n", "hello", "world");
+	printf("%3.7s%3.3sP\n", "hello", "world");
+	printf("------------\n");
+	//ft_printf("%-s\n", NULL);
+	//ft_printf("%23s\n", NULL);
+	//ft_printf("%p\n", NULL);
+	//ft_printf("%s\n", NULL);
+	ft_printf("%.3s\n", "hello");
+	ft_printf("%.s\n", "hello");
+	ft_printf("%.0s\n", "hello");
+	ft_printf("%.3s%.2s\n", "holla", "bitch");
+	ft_printf("%.2s%.7s\n", "hello", "world");
+	ft_printf("%.7s%.2s\n", "hello", "world");
+	ft_printf("%7.5s\n", "bombastic");
+	ft_printf("%-7.5sP\n", "tubular");
+	ft_printf("%7.3s%7.7sP\n", "hello", "world");
+	ft_printf("%3.3s%7.7sP\n", "hello", "world");
+	ft_printf("%7.3s%3.7sP\n", "hello", "world");
+	ft_printf("%3.3s%3.7sP\n", "hello", "world");
+	ft_printf("%7.7s%7.3sP\n", "hello", "world");
+	ft_printf("%3.7s%7.3sP\n", "hello", "world");
+	ft_printf("%7.7s%3.3sP\n", "hello", "world");
+	ft_printf("%3.7s%3.3sP\n", "hello", "world");
+}
+
+static void tests_francinette_02()
+{
+	//printf("%-sP\n", NULL);
+	printf("%23sP\n", NULL);
+	printf("%10sP\n", NULL);
+	printf("%pP\n", NULL);
+	printf("%sP\n", NULL);
+	printf("hello, %s.P\n", NULL);
+	printf("%sP\n", NULL);
+	printf("%32sP\n", NULL);
+	printf("%2sP\n", NULL);
+	printf("?????????\n");
+	printf("%-32sP\n", NULL);
+	printf("%-16sP\n", NULL);
+	printf("%-8sP\n", NULL);
+	printf("%-3sP\n", NULL);
+	printf("%.09sP\n", NULL);
+	printf("#########\n");
+	printf("%3.sP\n", NULL);
+	printf("%10.sP\n", NULL);
+	printf("%-3.sP\n", NULL);
+	printf("%-8.sP\n", NULL);
+	printf("%3.1sP\n", NULL);
+	printf("%9.1sP\n", NULL);
+	printf("%-3.1sP\n", NULL);
+	printf("%-9.1sP\n", NULL);
+	printf("$$$$$$$$$\n");
+	printf("%3.1sP\n", NULL);
+	printf("%3.2sP\n", NULL);
+	printf("%3.3sP\n", NULL);
+	printf("------------\n");
+	//ft_printf("%-s\n", NULL);
+	ft_printf("%23sP\n", NULL);
+	ft_printf("%10sP\n", NULL);
+	ft_printf("%pP\n", NULL);
+	ft_printf("%sP\n", NULL);
+	ft_printf("hello, %s.P\n", NULL);
+	ft_printf("%sP\n", NULL);
+	ft_printf("%32sP\n", NULL);
+	ft_printf("%2sP\n", NULL);
+	printf("?????????\n");
+	ft_printf("%-32sP\n", NULL);
+	ft_printf("%-16sP\n", NULL);
+	ft_printf("%-8sP\n", NULL);
+	ft_printf("%-3sP\n", NULL);
+	ft_printf("%.09sP\n", NULL);
+	printf("#########\n");
+	ft_printf("%3.sP\n", NULL);
+	ft_printf("%10.sP\n", NULL);
+	ft_printf("%-3.sP\n", NULL);
+	ft_printf("%-8.sP\n", NULL);
+	ft_printf("%3.1sP\n", NULL);
+	ft_printf("%9.1sP\n", NULL);
+	ft_printf("%-3.1sP\n", NULL);
+	ft_printf("%-9.1sP\n", NULL);
+	ft_printf("$$$$$$$$$\n");
+	ft_printf("%3.1sP\n", NULL);
+	ft_printf("%3.2sP\n", NULL);
+	ft_printf("%3.3sP\n", NULL);
+}
+
+static void tests_francinette_03()
+{
+	printf("%p\n", NULL);
+	printf("%3.6sP\n", NULL);
+	printf("%3.8sP\n", NULL);
+	printf("%3.20sP\n", NULL);
+	printf("%3.0sP\n", NULL);
+	printf("%8.0sP\n", NULL);
+	printf("%0.8sP\n", NULL);
+	printf("%20.6sP\n", NULL);
+
+	printf("&&&&&&&&&&&&&&\n");
+	printf("%-3.8s\n", NULL);
+	printf("%-10.8s\n", NULL);
+	printf("%.6i\n", -3);
+	printf("%10.5i\n", -216);
+	printf("%3.7i\n", -2375);
+	printf("%-8.5i\n", 34);
+	printf("%-10.5i\n", -216);
+	printf("%-8.5i\n", 0);
+	printf("%-8.3i\n", 8375);
+	printf("%-8.3i\n", -8473);
+	printf("%-3.7i\n", -2375);
+	printf("%08.5i\n", 34);
+	printf("%010.5i\n", -216);
+	printf("%08.5i\n", 0);
+	printf("%08.3i\n", 8375);
+	printf("%08.3i\n", -8473);
+	printf("%03.7i\n", -2375);
+
+	printf("--------------\n");
+
+	ft_printf("%p\n", NULL);
+	ft_printf("%3.6s\n", NULL);
+	ft_printf("%3.8sP\n", NULL);
+	ft_printf("%3.0sP\n", NULL);
+	ft_printf("%8.0sP\n", NULL);
+	ft_printf("%0.8sP\n", NULL);
+	ft_printf("%20.6sP\n", NULL);
+	printf("&&&&&&&&&&&&&&\n");
+	ft_printf("%-3.8s\n", NULL);
+	ft_printf("%-10.8s\n", NULL);
+	ft_printf("%.6i\n", -3);
+	ft_printf("%10.5i\n", -216);
+	ft_printf("%3.7i\n", -2375);
+	ft_printf("%-8.5i\n", 34);
+	ft_printf("%-10.5i\n", -216);
+	ft_printf("%-8.5i\n", 0);
+	ft_printf("%-8.3i\n", 8375);
+	ft_printf("%-8.3i\n", -8473);
+	ft_printf("%-3.7i\n", -2375);
+	ft_printf("%08.5i\n", 34);
+	ft_printf("%010.5i\n", -216);
+	ft_printf("%08.5i\n", 0);
+	ft_printf("%08.3i\n", 8375);
+	ft_printf("%08.3i\n", -8473);
+	ft_printf("%03.7i\n", -2375);
+}
+
 int main()
 {
-	tests_printf_int();
-	tests_printf_uint();
-	tests_printf_char();
-	tests_printf_string();
-	tests_printf_hex();
-	tests_printf_pointer();
-	tests_printf_mixed();
+	//tests_printf_int();
+	//tests_printf_uint();
+	//tests_printf_char();
+	//tests_printf_string();
+	//tests_printf_hex();
+	//tests_printf_pointer();
+	//tests_printf_mixed();
+	tests_francinette_02();
+	tests_francinette_03();
 	return (0);
 }

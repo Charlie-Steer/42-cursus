@@ -6,12 +6,12 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 18:53:10 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/19 20:36:58 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:19:47 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft/include/libft.h"
-//! TEST WITHOUT THESE. IN CASE NON FT FUNCTION USED.
+//! TEST WITHOUT THESE. IN CASE NON-FT FUNCTION USED.
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -49,3 +49,25 @@ int			int_add_prefix(char *print_str, char *n_str, t_conv_spec cs,
 int			hexa_add_prefix(char *print_str, t_conv_spec cs, int arg_len);
 char		*get_hex_base(int conv_specifier);
 int			pointer_add_prefix(char *print_str, t_conv_spec cs, int arg_len);
+
+
+// LIBFT FUNCTIONS
+
+int			ft_toupper(int c);
+void		ft_putchar_fd(char c, int fd);
+char		*ft_strchr(const char *s, int c);
+char		*ft_itoa(int n);
+void		ft_putstr_fd(char *s, int fd);
+void		*ft_memmove(void *dst, const void *src, size_t len);
+char		*ft_itoa_unsigned(unsigned int n);
+size_t		ft_strlen(const char *s);
+int			ft_max(int a, int b);
+void		*ft_memmove(void *dst, const void *src, size_t len);
+char		*ft_itoa_base(unsigned long n, char *base);
+int			ft_isdigit(int c);
+int			ft_memcmp(const void *s1, const void *s2, size_t n);
+int			ft_atoi(const char *str);
+int			ft_numlen(long num, int account_sign);
+int			ft_numlen_base_unsigned(unsigned long num, char *base);
+void		*ft_memcpy(void *dst, const void *src, size_t n);
+void		ft_bzero(void *s, size_t n);	//! UNUSED?
