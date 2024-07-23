@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/19 20:37:52 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:52:19 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	print_conv_spec(va_list args, t_conv_spec cs)
 	else if (c == 'x' || c == 'X')
 		print_len = print_hexadecimal(va_arg(args, unsigned int), cs);
 	else if (c == 'p')
-		print_len = print_pointer(va_arg(args, unsigned long), cs);
+		print_len = print_pointer(va_arg(args, void *), cs);
 	else if (c == '%')
 		ft_putchar_fd('%', 1);
 	return (print_len);

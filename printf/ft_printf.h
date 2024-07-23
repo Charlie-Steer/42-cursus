@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 18:53:10 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/22 18:19:47 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:05:44 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int			print_str(char *str, t_conv_spec cs);
 int			print_int(int n, t_conv_spec cs);
 int			print_unsigned_int(unsigned int n, t_conv_spec cs);
 int			print_hexadecimal(unsigned int n, t_conv_spec cs);
-int			print_pointer(unsigned long n, t_conv_spec cs);
+int			print_pointer(void *n, t_conv_spec cs);
 
 int			int_add_prefix(char *print_str, char *n_str, t_conv_spec cs,
 				int arg_len);

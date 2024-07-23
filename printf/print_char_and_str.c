@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:24:15 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/22 19:43:42 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:52:15 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,18 @@ static int calc_min_width_comp(int str_len, t_conv_spec cs, char *str)
 {
 	int min_width_comp;
 
+ 	//if (!str && cs.has_point && cs.min_width > cs.has_point)
+		//min_width_comp = cs.min_width; //! Sometimes "cs.min_width - cs.point_width" works out, sometimes not.
  	if (!str && cs.has_point)
-		min_width_comp = cs.min_width; //! Sometimes "cs.min_width - cs.point_width" works out, sometimes not.
+	{
+		if (!str && cs.has_point && cs.point_width < 6)
+			min_width_comp = cs.min_width;
+		else if (str_len > cs.point_width)
+			min_width_comp = cs.min_width - cs.point_width;
+		else
+			min_width_comp = cs.min_width - str_len;
+
+	}
 	else if (cs.has_point && cs.point_width < str_len)
 		min_width_comp = cs.min_width - cs.point_width;
 	else
@@ -60,7 +70,7 @@ static void print_point_str(char *str, int str_len, t_conv_spec cs)
 	{
 		if (str != NULL)
 			ft_putstr_fd(str, 1);
-		else
+		else if (!cs.has_point || (cs.has_point && cs.point_width >= 6))
 		{
 			write(1, "(null)", 6);
 		}
@@ -78,8 +88,6 @@ int	print_str(char *str, t_conv_spec cs)
 	else
 		str_len = 6;
 
-	//if (!str)
-		//str = "(null)";
 	if (cs.has_right_pad)
 	{
 		print_point_str(str, str_len, cs);

@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 15:43:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/22 15:34:46 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:52:42 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	add_arg(char *print_str, char *n_str, int arg_len)
 	return (offset);
 }
 
-int	print_pointer(unsigned long n, t_conv_spec cs)
+int	print_pointer(void *p, t_conv_spec cs)
 {
 	int		print_len;
 	char	*n_str;
@@ -76,7 +76,12 @@ int	print_pointer(unsigned long n, t_conv_spec cs)
 	char	*print_str;
 	char	*print_str_orig;
 
-	n_str = ft_itoa_base(n, "0123456789abcdef");
+	if (!p)
+	{
+		ft_putstr_fd("(nil)", 1); //? Error?
+		return (5);
+	}
+	n_str = ft_itoa_base((unsigned long)p, "0123456789abcdef");
 	arg_len = ft_strlen(n_str);
 	print_len = determine_cs_print_len(n_str, cs);
 	print_str = allocate_print_str(print_len);

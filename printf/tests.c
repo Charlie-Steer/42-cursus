@@ -856,6 +856,271 @@ static void tests_francinette_03()
 	ft_printf("%03.7i\n", -2375);
 }
 
+static void tests_francinette_04()
+{
+	print_title("ORIGINAL");
+	printf("%3.sP\n", NULL);
+	printf("%10.sP\n", NULL);
+	printf("%-3.sP\n", NULL);
+	printf("%-8.sP\n", NULL);
+	printf("%3.1sP\n", NULL);
+	printf("%9.1sP\n", NULL);
+	printf("%-3.1sP\n", NULL);
+	printf("%-9.1sP\n", NULL);
+
+	print_title("FT");
+	ft_printf("%3.sP\n", NULL);
+	ft_printf("%10.sP\n", NULL);
+	ft_printf("%-3.sP\n", NULL);
+	ft_printf("%-8.sP\n", NULL);
+	ft_printf("%3.1sP\n", NULL);
+	ft_printf("%9.1sP\n", NULL);
+	ft_printf("%-3.1sP\n", NULL);
+	ft_printf("%-9.1sP\n", NULL);
+
+	print_title("1 ------------- 1");
+
+	print_title("ORIGINAL");
+	printf("%3.6sP\n", NULL);
+	printf("%3.8sP\n", NULL);
+	printf("%3.20sP\n", NULL);
+	printf("%3.0sP\n", NULL);
+	printf("%8.0sP\n", NULL);
+	printf("%0.8sP\n", NULL);
+	printf("%20.6sP\n", NULL);
+
+	print_title("FT");
+	ft_printf("%3.6sP\n", NULL);
+	ft_printf("%3.8sP\n", NULL);
+	ft_printf("%3.20sP\n", NULL);
+	ft_printf("%3.0sP\n", NULL);
+	ft_printf("%8.0sP\n", NULL);
+	ft_printf("%0.8sP\n", NULL);
+	ft_printf("%20.6sP\n", NULL);
+
+	print_title("CUSTOM");
+
+	printf("%3.6sP\n", NULL);
+	printf("%6.6sP\n", NULL);
+	printf("%3.3sP\n", NULL);
+	printf("%4.3sP\n", NULL);
+	printf("%3.4sP\n", NULL);
+}
+
+tests_francinette_pointers_01()
+{
+	print_title("ORIGINAL");
+	printf("%p\n", NULL);
+
+	print_title("FT");
+	ft_printf("%p\n", NULL);
+}
+
+tests_francinette_ints_01()
+{
+	print_title("ORIGINAL");
+	printf("%.6i\n", -3);
+	printf("%10.5i\n", -216);
+	printf("%3.7i\n", -2375);
+	printf("%-8.5iP\n", 34);
+	printf("%-10.5iP\n", -216);
+	printf("%-8.5iP\n", 0);
+	printf("%-8.3iP\n", 8375);
+	printf("%-8.3iP\n", -8473);
+	printf("%-3.7iP\n", -2375);
+	printf("%08.5i\n", 34);
+	printf("%010.5i\n", -216);
+	printf("%08.5i\n", 0);
+	printf("%08.3i\n", 8375);
+	printf("%08.3i\n", -8473);
+	printf("%03.7i\n", -2375);
+	printf("%.0iP\n", 0);
+	printf("%.iP\n", 0);
+	printf("%5.0iP\n", 0);
+	printf("%5.iP\n", 0);
+
+	print_title("FT");
+	ft_printf("%.6i\n", -3);
+	ft_printf("%10.5i\n", -216);
+	ft_printf("%3.7i\n", -2375);
+	ft_printf("%-8.5iP\n", 34);
+	ft_printf("%-10.5iP\n", -216);
+	ft_printf("%-8.5iP\n", 0);
+	ft_printf("%-8.3iP\n", 8375);
+	ft_printf("%-8.3iP\n", -8473);
+	ft_printf("%-3.7iP\n", -2375);
+	ft_printf("%08.5i\n", 34);
+	ft_printf("%010.5i\n", -216);
+	ft_printf("%08.5i\n", 0);
+	ft_printf("%08.3i\n", 8375);
+	ft_printf("%08.3i\n", -8473);
+	ft_printf("%03.7i\n", -2375);
+	ft_printf("%.0iP\n", 0);
+	ft_printf("%.iP\n", 0);
+	ft_printf("%5.0iP\n", 0);
+	ft_printf("%5.iP\n", 0);
+}
+
+tests_francinette_ints_02()
+{
+	print_title("ORIGINAL");
+	printf("%-10.5iP\n", 216);
+	printf("%-10.5iP\n", -216);
+	printf("%-8.3iP\n", -8473);
+	print_title("FT");
+	ft_printf("%-10.5iP\n", -216);
+	ft_printf("%-8.3iP\n", -8473);
+}
+
+static void tests_francinette_ints_03()
+{
+	print_title("ORIGINAL");
+	printf("%08.5i\n", 34);
+	printf("%010.5i\n", -216);
+	printf("%08.5i\n", 0);
+	printf("%08.3i\n", 8375);
+	printf("%08.3i\n", -8473);
+	printf("%03.7i\n", -2375);
+	print_title("FT");
+	ft_printf("%08.5i\n", 34);
+	ft_printf("%010.5i\n", -216);
+	ft_printf("%08.5i\n", 0);
+	ft_printf("%08.3i\n", 8375);
+	ft_printf("%08.3i\n", -8473);
+	ft_printf("%03.7i\n", -2375);
+}
+
+static void tests_francinette_ints_04()
+{
+	print_title("ORIGINAL");
+	printf("%.0iP\n", 0);
+	printf("%.iP\n", 0);
+	printf("%5.0iP\n", 0);
+	printf("%5.iP\n", 0);
+	print_title("--------");
+	printf("%.0iP\n", 5);
+	printf("%.iP\n", 5);
+	printf("%5.0iP\n", 5);
+	printf("%5.iP\n", 5);
+	print_title("FT");
+	ft_printf("%.0iP\n", 0);
+	ft_printf("%.iP\n", 0); //! FAILS!!!!
+	ft_printf("%5.0iP\n", 0);
+	ft_printf("%5.iP\n", 0);
+	print_title("--------");
+	ft_printf("%.0iP\n", 5);
+	ft_printf("%.iP\n", 5);
+	ft_printf("%5.0iP\n", 5);
+	ft_printf("%5.iP\n", 5);
+	//print_title("ORIGINAL EXTRA");
+	//printf("%.0iP\n", 0);
+	//printf("%.0iP\n", 7);
+	//printf("%.1iP\n", 0);
+	//printf("%.5iP\n", 0);
+	//print_title("--------");
+	//printf("%.iP\n", 0);
+	//printf("%5.0iP\n", 0);
+	//printf("%5.iP\n", 0);
+}
+
+static void tests_francinette_ints_05()
+{
+	print_title("ORIGINAL");
+	printf("this %i number\n", 0);
+	printf("%i\n", 0);
+	printf("this %d number\n", 0);
+	printf("%3i\n", 0);
+	printf("%-3i\n", 0);
+	printf("%.3i\n", 0);
+	printf("%03i\n", 0);
+	printf("%8.5i\n", 0);
+	printf("%-8.5i\n", 0);
+	printf("%08.5i\n", 0);
+	printf("%5.0i\n", 0);
+	printf("%5.i\n", 0);
+	printf("%-5.0i\n", 0);
+	printf("%-5.i\n", 0);
+	printf("%d\n", 0);
+	printf("%3d\n", 0);
+	printf("%-3d\n", 0);
+	printf("%.3d\n", 0);
+	printf("%03d\n", 0);
+	printf("%8.5d\n", 0);
+	print_title("FT");
+	ft_printf("this %i number\n", 0);
+	ft_printf("%i\n", 0);
+	ft_printf("this %d number\n", 0);
+	ft_printf("%3i\n", 0);
+	ft_printf("%-3i\n", 0);
+	ft_printf("%.3i\n", 0);
+	ft_printf("%03i\n", 0);
+	ft_printf("%8.5i\n", 0);
+	ft_printf("%-8.5i\n", 0);
+	ft_printf("%08.5i\n", 0);
+	ft_printf("%5.0i\n", 0);
+	ft_printf("%5.i\n", 0);
+	ft_printf("%-5.0i\n", 0);
+	ft_printf("%-5.i\n", 0);
+	ft_printf("%d\n", 0);
+	ft_printf("%3d\n", 0);
+	ft_printf("%-3d\n", 0);
+	ft_printf("%.3d\n", 0);
+	ft_printf("%03d\n", 0);
+	ft_printf("%8.5d\n", 0);
+}
+
+static void tests_francinette_ints_06()
+{
+	print_title("ORIGINAL");
+	printf("%5.0iP\n", 0);
+	printf("%5.iP\n", 0);
+	printf("%-5.0iP\n", 0);
+	printf("%-5.iP\n", 0);
+	printf("%5.0dP\n", 0);
+	printf("%5.dP\n", 0);
+	printf("%-5.0dP\n", 0);
+	printf("%-5.dP\n", 0);
+	print_title("FT");
+	ft_printf("%5.0iP\n", 0);
+	ft_printf("%5.iP\n", 0);
+	ft_printf("%-5.0iP\n", 0);
+	ft_printf("%-5.iP\n", 0);
+	ft_printf("%5.0dP\n", 0);
+	ft_printf("%5.dP\n", 0);
+	ft_printf("%-5.0dP\n", 0);
+	ft_printf("%-5.dP\n", 0);
+}
+
+static void tests_francinette_uints_01()
+{
+	print_title("ORIGINAL");
+	//printf("%-8.5uP\n", 34);
+	//printf("%-8.5uP\n", 0);
+	//printf("%-8.3uP\n", 8375);
+	printf("%08.5uP\n", 34);
+	printf("%08.5uP\n", 0);
+	printf("%08.3uP\n", 8375);
+	printf("%.0uP\n", 0);
+	printf("%.uP\n", 0);
+	printf("%5.0uP\n", 0);
+	printf("%5.uP\n", 0);
+	printf("%-5.0uP\n", 0);
+	printf("%-5.uP\n", 0);
+	print_title("FT");
+	//ft_printf("%-8.5uP\n", 34);
+	//ft_printf("%-8.5uP\n", 0);
+	//ft_printf("%-8.3uP\n", 8375);
+	ft_printf("%08.5uP\n", 34);
+	ft_printf("%08.5uP\n", 0);
+	ft_printf("%08.3uP\n", 8375);
+	ft_printf("%.0uP\n", 0);
+	ft_printf("%.uP\n", 0);
+	ft_printf("%5.0uP\n", 0);
+	ft_printf("%5.uP\n", 0);
+	ft_printf("%-5.0uP\n", 0);
+	ft_printf("%-5.uP\n", 0);
+}
+
 int main()
 {
 	//tests_printf_int();
@@ -865,7 +1130,7 @@ int main()
 	//tests_printf_hex();
 	//tests_printf_pointer();
 	//tests_printf_mixed();
-	tests_francinette_02();
-	tests_francinette_03();
+	//tests_francinette_pointers_01();
+	tests_francinette_uints_01();
 	return (0);
 }
