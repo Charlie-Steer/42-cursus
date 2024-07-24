@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:39:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/23 19:20:51 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:22:37 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	hexa_add_hex(char *print_str, t_conv_spec cs)
 	return (offset);
 }
 
-static int	add_min_width(char *print_str, t_conv_spec cs, int arg_len)
+static int	add_min_width(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
 {
 	int		offset;
 	char	pad_char;
@@ -41,12 +41,15 @@ static int	add_min_width(char *print_str, t_conv_spec cs, int arg_len)
 
 	offset = 0;
 	pad_char = ' ';
-	min_width_comp = ft_max(arg_len, cs.point_width);
+	if (cs.has_point && cs.point_width == 0 && n_str[0] == '0')
+		min_width_comp = 0;
+	else
+		min_width_comp = ft_max(arg_len, cs.point_width);
 	if (cs.has_alternate)
 		min_width_comp += 2;
 	if (cs.min_width > min_width_comp && !cs.has_right_pad)
 	{
-		if (cs.has_zero_pad)
+		if (cs.has_zero_pad && !cs.has_point)
 			pad_char = '0';
 		while (cs.min_width > min_width_comp++)
 		{
@@ -58,7 +61,7 @@ static int	add_min_width(char *print_str, t_conv_spec cs, int arg_len)
 	return (offset);
 }
 
-int	hexa_add_prefix(char *print_str, t_conv_spec cs, int arg_len)
+int	hexa_add_prefix(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
 {
 	int	offset;
 	int	temp_offset;
@@ -70,12 +73,12 @@ int	hexa_add_prefix(char *print_str, t_conv_spec cs, int arg_len)
 		temp_offset = hexa_add_hex(print_str, cs);
 		print_str += temp_offset;
 		offset += temp_offset;
-		temp_offset = add_min_width(print_str, cs, arg_len);
+		temp_offset = add_min_width(print_str, cs, n_str, arg_len);
 		offset += temp_offset;
 	}
 	else
 	{
-		temp_offset = add_min_width(print_str, cs, arg_len);
+		temp_offset = add_min_width(print_str, cs, n_str, arg_len);
 		print_str += temp_offset;
 		offset += temp_offset;
 		temp_offset = hexa_add_hex(print_str, cs);

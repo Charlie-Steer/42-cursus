@@ -12,7 +12,8 @@ SOURCES = ft_printf.c print_int.c print_unsigned_int.c print_char_and_str.c \
 		  libft_funcs/ft_itoa_base.c libft_funcs/ft_isdigit.c \
 		  libft_funcs/ft_memcmp.c libft_funcs/ft_atoi.c \
 		  libft_funcs/ft_numlen.c libft_funcs/ft_numlen_base_unsigned.c \
-		  libft_funcs/ft_memcpy.c libft_funcs/ft_bzero.c
+		  libft_funcs/ft_memcpy.c libft_funcs/ft_bzero.c \
+		  libft_funcs/ft_strncmp.c
 
 BSOURCES =
 OBJECTS = $(SOURCES:.c=.o)
@@ -34,6 +35,7 @@ DEV_EXTENSION = .dev
 DEV_EXENAME = $(EXENAME)$(DEV_EXTENSION)
 DEV_CFLAGS = -Wno-unused-variable \
 	-Wno-unused-parameter  -Wno-unused-function \
+	-g -fsanitize=address
 	#-Wno-unused-but-set-variable
 
 HEADERS = -I .
