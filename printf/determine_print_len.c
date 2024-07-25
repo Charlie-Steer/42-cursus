@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   determine_print_len.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:26:56 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/12 21:11:58 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:31:19 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	get_print_len_d(t_conv_spec cs, int print_len, char *n_str)
 	if (cs.point_width > print_len)
 	{
 		print_len = cs.point_width;
-		if ((cs.has_blank || cs.has_sign) && n_str[0] != '-')
+		if ((cs.has_blank || cs.has_sign) || n_str[0] == '-')
 			print_len += 1;
 	}
 	if (cs.min_width > print_len)
@@ -66,7 +66,7 @@ int	determine_cs_print_len(char *n_str, t_conv_spec cs)
 
 	arg_len = ft_strlen(n_str);
 	print_len = arg_len;
-	if (cs.conv_specifier == 'd')
+	if (cs.conv_specifier == 'd' || cs.conv_specifier == 'i')
 		print_len = get_print_len_d(cs, print_len, n_str);
 	else if (cs.conv_specifier == 'u')
 		print_len = get_print_len_u(cs, print_len);
