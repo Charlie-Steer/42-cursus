@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:28:34 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/25 19:01:46 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:43:32 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,40 @@ static int	int_add_min_width(
 	return (offset);
 }
 
+static int	int_add_prefix_has_point(char *print_str, char *n_str,
+				t_conv_spec cs, int arg_len)
+{
+	int	offset;
+	int	temp_offset;
+
+	offset = 0;
+	temp_offset = 0;
+	temp_offset = int_add_min_width(print_str, n_str, cs, arg_len);
+	print_str += temp_offset;
+	offset += temp_offset;
+	temp_offset = int_add_blank_or_sign(print_str, n_str, cs);
+	print_str += temp_offset;
+	offset += temp_offset;
+	return (offset);
+}
+
+static int	int_add_prefix_not_has_point(char *print_str, char *n_str,
+				t_conv_spec cs, int arg_len)
+{
+	int	offset;
+	int	temp_offset;
+
+	offset = 0;
+	temp_offset = 0;
+	temp_offset = int_add_blank_or_sign(print_str, n_str, cs);
+	print_str += temp_offset;
+	offset += temp_offset;
+	temp_offset = int_add_min_width(print_str, n_str, cs, arg_len);
+	print_str += temp_offset;
+	offset += temp_offset;
+	return (offset);
+}
+
 int	int_add_prefix(char *print_str, char *n_str, t_conv_spec cs,
 						int arg_len)
 {
@@ -74,23 +108,11 @@ int	int_add_prefix(char *print_str, char *n_str, t_conv_spec cs,
 	if (cs.has_zero_pad)
 	{
 		if (cs.has_point)
-		{
-			temp_offset = int_add_min_width(print_str, n_str, cs, arg_len);
-			print_str += temp_offset;
-			offset += temp_offset;
-			temp_offset = int_add_blank_or_sign(print_str, n_str, cs);
-			print_str += temp_offset;
-			offset += temp_offset;
-		}
+			offset += int_add_prefix_has_point(print_str, n_str, cs, arg_len);
 		else
-		{
-			temp_offset = int_add_blank_or_sign(print_str, n_str, cs);
-			print_str += temp_offset;
-			offset += temp_offset;
-			temp_offset = int_add_min_width(print_str, n_str, cs, arg_len);
-			print_str += temp_offset;
-			offset += temp_offset;
-		}
+			offset += int_add_prefix_not_has_point(print_str, n_str, cs,
+					arg_len);
+		print_str += offset;
 	}
 	else
 	{

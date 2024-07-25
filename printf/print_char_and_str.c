@@ -6,13 +6,12 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:24:15 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/25 19:07:35 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:31:31 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-//! TEST IF ANY FLAGS INTERACT WITH EACH TYPE
 int	print_char(int c, t_conv_spec cs)
 {
 	int	offset;
@@ -74,16 +73,24 @@ static void	print_point_str(char *str, int str_len, t_conv_spec cs)
 	}
 }
 
+static int	get_strlen(char *str)
+{
+	int	str_len;
+
+	if (str)
+		str_len = ft_strlen(str);
+	else
+		str_len = 6;
+	return (str_len);
+}
+
 int	print_str(char *str, t_conv_spec cs)
 {
 	int	offset;
 	int	str_len;
 
 	offset = 0;
-	if (str)
-		str_len = ft_strlen(str);
-	else
-		str_len = 6;
+	str_len = get_strlen(str);
 	if (cs.has_right_pad)
 	{
 		print_point_str(str, str_len, cs);
