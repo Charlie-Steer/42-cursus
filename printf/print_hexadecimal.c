@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 19:26:51 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/24 17:23:41 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:03:44 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static int	add_arg(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
 	return (offset);
 }
 
-static int	add_right_pad(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
+static int	add_right_pad(char *print_str, t_conv_spec cs, char *n_str,
+				int arg_len)
 {
 	int	offset;
 	int	right_pad_comp;

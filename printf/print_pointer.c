@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 15:43:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/24 18:00:16 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:59:56 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static char	*allocate_print_str(int print_len)
 	return (print_str);
 }
 
-static int	add_right_pad(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
+static int	add_right_pad(char *print_str, t_conv_spec cs, char *n_str,
+				int arg_len)
 {
 	int	offset;
 	int	right_pad_comp;
@@ -78,15 +79,10 @@ int	print_pointer(void *p, t_conv_spec cs)
 	char	*print_str;
 	char	*print_str_orig;
 
-	//if (!p)
-	//{
-		//ft_putstr_fd("(nil)", 1); //? Error?
-		//return (5);
-	//}
 	if (!p)
 	{
 		n_str = malloc(6);
-		memcpy(n_str, "(nil)", 6);
+		ft_memcpy(n_str, "(nil)", 6);
 	}
 	else
 		n_str = ft_itoa_base((unsigned long)p, "0123456789abcdef");

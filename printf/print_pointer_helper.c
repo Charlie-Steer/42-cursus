@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:43:45 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/24 17:59:13 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:02:47 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static int	add_hex(char *print_str, char *n_str)
 	return (offset);
 }
 
-static int	add_min_width(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
+static int	add_min_width(char *print_str, t_conv_spec cs, char *n_str,
+				int arg_len)
 {
 	int		offset;
 	char	pad_char;
@@ -73,7 +74,8 @@ static int	add_min_width(char *print_str, t_conv_spec cs, char *n_str, int arg_l
 	return (offset);
 }
 
-int	pointer_add_prefix(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
+int	pointer_add_prefix(char *print_str, t_conv_spec cs, char *n_str,
+		int arg_len)
 {
 	int	offset;
 	int	temp_offset;

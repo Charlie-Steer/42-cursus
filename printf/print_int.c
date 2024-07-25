@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:06:04 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/23 19:11:35 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:04:35 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static int	add_arg(char *print_str, char *n_str, t_conv_spec cs, int arg_len)
 	}
 }
 
-static int	add_right_pad(char *print_str, char *n_str, t_conv_spec cs, int arg_len)
+static int	add_right_pad(char *print_str, char *n_str, t_conv_spec cs,
+				int arg_len)
 {
 	int	offset;
 	int	right_pad_comp;
@@ -61,7 +62,8 @@ static int	add_right_pad(char *print_str, char *n_str, t_conv_spec cs, int arg_l
 	offset = 0;
 	if (cs.has_point && cs.point_width == 0 && n_str[0] == '0')
 		arg_len -= 1;
-	right_pad_comp = ft_max(cs.point_width, arg_len) + (cs.has_sign || cs.has_blank);
+	right_pad_comp = ft_max(cs.point_width, arg_len)
+		+ (cs.has_sign || cs.has_blank);
 	if (cs.point_width >= arg_len && n_str[0] == '-')
 		right_pad_comp++;
 	if (cs.has_right_pad)

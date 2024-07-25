@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:24:15 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/23 14:52:15 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:07:35 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,11 @@ int	print_char(int c, t_conv_spec cs)
 	return (1);
 }
 
-static int calc_min_width_comp(int str_len, t_conv_spec cs, char *str)
+static int	calc_min_width_comp(int str_len, t_conv_spec cs, char *str)
 {
-	int min_width_comp;
+	int	min_width_comp;
 
- 	//if (!str && cs.has_point && cs.min_width > cs.has_point)
-		//min_width_comp = cs.min_width; //! Sometimes "cs.min_width - cs.point_width" works out, sometimes not.
- 	if (!str && cs.has_point)
+	if (!str && cs.has_point)
 	{
 		if (!str && cs.has_point && cs.point_width < 6)
 			min_width_comp = cs.min_width;
@@ -53,7 +51,6 @@ static int calc_min_width_comp(int str_len, t_conv_spec cs, char *str)
 			min_width_comp = cs.min_width - cs.point_width;
 		else
 			min_width_comp = cs.min_width - str_len;
-
 	}
 	else if (cs.has_point && cs.point_width < str_len)
 		min_width_comp = cs.min_width - cs.point_width;
@@ -62,7 +59,7 @@ static int calc_min_width_comp(int str_len, t_conv_spec cs, char *str)
 	return (min_width_comp);
 }
 
-static void print_point_str(char *str, int str_len, t_conv_spec cs)
+static void	print_point_str(char *str, int str_len, t_conv_spec cs)
 {
 	if (cs.has_point && cs.point_width < str_len)
 		write(1, str, cs.point_width);
@@ -87,7 +84,6 @@ int	print_str(char *str, t_conv_spec cs)
 		str_len = ft_strlen(str);
 	else
 		str_len = 6;
-
 	if (cs.has_right_pad)
 	{
 		print_point_str(str, str_len, cs);

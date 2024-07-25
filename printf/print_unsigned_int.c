@@ -6,13 +6,14 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:06:04 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/23 19:29:51 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:55:10 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	add_min_width(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
+static int	add_min_width(char *print_str, t_conv_spec cs, char *n_str,
+	int arg_len)
 {
 	int		offset;
 	char	pad_char;
@@ -69,7 +70,8 @@ static int	add_arg(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
 	}
 }
 
-static int	add_right_pad(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
+static int	add_right_pad(char *print_str, t_conv_spec cs, char *n_str,
+	int arg_len)
 {
 	int	offset;
 	int	right_pad_comp;

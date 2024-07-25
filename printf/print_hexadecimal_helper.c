@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:39:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/24 17:22:37 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:00:39 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static int	hexa_add_hex(char *print_str, t_conv_spec cs)
 	return (offset);
 }
 
-static int	add_min_width(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
+static int	add_min_width(char *print_str, t_conv_spec cs, char *n_str,
+				int arg_len)
 {
 	int		offset;
 	char	pad_char;

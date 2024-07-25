@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:28:34 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/23 19:10:07 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:01:46 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int	int_add_prefix(char *print_str, char *n_str, t_conv_spec cs,
 			temp_offset = int_add_min_width(print_str, n_str, cs, arg_len);
 			print_str += temp_offset;
 			offset += temp_offset;
-
 		}
 	}
 	else

@@ -6,12 +6,12 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 18:53:10 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/24 17:51:42 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:57:04 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libft/include/libft.h"
 //! TEST WITHOUT THESE. IN CASE NON-FT FUNCTION USED.
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -46,13 +46,13 @@ int			print_pointer(void *n, t_conv_spec cs);
 
 int			int_add_prefix(char *print_str, char *n_str, t_conv_spec cs,
 				int arg_len);
-int			hexa_add_prefix(char *print_str, t_conv_spec cs, char *n_str, int arg_len);
+int			hexa_add_prefix(char *print_str, t_conv_spec cs, char *n_str,
+				int arg_len);
 char		*get_hex_base(int conv_specifier);
-int			pointer_add_prefix(char *print_str, t_conv_spec cs, char *n_str, int arg_len);
-
+int			pointer_add_prefix(char *print_str, t_conv_spec cs, char *n_str,
+				int arg_len);
 
 // LIBFT FUNCTIONS
-
 int			ft_toupper(int c);
 void		ft_putchar_fd(char c, int fd);
 char		*ft_strchr(const char *s, int c);
