@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/07/25 19:55:20 by cargonz2          #+#    #+#              #
+#    Updated: 2024/07/25 19:55:23 by cargonz2         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 CC = clang
 CFLAGS = -Wall -Wextra -Werror
 SOURCES = ft_printf.c print_int.c print_unsigned_int.c print_char_and_str.c \
@@ -33,10 +45,8 @@ MAIN = tests.c
 EXENAME = $(PROJECT_FULL_NAME).test
 DEV_EXTENSION = .dev
 DEV_EXENAME = $(EXENAME)$(DEV_EXTENSION)
-DEV_CFLAGS = -Wno-unused-variable \
-	-Wno-unused-parameter  -Wno-unused-function \
-	-g #-fsanitize=address
-	#-Wno-unused-but-set-variable
+DEV_CFLAGS = -Wno-unused-variable -Wno-unused-parameter  -Wno-unused-function \
+	-g
 
 HEADERS = -I .
 
