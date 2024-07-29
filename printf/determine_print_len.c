@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:26:56 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/25 16:31:19 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/07/29 21:22:59 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ static int	get_print_len_x(t_conv_spec cs, int print_len)
 	return (print_len);
 }
 
-static int	get_print_len_p(t_conv_spec cs, int print_len)
+static int	get_print_len_p(t_conv_spec cs, int print_len, char *n_str)
 {
+	if (!ft_strncmp("(nil)", n_str, 6))
+		return (print_len);
 	if (cs.point_width > print_len)
 		print_len = cs.point_width;
 	print_len += 2;
@@ -73,6 +75,6 @@ int	determine_cs_print_len(char *n_str, t_conv_spec cs)
 	else if (cs.conv_specifier == 'x' || cs.conv_specifier == 'X')
 		print_len = get_print_len_x(cs, print_len);
 	else if (cs.conv_specifier == 'p')
-		print_len = get_print_len_p(cs, print_len);
+		print_len = get_print_len_p(cs, print_len, n_str);
 	return (print_len);
 }
