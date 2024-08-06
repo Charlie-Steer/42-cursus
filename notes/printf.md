@@ -56,3 +56,9 @@ Error if insufficient arguments provided.
 
 - function starts with "ft_".
 - Rules to compile BONUS added. Make sure that it doesn't compile bonus and add it to the library outright!!!!
+
+# Known Bugs
+~~- %\% doesn't add 1 to the return val.
+- write() return codes not implemented.
+~~- Padding, whether left or right doesn't contribute to return value.
+- (nil) behavior (at least in pointers) not always correct compared to original function.

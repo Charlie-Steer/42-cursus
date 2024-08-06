@@ -688,8 +688,9 @@ void tests_printf_mixed()
 		'g', "Charlie", 42, -42, -1, 365, 14649, p);
 }
 
-void tests_francinette_01()
+void tests_francinette_strings_01()
 {
+	print_title("STRINGS 01");
 	test_printf_string("%-s", NULL);
 	test_printf_string("%23s", NULL);
 	test_printf_pointer("%p", NULL);
@@ -706,8 +707,9 @@ void tests_francinette_01()
 	test_printf_string("%7.7sP", "world");
 }
 
-static void tests_francinette_02()
+static void tests_francinette_mixed_01()
 {
+	print_title("MIXED 01");
 	test_printf_string("%-sP", NULL);
 	test_printf_string("%23sP", NULL);
 	test_printf_string("%10sP", NULL);
@@ -735,8 +737,9 @@ static void tests_francinette_02()
 	test_printf_string("%3.3sP", NULL);
 }
 
-static void tests_francinette_03()
+static void tests_francinette_mixed_02()
 {
+	print_title("MIXED 02");
 	test_printf_string("%p", NULL);
 	test_printf_string("%3.6sP", NULL);
 	test_printf_string("%3.8sP", NULL);
@@ -764,8 +767,9 @@ static void tests_francinette_03()
 	test_printf_int("%03.7i", -2375);
 }
 
-static void tests_francinette_04()
+static void tests_francinette_strings_02()
 {
+	print_title("STRINGS 02");
 	test_printf_string("%3.sP", NULL);
 	test_printf_string("%10.sP", NULL);
 	test_printf_string("%-3.sP", NULL);
@@ -790,6 +794,7 @@ static void tests_francinette_04()
 
 static void tests_francinette_ints_01()
 {
+	print_title("INTS 01");
 	test_printf_int("%.6i", -3);
 	test_printf_int("%10.5i", -216);
 	test_printf_int("%3.7i", -2375);
@@ -813,6 +818,7 @@ static void tests_francinette_ints_01()
 
 static void tests_francinette_ints_02()
 {
+	print_title("INTS 02");
 	test_printf_int("%-10.5iP", 216);
 	test_printf_int("%-10.5iP", -216);
 	test_printf_int("%-8.3iP", -8473);
@@ -820,6 +826,7 @@ static void tests_francinette_ints_02()
 
 static void tests_francinette_ints_03()
 {
+	print_title("INTS 03");
 	test_printf_int("%08.5i", 34);
 	test_printf_int("%010.5i", -216);
 	test_printf_int("%08.5i", 0);
@@ -830,6 +837,7 @@ static void tests_francinette_ints_03()
 
 static void tests_francinette_ints_04()
 {
+	print_title("INTS 04");
 	test_printf_int("%.0iP", 0);
 	test_printf_int("%.iP", 0);
 	test_printf_int("%5.0iP", 0);
@@ -849,6 +857,7 @@ static void tests_francinette_ints_04()
 
 static void tests_francinette_ints_05()
 {
+	print_title("INTS 05");
 	test_printf_int("this %i number", 0);
 	test_printf_int("%i", 0);
 	test_printf_int("this %d number", 0);
@@ -873,6 +882,7 @@ static void tests_francinette_ints_05()
 
 static void tests_francinette_ints_06()
 {
+	print_title("INTS 06");
 	test_printf_int("%5.0iP", 0);
 	test_printf_int("%5.iP", 0);
 	test_printf_int("%-5.0iP", 0);
@@ -885,6 +895,7 @@ static void tests_francinette_ints_06()
 
 static void tests_francinette_uints_01()
 {
+	print_title("UNSIGNED 01");
 	test_printf_unsigned("%-8.5uP", 34);
 	test_printf_unsigned("%-8.5uP", 0);
 	test_printf_unsigned("%-8.3uP", 8375);
@@ -901,6 +912,7 @@ static void tests_francinette_uints_01()
 
 static void tests_francinette_hex_01()
 {
+	print_title("HEX 01");
 	test_printf_hex("%-8.5xP", 34);
 	test_printf_hex("%-8.5xP", 0);
 	test_printf_hex("%-8.3xP", 8375);
@@ -925,6 +937,7 @@ static void tests_francinette_hex_01()
 
 static void tests_francinette_hex_02()
 {
+	print_title("HEX 02");
 	test_printf_hex("%5.0xP", 0);
 	test_printf_hex("%5.xP", 0);
 	test_printf_hex("%-5.0xP", 0);
@@ -941,6 +954,7 @@ static void tests_francinette_hex_02()
 
 static void tests_francinette_pointers_01()
 {
+	print_title("POINTERS 01");
 	test_printf_pointer("%p", NULL);
 	test_printf_pointer("%15pP", NULL);
 	test_printf_pointer("%-15pP", NULL);
@@ -992,7 +1006,7 @@ static void tests_francinette_mix_01()
 	//ft_printf("%057.155dP\n" ,-1801054431);
 }
 
-tests_printf_correction_01()
+static void tests_printf_correction_01()
 {
 	int n;
 	void *p = &n;
@@ -1008,31 +1022,219 @@ tests_printf_correction_01()
 	test_printf_hex("%X", NULL);
 }
 
+static void tests_eval_01()
+{
+	print_title("TESTS EVAL 01");
+	void *p;
+	test_printf_char("%c", 'H');
+	test_printf_string("%s", "hello world");
+	test_printf_pointer("%p", p);
+	test_printf_int("%i", 42);
+	test_printf_int("%d", -42);
+	test_printf_unsigned("%u", -42);
+	test_printf_hex("%x", 4251);
+	test_printf_hex("%X", 4251);
+	printf("\nprintf	|%%\n");
+	ft_printf("ft	|%%\n");
+	printf("\nreturns |%d, %d\n", printf("%%\n"), ft_printf("%%\n"));
+}
+
+static void tests_eval_02()
+{
+	print_title("TESTS EVAL 02");
+	void *p;
+	test_printf_char("%c", NULL);
+	test_printf_string("%s", NULL);
+	test_printf_pointer("%p", NULL);
+	test_printf_int("%i", NULL);
+	test_printf_int("%d", NULL);
+	test_printf_unsigned("%u", NULL);
+	test_printf_hex("%x", NULL);
+	test_printf_hex("%X", NULL);
+}
+
+static void tests_eval_03()
+{
+	print_title("TESTS EVAL 03");
+	void *p;
+	test_printf_string("%s", "");
+	test_printf_int("%i", -2147483648);
+	test_printf_int("%d", 2147483647);
+	test_printf_int("%d", 2147483648u);
+	test_printf_unsigned("%u", 0);
+	test_printf_unsigned("%u", 4294967295u);
+	test_printf_hex("%x", 0);
+	test_printf_hex("%X", 4294967295u);
+	test_printf_hex("%X", 4294967296lu);
+}
+
+static void tests_eval_04()
+{
+	print_title("TESTS EVAL 04");
+	void *p;
+
+	printf("returns	|%d, %d\n",
+		   printf("\n\nc: %12cP\ns: %12sP\nd: %12dP\ni: %12iP\nu: %12uP\nx: %#12xP\nX: %#12XP\np: %12pP\n%12%: %%P\n", 'g', "Charlie", 42, -42, -1, 365, 14649, p),
+		ft_printf("\n\nc: %12cP\ns: %12sP\nd: %12dP\ni: %12iP\nu: %12uP\nx: %#12xP\nX: %#12XP\np: %12pP\n%12%: %%P\n", 'g', "Charlie", 42, -42, -1, 365, 14649, p));
+	printf("returns	|%d, %d\n",
+		   printf("\n\nc: %-12cP\ns: %-12sP\nd: %-12dP\ni: %-12iP\nu: %-12uP\nx: %-#12xP\nX: %-#12XP\np: %-12pP\n%%: %-12%P\n", 'g', "Charlie", 42, -42, -1, 365, 14649, p),
+		ft_printf("\n\nc: %-12cP\ns: %-12sP\nd: %-12dP\ni: %-12iP\nu: %-12uP\nx: %-#12xP\nX: %-#12XP\np: %-12pP\n%%: %-12%P\n", 'g', "Charlie", 42, -42, -1, 365, 14649, p));
+}
+
+static void tests_eval_05()
+{
+	print_title("TESTS EVAL 05");
+	void *p;
+
+	printf("returns |%d, %d\n\n", printf("%c, %c, %c\n", 'H', 'H', 'H'), ft_printf("%c, %c, %c\n", 'H', 'H', 'H'));
+
+	printf("returns |%d, %d\n\n", printf("%s, %s, %s\n", "hello world", "hello world", "hello world"), ft_printf("%s, %s, %s\n", "hello world", "hello world", "hello world"));
+
+	printf("returns	|%d, %d\n\n", printf("%p, %p, %p\n", p, p, p), ft_printf("%p, %p, %p\n", p, p, p));
+
+	printf("returns	|%d, %d\n\n", printf("%i, %i, %i\n", 42, 42, 42), ft_printf("%i, %i, %i\n", 42, 42, 42));
+
+	printf("returns	|%d, %d\n\n", printf("%d, %d, %d\n", -42, -42, -42), ft_printf("%d, %d, %d\n", -42, -42, -42));
+
+	printf("returns	|%d, %d\n\n", printf("%u, %u, %u\n", -42, -42, -42), ft_printf("%u, %u, %u\n", -42, -42, -42));
+
+	printf("returns	|%d, %d\n\n", printf("%x, %x, %x\n", 4251, 4251, 4251), ft_printf("%x, %x, %x\n", 4251, 4251, 4251));
+	printf("returns	|%d, %d\n\n", printf("%X, %X, %X\n", 4251, 4251, 4251), ft_printf("%X, %X, %X\n", 4251, 4251, 4251));
+
+	printf("returns |%d, %d\n\n", printf("%%, %%, %%\n"), ft_printf("%%, %%, %%\n"));
+}
+
+static void tests_return_value_issues_01()
+{
+	test_printf_int("%.0iP", 0);
+	test_printf_int("%.iP", 0);
+	test_printf_unsigned("%.0uP", 0);
+	test_printf_unsigned("%.uP", 0);
+	test_printf_hex("%.0xP", 0);
+	test_printf_hex("%.xP", 0);
+	test_printf_pointer("%.0pP", 0);
+	test_printf_pointer("%.pP", 0);
+	test_printf_char("%.0cP", 0);
+	test_printf_char("%.cP", 0);
+	test_printf_string("%.0sP", 0);
+	test_printf_string("%.sP", 0);
+	test_printf_string("%.0sP", NULL);
+	test_printf_string("%.sP", NULL);
+	test_printf_string("%.0sP", "hello");
+	test_printf_string("%.sP", "");
+
+	test_printf_pointer("%15pP", NULL);
+	test_printf_pointer("%-15pP", NULL);
+	test_printf_pointer("%15.5pP", NULL);
+	test_printf_pointer("%-15.5pP", NULL);
+	test_printf_pointer("%5.15pP", NULL);
+	test_printf_pointer("%-5.15pP", NULL);
+	test_printf_pointer("%15.10pP", NULL);
+	test_printf_pointer("%-15.10pP", NULL);
+	test_printf_pointer("%10.15pP", NULL);
+	test_printf_pointer("%-10.15pP", NULL);
+}
+
+static void tests_return_value_issues_02()
+{
+	print_title("STRINGS 01");
+	test_printf_string("%-s", NULL);
+	test_printf_string("%23s", NULL);
+	test_printf_pointer("%p", NULL);
+	test_printf_string("%s", NULL);
+	test_printf_string("%.3sP", "hello");
+	test_printf_string("%.sP", "hello");
+	test_printf_string("%.0sP", "hello");
+	test_printf_string("%.3sP", "holla");
+	test_printf_string("%.2sP", "hello");
+	test_printf_string("%.7sP", "hello");
+	test_printf_string("%7.5sP", "bombastic");
+	test_printf_string("%-7.5sP", "tubular");
+	test_printf_string("%7.3sP", "hello");
+	test_printf_string("%7.7sP", "world");
+	print_title("MIXED 01");
+	test_printf_string("%-sP", NULL);
+	test_printf_string("%23sP", NULL);
+	test_printf_string("%10sP", NULL);
+	test_printf_string("%pP", NULL);
+	test_printf_string("%sP", NULL);
+	test_printf_string("hello, %s.P", NULL);
+	test_printf_string("%sP", NULL);
+	test_printf_string("%32sP", NULL);
+	test_printf_string("%2sP", NULL);
+	test_printf_string("%-32sP", NULL);
+	test_printf_string("%-16sP", NULL);
+	test_printf_string("%-8sP", NULL);
+	test_printf_string("%-3sP", NULL);
+	test_printf_string("%.09sP", NULL);
+	test_printf_string("%3.sP", NULL);
+	test_printf_string("%10.sP", NULL);
+	test_printf_string("%-3.sP", NULL);
+	test_printf_string("%-8.sP", NULL);
+	test_printf_string("%3.1sP", NULL);
+	test_printf_string("%9.1sP", NULL);
+	test_printf_string("%-3.1sP", NULL);
+	test_printf_string("%-9.1sP", NULL);
+	test_printf_string("%3.1sP", NULL);
+	test_printf_string("%3.2sP", NULL);
+	test_printf_string("%3.3sP", NULL);
+	print_title("MIXED 02");
+	test_printf_string("%p", NULL);
+	test_printf_string("%3.6sP", NULL);
+	test_printf_string("%3.8sP", NULL);
+	test_printf_string("%3.20sP", NULL);
+	test_printf_string("%3.0sP", NULL);
+	test_printf_string("%8.0sP", NULL);
+	test_printf_string("%0.8sP", NULL);
+	test_printf_string("%20.6sP", NULL);
+	test_printf_string("%-3.8s", NULL);
+	test_printf_string("%-10.8s", NULL);
+	print_title("STRINGS 02");
+	test_printf_string("%3.sP", NULL);
+	test_printf_string("%10.sP", NULL);
+	test_printf_string("%-3.sP", NULL);
+	test_printf_string("%-8.sP", NULL);
+	test_printf_string("%3.1sP", NULL);
+	test_printf_string("%9.1sP", NULL);
+	test_printf_string("%-3.1sP", NULL);
+	test_printf_string("%-9.1sP", NULL);
+	test_printf_string("%3.6sP", NULL);
+	test_printf_string("%3.8sP", NULL);
+	test_printf_string("%3.20sP", NULL);
+	test_printf_string("%3.0sP", NULL);
+	test_printf_string("%8.0sP", NULL);
+	test_printf_string("%0.8sP", NULL);
+	test_printf_string("%20.6sP", NULL);
+	test_printf_string("%3.6sP", NULL);
+	test_printf_string("%6.6sP", NULL);
+	test_printf_string("%3.3sP", NULL);
+	test_printf_string("%4.3sP", NULL);
+	test_printf_string("%3.4sP", NULL);
+}
+
 int main()
 {
-	//tests_printf_int();
-	//tests_printf_uint();
-	//tests_printf_char();
-	//tests_printf_string();
-	//tests_printf_hex();
-	//tests_printf_pointer();
-	//tests_printf_mixed();
-	//tests_francinette_pointers_01();
-	//tests_francinette_mix_01();
-	//tests_printf_correction_01();
-	tests_francinette_01();
-	tests_francinette_02();
-	tests_francinette_03();
-	tests_francinette_04();
-	tests_francinette_ints_01();
-	tests_francinette_ints_02();
-	tests_francinette_ints_03();
-	tests_francinette_ints_04();
-	tests_francinette_ints_05();
-	tests_francinette_ints_06();
-	tests_francinette_uints_01();
-	tests_francinette_hex_01();
-	tests_francinette_hex_02();
-	tests_francinette_pointers_01();
+	// tests_francinette_strings_01();
+	// tests_francinette_mixed_01();
+	// tests_francinette_mixed_02();
+	// tests_francinette_strings_02();
+	// tests_francinette_ints_01();
+	// tests_francinette_ints_02();
+	// tests_francinette_ints_03();
+	// tests_francinette_ints_04();
+	// tests_francinette_ints_05();
+	// tests_francinette_ints_06();
+	// tests_francinette_uints_01();
+	// tests_francinette_hex_01();
+	// tests_francinette_hex_02();
+	// tests_francinette_pointers_01();
+	// tests_eval_01();
+	// tests_eval_02();
+	// tests_eval_03();
+	// tests_eval_04();
+	// tests_eval_05();
+	tests_return_value_issues_01();
+	// tests_return_value_issues_02();
+
 	return (0);
 }

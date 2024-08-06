@@ -3,6 +3,7 @@
 *.sw*
 *.dev*
 *.test*
+*Tester*/
 
 # Prerequisites
 *.d

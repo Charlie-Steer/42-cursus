@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:24:15 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/25 19:31:31 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/08/06 22:27:23 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	print_char(int c, t_conv_spec cs)
 		}
 		ft_putchar_fd(c, 1);
 	}
-	return (1);
+	return (offset + 1);
 }
 
 static int	calc_min_width_comp(int str_len, t_conv_spec cs, char *str)
@@ -73,11 +73,13 @@ static void	print_point_str(char *str, int str_len, t_conv_spec cs)
 	}
 }
 
-static int	get_strlen(char *str)
+static int	get_strlen(char *str, t_conv_spec cs)
 {
 	int	str_len;
 
-	if (str)
+	if (cs.min_width == 0 && cs.has_point && cs.point_width == 0)
+		str_len = 0;
+	else if (str)
 		str_len = ft_strlen(str);
 	else
 		str_len = 6;
@@ -90,7 +92,9 @@ int	print_str(char *str, t_conv_spec cs)
 	int	str_len;
 
 	offset = 0;
-	str_len = get_strlen(str);
+	str_len = get_strlen(str, cs);
+	if (str_len == 0)
+		return (str_len);
 	if (cs.has_right_pad)
 	{
 		print_point_str(str, str_len, cs);
