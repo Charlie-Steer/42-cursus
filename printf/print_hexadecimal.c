@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 19:26:51 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/25 19:03:44 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:17:52 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ int	print_hexadecimal(unsigned int n, t_conv_spec cs)
 	print_str += add_point_width(print_str, cs, arg_len);
 	print_str += add_arg(print_str, cs, n_str, arg_len);
 	add_right_pad(print_str, cs, n_str, arg_len);
-	ft_putstr_fd(print_str_orig, 1);
+	if (ft_putstr_fd(print_str_orig, 1) < 0)
+		return (-1);
 	free (print_str_orig);
 	free (n_str);
 	return (print_len);

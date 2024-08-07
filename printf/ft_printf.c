@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/08/06 17:34:26 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:47:49 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	print_conv_spec(va_list args, t_conv_spec cs)
 		print_len = print_pointer(va_arg(args, void *), cs);
 	else if (c == '%')
 	{
-		ft_putchar_fd('%', 1);
+		if (ft_putchar_fd('%', 1) < 0)
+			return (-1);
 		print_len = 1;
 	}
 	return (print_len);
@@ -95,7 +96,10 @@ int	ft_printf(char const *str, ...)
 	while (*str)
 	{
 		if (*str != '%')
-			ft_putchar_fd(*str, 1);
+		{
+			if (ft_putchar_fd(*str, 1) < 0)
+				return (-1);
+		}
 		else
 		{
 			cs_str_len = get_conv_spec_str_len(str);

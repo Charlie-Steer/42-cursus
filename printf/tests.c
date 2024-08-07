@@ -1228,13 +1228,13 @@ int main()
 	// tests_francinette_hex_01();
 	// tests_francinette_hex_02();
 	// tests_francinette_pointers_01();
-	// tests_eval_01();
-	// tests_eval_02();
-	// tests_eval_03();
-	// tests_eval_04();
-	// tests_eval_05();
-	tests_return_value_issues_01();
-	// tests_return_value_issues_02();
+	tests_eval_01();
+	tests_eval_02();
+	tests_eval_03();
+	tests_eval_04();
+	tests_eval_05();
+	//tests_return_value_issues_01();
+	//tests_return_value_issues_02();
 
 	return (0);
 }

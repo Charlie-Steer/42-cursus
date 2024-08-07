@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 18:53:10 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/25 18:57:04 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:21:13 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ int			pointer_add_prefix(char *print_str, t_conv_spec cs, char *n_str,
 
 // LIBFT FUNCTIONS
 int			ft_toupper(int c);
-void		ft_putchar_fd(char c, int fd);
+int			ft_putchar_fd(char c, int fd);
 char		*ft_strchr(const char *s, int c);
 char		*ft_itoa(int n);
-void		ft_putstr_fd(char *s, int fd);
+int			ft_putstr_fd(char *s, int fd);
 void		*ft_memmove(void *dst, const void *src, size_t len);
 char		*ft_itoa_unsigned(unsigned int n);
 size_t		ft_strlen(const char *s);

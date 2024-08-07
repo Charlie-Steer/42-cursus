@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 15:43:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/29 21:20:57 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:16:11 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ int	print_pointer(void *p, t_conv_spec cs)
 	print_str += print_point_width(print_str, cs, arg_len);
 	print_str += add_arg(print_str, n_str, arg_len);
 	add_right_pad(print_str, cs, n_str, arg_len);
-	ft_putstr_fd(print_str_orig, 1);
+	if (ft_putstr_fd(print_str_orig, 1) < 0)
+		return (-1);
 	free(n_str);
 	free(print_str_orig);
 	return (print_len);

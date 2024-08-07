@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:06:04 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/25 19:04:35 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:12:43 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ int	print_int(int n, t_conv_spec cs)
 	print_str += add_point_width(print_str, n_str, cs, arg_len);
 	print_str += add_arg(print_str, n_str, cs, arg_len);
 	add_right_pad(print_str, n_str, cs, arg_len);
-	ft_putstr_fd(print_str_orig, 1);
+	if (ft_putstr_fd(print_str_orig, 1) < 0)
+		return (-1);
 	free(n_str);
 	free(print_str_orig);
 	return (print_len);
