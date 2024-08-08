@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/08/07 17:47:49 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:17:28 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,19 +99,16 @@ int	ft_printf(char const *str, ...)
 		{
 			if (ft_putchar_fd(*str, 1) < 0)
 				return (-1);
-		}
-		else
-		{
-			cs_str_len = get_conv_spec_str_len(str);
-			cs_print_len = print_conv_spec(args, get_conv_spec_struct(str));
-			if (cs_print_len < 0)
-				return (-1);
-			print_len += cs_print_len;
-			str += cs_str_len;
+			str++;
+			print_len++;
 			continue ;
 		}
-		str++;
-		print_len++;
+		cs_str_len = get_conv_spec_str_len(str);
+		cs_print_len = print_conv_spec(args, get_conv_spec_struct(str));
+		if (cs_print_len < 0)
+			return (-1);
+		print_len += cs_print_len;
+		str += cs_str_len;
 	}
 	return (print_len);
 }

@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:26:56 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/08/06 21:29:10 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:11:31 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ int	determine_cs_print_len(char *n_str, t_conv_spec cs)
 	arg_len = ft_strlen(n_str);
 	print_len = arg_len;
 	if ((cs.conv_specifier == 'd' || cs.conv_specifier == 'i'
-		|| cs.conv_specifier == 'u' || cs.conv_specifier == 'x'
-		|| cs.conv_specifier == 'X' || cs.conv_specifier == 's')
+			|| cs.conv_specifier == 'u' || cs.conv_specifier == 'x'
+			|| cs.conv_specifier == 'X' || cs.conv_specifier == 's')
 		&& (cs.min_width == 0 && cs.has_point && cs.point_width == 0
-		&& n_str[0] == '0'))
+			&& n_str[0] == '0'))
 		return (0);
 	if (cs.conv_specifier == 'd' || cs.conv_specifier == 'i')
 		print_len = get_print_len_d(cs, print_len, n_str);

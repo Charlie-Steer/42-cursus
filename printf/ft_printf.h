@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 18:53:10 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/08/07 17:21:13 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/08/08 22:37:57 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_conv_spec
 	char	conv_specifier;
 }	t_conv_spec;
 
+// CORE FUNCTIONS
 int			ft_printf(char const *str, ...);
 
 t_conv_spec	parse_conversion_specification(
@@ -44,6 +45,7 @@ int			print_unsigned_int(unsigned int n, t_conv_spec cs);
 int			print_hexadecimal(unsigned int n, t_conv_spec cs);
 int			print_pointer(void *n, t_conv_spec cs);
 
+// HELPER FUNCTIONS
 int			int_add_prefix(char *print_str, char *n_str, t_conv_spec cs,
 				int arg_len);
 int			hexa_add_prefix(char *print_str, t_conv_spec cs, char *n_str,
@@ -51,6 +53,10 @@ int			hexa_add_prefix(char *print_str, t_conv_spec cs, char *n_str,
 char		*get_hex_base(int conv_specifier);
 int			pointer_add_prefix(char *print_str, t_conv_spec cs, char *n_str,
 				int arg_len);
+int			add_pointer_arg(char *print_str, char *n_str, int arg_len);
+int			calc_min_width_comp(int str_len, t_conv_spec cs, char *str);
+int			print_point_str(char *str, int str_len, t_conv_spec cs);
+int			get_strlen(char *str, t_conv_spec cs);
 
 // LIBFT FUNCTIONS
 int			ft_toupper(int c);

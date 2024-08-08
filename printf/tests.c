@@ -1025,7 +1025,8 @@ static void tests_printf_correction_01()
 static void tests_eval_01()
 {
 	print_title("TESTS EVAL 01");
-	void *p;
+	int a = 5;
+	void *p = &a;
 	test_printf_char("%c", 'H');
 	test_printf_string("%s", "hello world");
 	test_printf_pointer("%p", p);
@@ -1042,7 +1043,8 @@ static void tests_eval_01()
 static void tests_eval_02()
 {
 	print_title("TESTS EVAL 02");
-	void *p;
+	int a = 5;
+	void *p = &a;
 	test_printf_char("%c", NULL);
 	test_printf_string("%s", NULL);
 	test_printf_pointer("%p", NULL);
@@ -1056,7 +1058,8 @@ static void tests_eval_02()
 static void tests_eval_03()
 {
 	print_title("TESTS EVAL 03");
-	void *p;
+	int a = 5;
+	void *p = &a;
 	test_printf_string("%s", "");
 	test_printf_int("%i", -2147483648);
 	test_printf_int("%d", 2147483647);
@@ -1071,7 +1074,8 @@ static void tests_eval_03()
 static void tests_eval_04()
 {
 	print_title("TESTS EVAL 04");
-	void *p;
+	int a = 5;
+	void *p = &a;
 
 	printf("returns	|%d, %d\n",
 		   printf("\n\nc: %12cP\ns: %12sP\nd: %12dP\ni: %12iP\nu: %12uP\nx: %#12xP\nX: %#12XP\np: %12pP\n%12%: %%P\n", 'g', "Charlie", 42, -42, -1, 365, 14649, p),
@@ -1084,7 +1088,8 @@ static void tests_eval_04()
 static void tests_eval_05()
 {
 	print_title("TESTS EVAL 05");
-	void *p;
+	int a = 5;
+	void *p = &a;
 
 	printf("returns |%d, %d\n\n", printf("%c, %c, %c\n", 'H', 'H', 'H'), ft_printf("%c, %c, %c\n", 'H', 'H', 'H'));
 

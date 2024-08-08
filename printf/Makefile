@@ -6,25 +6,43 @@
 #    By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/25 19:55:20 by cargonz2          #+#    #+#              #
-#    Updated: 2024/07/25 19:55:23 by cargonz2         ###   ########.fr        #
+#    Updated: 2024/08/08 22:46:45 by cargonz2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = clang
 CFLAGS = -Wall -Wextra -Werror
-SOURCES = ft_printf.c print_int.c print_unsigned_int.c print_char_and_str.c \
-		  print_hexadecimal.c print_pointer.c determine_print_len.c \
-		  parse_conversion_specification.c print_int_helper.c \
-		  print_hexadecimal_helper.c print_pointer_helper.c \
-		  libft_funcs/ft_toupper.c libft_funcs/ft_putchar_fd.c \
-		  libft_funcs/ft_strchr.c libft_funcs/ft_itoa.c \
-		  libft_funcs/ft_putstr_fd.c libft_funcs/ft_memmove.c \
-		  libft_funcs/ft_itoa_unsigned.c libft_funcs/ft_strlen.c \
-		  libft_funcs/ft_max.c libft_funcs/ft_memmove.c \
-		  libft_funcs/ft_itoa_base.c libft_funcs/ft_isdigit.c \
-		  libft_funcs/ft_memcmp.c libft_funcs/ft_atoi.c \
-		  libft_funcs/ft_numlen.c libft_funcs/ft_numlen_base_unsigned.c \
-		  libft_funcs/ft_memcpy.c libft_funcs/ft_bzero.c \
+SOURCES = ft_printf.c \
+		  print_int.c \
+		  print_unsigned_int.c \
+		  print_char.c \
+		  print_str.c \
+		  print_str_helper.c \
+		  print_hexadecimal.c \
+		  print_pointer.c \
+		  determine_print_len.c \
+		  parse_conversion_specification.c \
+		  print_int_helper.c \
+		  print_hexadecimal_helper.c \
+		  print_pointer_helper.c \
+		  libft_funcs/ft_toupper.c \
+		  libft_funcs/ft_putchar_fd.c \
+		  libft_funcs/ft_strchr.c \
+		  libft_funcs/ft_itoa.c \
+		  libft_funcs/ft_putstr_fd.c \
+		  libft_funcs/ft_memmove.c \
+		  libft_funcs/ft_itoa_unsigned.c \
+		  libft_funcs/ft_strlen.c \
+		  libft_funcs/ft_max.c \
+		  libft_funcs/ft_memmove.c \
+		  libft_funcs/ft_itoa_base.c \
+		  libft_funcs/ft_isdigit.c \
+		  libft_funcs/ft_memcmp.c \
+		  libft_funcs/ft_atoi.c \
+		  libft_funcs/ft_numlen.c \
+		  libft_funcs/ft_numlen_base_unsigned.c \
+		  libft_funcs/ft_memcpy.c \
+		  libft_funcs/ft_bzero.c \
 		  libft_funcs/ft_strncmp.c
 
 BSOURCES =
@@ -45,8 +63,7 @@ MAIN = tests.c
 EXENAME = $(PROJECT_FULL_NAME).test
 DEV_EXTENSION = .dev
 DEV_EXENAME = $(EXENAME)$(DEV_EXTENSION)
-DEV_CFLAGS = -Wno-unused-variable -Wno-unused-parameter  -Wno-unused-function \
-	-g
+DEV_CFLAGS = -Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -g
 
 HEADERS = -I .
 

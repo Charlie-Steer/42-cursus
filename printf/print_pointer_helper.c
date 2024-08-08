@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:43:45 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/25 19:02:47 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/08/08 22:33:38 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,13 @@ int	pointer_add_prefix(char *print_str, t_conv_spec cs, char *n_str,
 		temp_offset = add_hex(print_str, n_str);
 	}
 	return (offset + temp_offset);
+}
+
+int	add_pointer_arg(char *print_str, char *n_str, int arg_len)
+{
+	int	offset;
+
+	ft_memmove(print_str, n_str, arg_len);
+	offset = arg_len;
+	return (offset);
 }

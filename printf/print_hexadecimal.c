@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 19:26:51 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/08/07 17:17:52 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/08/08 22:39:15 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static int	add_point_width(char *print_str, t_conv_spec cs, int arg_len)
 	return (offset);
 }
 
-static int	add_arg(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
+static int	add_hex_arg(char *print_str, t_conv_spec cs, char *n_str,
+						int arg_len)
 {
 	int	offset;
 
@@ -99,7 +100,7 @@ int	print_hexadecimal(unsigned int n, t_conv_spec cs)
 		return (-1);
 	print_str += hexa_add_prefix(print_str, cs, n_str, arg_len);
 	print_str += add_point_width(print_str, cs, arg_len);
-	print_str += add_arg(print_str, cs, n_str, arg_len);
+	print_str += add_hex_arg(print_str, cs, n_str, arg_len);
 	add_right_pad(print_str, cs, n_str, arg_len);
 	if (ft_putstr_fd(print_str_orig, 1) < 0)
 		return (-1);

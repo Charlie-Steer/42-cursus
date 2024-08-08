@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:06:04 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/08/07 17:17:07 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/08/08 22:39:44 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static int	add_point_width(char *print_str, t_conv_spec cs, int arg_len)
 	return (offset);
 }
 
-static int	add_arg(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
+static int	add_uint_arg(char *print_str, t_conv_spec cs, char *n_str,
+						int arg_len)
 {
 	int	offset;
 
@@ -111,7 +112,7 @@ int	print_unsigned_int(unsigned int n, t_conv_spec cs)
 	arg_len = ft_strlen(n_str);
 	print_str += add_min_width(print_str, cs, n_str, arg_len);
 	print_str += add_point_width(print_str, cs, arg_len);
-	print_str += add_arg(print_str, cs, n_str, arg_len);
+	print_str += add_uint_arg(print_str, cs, n_str, arg_len);
 	add_right_pad(print_str, cs, n_str, arg_len);
 	free(n_str);
 	if (ft_putstr_fd(print_str_orig, 1) < 0)
