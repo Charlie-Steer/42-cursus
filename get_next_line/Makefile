@@ -16,7 +16,7 @@ ifeq ($(MODE), ft)
 	@$(CC) -Wall -Wextra -Werror -o $(ELF) $(SOURCES)
 	@echo "\"$(ELF)\" compiled in $(shell echo $(MODE) | tr 'a-z' 'A-Z') mode."
 else ifeq ($(MODE), test)
-	@$(CC) -o $(ELF) $(SOURCES) -g
+	@$(CC) -o $(ELF) $(SOURCES) -g -Og
 	@echo "\"$(ELF)\" compiled in $(shell echo $(MODE) | tr 'a-z' 'A-Z') mode."
 else
 	@echo "error: Invalid compilation mode. Set MODE to a valid value."

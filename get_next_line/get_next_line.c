@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 21:46:22 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/08/13 00:06:19 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/08/21 22:28:27 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,11 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
+//! I think this function should only copy the full buffer in when buf==buf.
+//! When buf==leftover, it should only copy up to strlen(leftover).
+//! Differences between a mem block and a null-terminated string.
+
+//! leftover got here with the same value "Th" twice.
 static char	*copy_full_buffer(char *line, char *buf)
 {
 	int		line_len;
@@ -204,15 +209,12 @@ char	*get_next_line(int fd)
 	char			*back_leftover;
 
 	line = NULL;
-	printf("leftover: %s\n", leftover);
 	while (leftover && leftover[0] != '\0') //? Is the NULL char check necessary?
 	{
-		printf("Entered leftover condition\n");
 		newline_index = index_of_char_block(leftover, '\n', ft_strlen(leftover));
 		if (newline_index >= 0)
 		{
 			line = copy_buffer_until_newline(line, leftover, ft_strlen(leftover), newline_index);
-			//! WORKING ON THIS PART HERE.
 			int leftover_len = ft_strlen(leftover);
 			back_leftover = NULL;
 			if (leftover)
@@ -231,13 +233,10 @@ char	*get_next_line(int fd)
 		}
 		else
 		{
-			printf("Entered where it should\n");
 			line = copy_full_buffer(line, leftover);
-			printf("Before free\n");
 			free(leftover);
-			printf("After free\n");
+			leftover = NULL;
 		}
-		printf("leftover: %s\n", leftover);
 	}
 	buf = malloc(BUF_SIZE);
 	newline_index = -1;
