@@ -6,67 +6,11 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 21:46:22 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/08/21 22:28:27 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/02 22:19:01 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stddef.h>
-
-#define	BUF_SIZE 5
-
-// void	*ft_memchr(const void *s, int c, size_t n)
-// {
-// 	size_t	i;
-//
-// 	i = 0;
-// 	while (i < n)
-// 	{
-// 		if (((unsigned char *)s)[i] == (unsigned char)c)
-// 		{
-// 			return ((void *)&((unsigned char *)s)[i]);
-// 		}
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
-
-
-size_t	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (-1);
-	while (s[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
-
-void	*ft_memcpy(void *dst, const void *src, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	if (dst == NULL && src == NULL)
-	{
-		return (dst);
-	}
-	else
-	{
-		while (i < n)
-		{
-			((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
-			i++;
-		}
-		return (dst);
-	}
-}
+#include "get_next_line.h"
 
 // Returns the index of the first ocurrence of char c in the first n_bytes of mem_block.
 // If no character is found, returns -1.
@@ -100,18 +44,6 @@ int	index_of_char_str(const char *s, char c, int n)
 		return (-2);
 	else
 		return (i);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		((unsigned char *)s)[i] = '\0';
-		i++;
-	}
 }
 
 //! I think this function should only copy the full buffer in when buf==buf.
@@ -263,39 +195,4 @@ char	*get_next_line(int fd)
 	//! If EOF free leftover.
 	//? Should the line not be NULL-terminated?
 	return (line);
-}
-
-#include <fcntl.h>
-#include <unistd.h>
-
-static void test_read_01(void)
-{
-	int text_file_fd = open("text.txt", O_RDONLY);
-	char *buf = malloc(BUF_SIZE);
-	for (int i = 0; i < 40; i++)
-	{
-		read(text_file_fd, buf, BUF_SIZE);
-		write(1, buf, BUF_SIZE);
-	}
-	free(buf);
-}
-
-static void string_null_test(void)
-{
-	char *s;
-
-	s = NULL;
-	printf("%p\n", s);
-	if (s == NULL)
-		printf("s is NULL\n");
-	else
-		printf("s is NOT NULL\n");
-}
-
-int	main(void)
-{
-	int fd = open("text.txt", O_RDONLY);
-	for (int i = 0; i < 3; i++)
-		printf("%s", get_next_line(fd));
-	return (0);
 }
