@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 21:46:22 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/02 22:19:01 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:59:02 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // Returns the index of the first ocurrence of char c in the first n_bytes of mem_block.
 // If no character is found, returns -1.
-int	index_of_char_block(const char *mem_block, char c, int n_bytes)
+int	get_index_of_char_in_block(const char *mem_block, char c, int n_bytes)
 {
 	int	i;
 
@@ -99,26 +99,26 @@ static char	*copy_buffer_until_newline(char *line, char *buffer,
 									   int buffer_size, int newline_index)
 {
 	int		line_len;
-	char	*back_line;
+	char	*temp_line;
 	char	*leftover;
 
-	back_line = NULL;
+	temp_line = NULL;
 	if (line)
 	{
 		line_len = ft_strlen(line);
-		back_line = malloc(line_len + 1);
-		back_line[line_len] = '\0';
-		ft_memcpy(back_line, line, line_len);
+		temp_line = malloc(line_len + 1);
+		temp_line[line_len] = '\0';
+		ft_memcpy(temp_line, line, line_len);
 		free(line);
 	}
 	else
 		line_len = 0;
 	line = malloc(line_len + (newline_index + 1) + 1);
 	line[line_len + newline_index + 1] = '\0';
-	if (back_line)
+	if (temp_line)
 	{
-		ft_memcpy(line, back_line, line_len);
-		free(back_line);
+		ft_memcpy(line, temp_line, line_len);
+		free(temp_line);
 	}
 	ft_memcpy(&(line[line_len]), buffer, newline_index + 1);
 	return (line);
@@ -143,7 +143,7 @@ char	*get_next_line(int fd)
 	line = NULL;
 	while (leftover && leftover[0] != '\0') //? Is the NULL char check necessary?
 	{
-		newline_index = index_of_char_block(leftover, '\n', ft_strlen(leftover));
+		newline_index = get_index_of_char_in_block(leftover, '\n', ft_strlen(leftover));
 		if (newline_index >= 0)
 		{
 			line = copy_buffer_until_newline(line, leftover, ft_strlen(leftover), newline_index);
@@ -178,8 +178,8 @@ char	*get_next_line(int fd)
 		if (n_chars_read == -1)
 			return (NULL);
 
-		newline_index = index_of_char_block(buf, '\n', BUF_SIZE);
-		if (newline_index >= 0)
+		newline_index = get_index_of_char_in_block(buf, '\n', BUF_SIZE);
+		if (newline_index != -1)
 		{
 			line = copy_buffer_until_newline(line, buf, BUF_SIZE, newline_index);
 			leftover = malloc(BUF_SIZE + 1 - (newline_index + 1));
