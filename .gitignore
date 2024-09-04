@@ -5,6 +5,8 @@
 *.test*
 *Tester*/
 
+*/get_next_line
+
 # Prerequisites
 *.d
 

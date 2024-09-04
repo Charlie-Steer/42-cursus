@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 18:00:17 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/03 22:37:11 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:21:19 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,6 @@
 #include <string.h>
 
 #define BUFFER_SIZE 15
-
-// Get the index of the first newline char found in block.
-// Returns -1 if a newline wasn't found.
-int	get_newline_index(char *block, int n)
-{
-	int	newline_index;
-	int	i;
-
-	newline_index = 0;
-	i = 0;
-	while (block[i] != '\n' && i < n)
-	{
-		newline_index++;
-		i++;
-	}
-	if (block[i] == '\n')
-		return (newline_index);
-	else
-		return (-1);
-}
 
 char	*get_next_line(int fd)
 {
@@ -48,12 +28,47 @@ char	*get_next_line(int fd)
 
 	line = NULL;
 
-	//! NOW TO ADD REMAINDER HANDLING
+	//? When does remainder get malloc'd
+
+	// HANDLE REMAINDER
+	if (remainder)
+	{
+		int remainder_len = ft_strlen(remainder);
+		int remainder_newline_index = get_newline_index(remainder, remainder_len);
+		if (remainder_newline_index == -1)
+		{
+			line = malloc(remainder_len + 1);
+			ft_bzero(line, remainder_len + 1);
+			ft_memcpy(line, remainder, remainder_len);
+			free(remainder);
+			remainder = NULL;
+		}
+		else // remainder_newline_index != -1
+		{
+			line_len = remainder_newline_index + 1;
+			line = malloc(line_len + 1);
+			ft_bzero(line, line_len + 1);
+			ft_memcpy(line, remainder, line_len);
+
+			char *temp_remainder = malloc(remainder_len + 1);
+			ft_bzero(temp_remainder, remainder_len + 1);
+
+			//? Could memmove() be used instead of using a temp_remainder?
+			ft_memcpy(temp_remainder, &remainder[remainder_newline_index + 1], remainder_len - (remainder_newline_index + 1));
+			ft_bzero(remainder, remainder_len);
+			ft_memcpy(remainder, temp_remainder, remainder_len);
+			free(temp_remainder);
+
+			return (line);
+		}
+	}
+
+	// CORE LOOP
 	int	newline_index = -1;
 	while (newline_index == -1)
 	{
 		int n_bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (n_bytes_read == -1)
+		if (n_bytes_read == -1 || n_bytes_read == 0) // Error or EOF.
 			return (NULL);
 
 		newline_index = get_newline_index(buffer, BUFFER_SIZE);
@@ -77,7 +92,9 @@ char	*get_next_line(int fd)
 			ft_memcpy(&line[line_len], buffer, BUFFER_SIZE);
 		else
 			ft_memcpy(&line[line_len], buffer, newline_index + 1);
-		printf("stuck here\n");
+
+		//! Check whether every relevant heap allocation is freed on every branch of the program
+		//! Valgrind could help.
 	}
 
 	if (newline_index != -1)
@@ -86,10 +103,10 @@ char	*get_next_line(int fd)
 		remainder = malloc(BUFFER_SIZE);
 		ft_bzero(remainder, BUFFER_SIZE);
 
-		ft_memcpy(remainder, &buffer[newline_index], BUFFER_SIZE - newline_index);
+		ft_memcpy(remainder, &buffer[newline_index + 1], BUFFER_SIZE - newline_index);
 	}
 
-	printf("%s\n", remainder);
+	// printf("remainder == %s\n", remainder);
 	free(buffer);
 	
 	return (line);
