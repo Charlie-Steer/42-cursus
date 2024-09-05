@@ -27,9 +27,11 @@ int test_gnl_for_iters(int n_iters)
 	{
 		char *line = get_next_line(textfile_fd);
 		printf("%s", line);
+		free(line);
 		printf("---\n");
 		i++;
 	}
+	close(textfile_fd);
 	return (0);
 }
 
@@ -59,8 +61,8 @@ void test_bzero()
 int main(void)
 {
 	// test_gnl();
-	// test_gnl_for_iters(20);
-	test_gnl_stdin(5);
+	test_gnl_for_iters(20);
+	// test_gnl_stdin(5);
 	// test_strlen("hello world?");
 	return (0);
 }

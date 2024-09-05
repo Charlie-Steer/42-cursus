@@ -6,28 +6,27 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 18:00:17 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/04 14:21:19 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/05 16:48:46 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <string.h>
 
+//? DO I HAVE TO REMOVE THIS ON DELIVERY?
+#ifndef BUFFER_SIZE
 #define BUFFER_SIZE 15
+#endif
 
 char	*get_next_line(int fd)
 {
-	char		*buffer;
-	char		*line;
-	char		*temp_line;
 	static char	*remainder;
-	int			line_len;
 
-	buffer = malloc(BUFFER_SIZE);
+	char *buffer = malloc(BUFFER_SIZE);
 	ft_bzero(buffer, BUFFER_SIZE);
 
-	line = NULL;
-
+	char *line = NULL;
+	int line_len;
 	//? When does remainder get malloc'd
 
 	// HANDLE REMAINDER
@@ -54,31 +53,34 @@ char	*get_next_line(int fd)
 			ft_bzero(temp_remainder, remainder_len + 1);
 
 			//? Could memmove() be used instead of using a temp_remainder?
-			ft_memcpy(temp_remainder, &remainder[remainder_newline_index + 1], remainder_len - (remainder_newline_index + 1));
+			int temp_remainder_len = remainder_len - (remainder_newline_index + 1);
+			ft_memcpy(temp_remainder, &remainder[remainder_newline_index + 1], temp_remainder_len);
 			ft_bzero(remainder, remainder_len);
-			ft_memcpy(remainder, temp_remainder, remainder_len);
+			ft_memcpy(remainder, temp_remainder, temp_remainder_len);
 			free(temp_remainder);
 
+			free(buffer);
 			return (line);
 		}
 	}
 
 	// CORE LOOP
-	int	newline_index = -1;
-	while (newline_index == -1)
+	int	buffer_newline_index = -1;
+	while (buffer_newline_index == -1)
 	{
 		int n_bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (n_bytes_read == -1 || n_bytes_read == 0) // Error or EOF.
 			return (NULL);
 
-		newline_index = get_newline_index(buffer, BUFFER_SIZE);
+		buffer_newline_index = get_newline_index(buffer, BUFFER_SIZE);
 
+		char *temp_line;
 		if (line != NULL)
 		{
 			line_len = ft_strlen(line);
 			temp_line = malloc(line_len + 1);
-			ft_memcpy(temp_line, line, line_len);
 			temp_line[line_len] = '\0';
+			ft_memcpy(temp_line, line, line_len);
 			free(line);
 		}
 		else
@@ -88,26 +90,29 @@ char	*get_next_line(int fd)
 
 		ft_memcpy(line, temp_line, line_len);
 
-		if (newline_index == -1)
+		if (buffer_newline_index == -1)
 			ft_memcpy(&line[line_len], buffer, BUFFER_SIZE);
 		else
-			ft_memcpy(&line[line_len], buffer, newline_index + 1);
+			ft_memcpy(&line[line_len], buffer, buffer_newline_index + 1);
 
 		//! Check whether every relevant heap allocation is freed on every branch of the program
 		//! Valgrind could help.
 	}
 
-	if (newline_index != -1)
+	//! SEEMINGLY ALL THE DUBIOUS CODE IT'S FROM HERE ONWARDS. THINK ABOUT THE DETAILS CAREFULLY.
+	if (buffer_newline_index != -1)
 	{
 		//? UNCLEAR ABOUT WHEN TO FREE REMAINDER
 		remainder = malloc(BUFFER_SIZE);
 		ft_bzero(remainder, BUFFER_SIZE);
 
-		ft_memcpy(remainder, &buffer[newline_index + 1], BUFFER_SIZE - newline_index);
+		ft_memcpy(remainder, &buffer[buffer_newline_index + 1], BUFFER_SIZE - (buffer_newline_index + 1));
 	}
 
 	// printf("remainder == %s\n", remainder);
 	free(buffer);
+	if (*remainder == '\0') //! Not effecting.
+		free(remainder);
 	
 	return (line);
 }
