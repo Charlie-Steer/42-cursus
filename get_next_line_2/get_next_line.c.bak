@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 18:00:17 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/11 18:15:53 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:23:08 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,114 +39,67 @@ void safe_cleanup(char *block1, char *block2, char *block3, char *block4)
 		free(block4);
 }
 
-//? DO I HAVE TO HANDLE \0 LIKE NEWLINE?
-char	*write_remainder_to_line(char *line, char *remainder, int remainder_len)
-{
-	line = malloc(remainder_len + 1);
-	if (!line)
-	{
-		return (NULL);
-	}
-	ft_bzero(line, remainder_len + 1);
-	ft_memcpy(line, remainder, remainder_len);
-	return (line);
-}
-
-struct s_line_and_remainder write_remainder_up_to_newline_to_line(char *line, char *remainder,
-											int remainder_newline_index, int remainder_len)
-{
-	int line_len;
-	char *temp_remainder;
-	int temp_remainder_len;
-	struct s_line_and_remainder line_and_remainder;
-
-	line_len = remainder_newline_index + 1;
-	line = malloc(line_len + 1);
-	if (!line)
-	{
-		line_and_remainder.line = NULL;
-		line_and_remainder.remainder = NULL;
-		return (line_and_remainder);
-	}
-	ft_bzero(line, line_len + 1);
-	ft_memcpy(line, remainder, line_len);
-
-	temp_remainder = malloc(remainder_len + 1);
-	if (!temp_remainder)
-	{
-		line_and_remainder.line = NULL;
-		line_and_remainder.remainder = NULL;
-		return (line_and_remainder);
-	}
-	ft_bzero(temp_remainder, remainder_len + 1);
-	//? Could memmove() be used instead of using a temp_remainder?
-	temp_remainder_len = remainder_len - (remainder_newline_index + 1);
-	ft_memcpy(temp_remainder, &remainder[remainder_newline_index + 1], temp_remainder_len);
-	// free_and_zero_if_not_null(remainder);
-	// remainder = temp_remainder;
-	ft_bzero(remainder, remainder_len);
-	ft_memcpy(remainder, temp_remainder, temp_remainder_len);
-
-	line_and_remainder.line = line;
-	line_and_remainder.remainder = remainder;
-	return (line_and_remainder);
-}
-
-//!  
-//! IN THE PROCESS OF REFACTORIZATION FOR NORM COMPLIANCE!!!!
-//!  
-struct s_line_and_remainder handle_remainder(char *line, char *remainder)
-{
-	int line_len;
-	int remainder_len;
-	int remainder_newline_index;
-	struct s_line_and_remainder line_and_remainder;
-
-	remainder_len = ft_strlen(remainder);
-	remainder_newline_index = get_char_index('\n', remainder, remainder_len);
-	line_and_remainder.line = NULL;
-	line_and_remainder.remainder = NULL;
-
-	if (remainder_newline_index == -1)
-	{
-		line = write_remainder_to_line(line, remainder, remainder_len);
-		free(remainder);
-		line_and_remainder.line = line;
-	}
-	else // remainder_newline_index != -1
-	{
-		line_and_remainder = write_remainder_up_to_newline_to_line(
-			line, remainder, remainder_newline_index, remainder_len);
-	}
-	return (line_and_remainder);
-}
-
 char	*get_next_line(int fd)
 {
-	static char	*remainder;
-	char		*buffer;
-	char		*line;
-	struct s_line_and_remainder line_and_remainder;
-
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	static char	*remainder;
 
-	buffer = malloc(BUFFER_SIZE);
+	char *buffer = malloc(BUFFER_SIZE);
 	if (!buffer)
 		return (NULL);
 	ft_bzero(buffer, BUFFER_SIZE);
 
-	line = NULL;
+	char *line = NULL;
+	int line_len;
 
 	// HANDLE REMAINDER
 	if (remainder)
 	{
-		line_and_remainder = handle_remainder(line, remainder);
-		if (!line_and_remainder.line)
+		int remainder_len = ft_strlen(remainder);
+		int remainder_newline_index = get_char_index('\n', remainder, remainder_len);
+		if (remainder_newline_index == -1)
 		{
-			free_and_zero_if_not_null(buffer);
+			line = malloc(remainder_len + 1);
+			if (!line)
+			{
+				free_and_zero_if_not_null(buffer);
+				return (NULL);
+			}
+			ft_bzero(line, remainder_len + 1);
+			ft_memcpy(line, remainder, remainder_len);
 			free_and_zero_if_not_null(remainder);
-			return (NULL);
+			remainder = NULL;
+		}
+		else // remainder_newline_index != -1
+		{
+			line_len = remainder_newline_index + 1;
+			line = malloc(line_len + 1);
+			if (!line)
+			{
+				free_and_zero_if_not_null(buffer);
+				return (NULL);
+			}
+			ft_bzero(line, line_len + 1);
+			ft_memcpy(line, remainder, line_len);
+
+			char *temp_remainder = malloc(remainder_len + 1);
+			if (!temp_remainder)
+			{
+				free_and_zero_if_not_null(buffer);
+				free_and_zero_if_not_null(line);
+				return (NULL);
+			}
+			ft_bzero(temp_remainder, remainder_len + 1);
+
+			//? Could memmove() be used instead of using a temp_remainder?
+			int temp_remainder_len = remainder_len - (remainder_newline_index + 1);
+			ft_memcpy(temp_remainder, &remainder[remainder_newline_index + 1], temp_remainder_len);
+			free_and_zero_if_not_null(remainder);
+			remainder = temp_remainder;
+
+			free_and_zero_if_not_null(buffer);
+			return (line);
 		}
 	}
 
@@ -173,7 +126,6 @@ char	*get_next_line(int fd)
 		buffer_newline_index = get_char_index('\n', buffer, BUFFER_SIZE);
 
 		char *temp_line = NULL;
-		int line_len = 0;
 		if (line != NULL)
 		{
 			line_len = ft_strlen(line);
