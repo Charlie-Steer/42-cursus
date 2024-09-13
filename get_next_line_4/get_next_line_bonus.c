@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:32:30 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/13 17:25:29 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:37:57 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //! DO THE BONUS!!!
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 //! THIS NUMBER IS RANDOM. REMOVE BEFORE DELIVERY?
 #ifndef BUFFER_SIZE
@@ -116,13 +116,13 @@ char	*get_remainder(char *static_buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*static_buffer;
+	static char	*static_buffer[4096];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	line = NULL;
-	static_buffer = read_file_until_newline_found(fd, static_buffer);
+	static_buffer = read_file_until_newline_found(fd, static_buffer[fd]);
 	if (!static_buffer)
 		return (NULL);
 	line = extract_line(line, static_buffer);
