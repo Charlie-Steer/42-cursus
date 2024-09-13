@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:32:30 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/13 17:25:29 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/13 21:11:55 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//! ENSURE NO ILLEGAL NON-FT FUNCTIONS ARE USED.
-
-//! DO THE BONUS!!!
-
 #include "get_next_line.h"
-
-//! THIS NUMBER IS RANDOM. REMOVE BEFORE DELIVERY?
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 11
-#endif
 
 int	contains_newline(char *s)
 {

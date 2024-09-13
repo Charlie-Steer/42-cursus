@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:32:30 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/13 17:37:57 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/13 21:12:09 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//! ENSURE NO ILLEGAL NON-FT FUNCTIONS ARE USED.
-
-//! DO THE BONUS!!!
-
 #include "get_next_line_bonus.h"
-
-//! THIS NUMBER IS RANDOM. REMOVE BEFORE DELIVERY?
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 11
-#endif
 
 int	contains_newline(char *s)
 {
@@ -116,18 +107,18 @@ char	*get_remainder(char *static_buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*static_buffer[4096];
+	static char	*static_buffer[FOPEN_MAX];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	line = NULL;
-	static_buffer = read_file_until_newline_found(fd, static_buffer[fd]);
-	if (!static_buffer)
+	static_buffer[fd] = read_file_until_newline_found(fd, static_buffer[fd]);
+	if (!static_buffer[fd])
 		return (NULL);
-	line = extract_line(line, static_buffer);
+	line = extract_line(line, static_buffer[fd]);
 	if (!line)
-		return (free(static_buffer), NULL);
-	static_buffer = get_remainder(static_buffer);
+		return (free(static_buffer[fd]), NULL);
+	static_buffer[fd] = get_remainder(static_buffer[fd]);
 	return (line);
 }
