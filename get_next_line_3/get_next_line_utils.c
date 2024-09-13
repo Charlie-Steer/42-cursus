@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 19:28:50 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/11 23:08:19 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/12 12:57:02 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*ft_strcat_n_max_of_b(char *a, char *b, int n)
 	if (!c)
 		return (NULL);
 	
-	ft_memcpy(c, a, n);
+	ft_memcpy(c, a, a_len);
 	free(a);
 	if (b_len <= n)
 		n = b_len;
