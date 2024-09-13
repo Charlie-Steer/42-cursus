@@ -1,5 +1,6 @@
 #include "get_next_line.h"
 #include <fcntl.h>
+#include <stdio.h>
 
 // char *text_file = "./gnlTester/files/multiple_line_with_nl";
 char *text_file = "41_with_nl";

@@ -22,7 +22,7 @@ OBJECTS = $(SOURCES:.c=.o)
 
 ELF = get_next_line
 
-RELEASE_FLAGS = -Wall -Wextra -Werror
+RELEASE_FLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=42
 DEV_FLAGS = -g -O0
 
 
