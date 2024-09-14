@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 18:00:38 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/13 21:33:21 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/14 17:59:58 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # endif
 
 # ifndef FOPEN_MAX
-#  define FOPEN_MAX 1024
+#  define FOPEN_MAX 2048
 # endif
 
 # include <stdlib.h>
