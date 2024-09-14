@@ -22,9 +22,17 @@ void test1(int iters)
 	}
 } 
 
+void test2()
+{
+	char *l1 = get_next_line(0);
+
+	printf("%s", l1);
+}
+
 int main(void)
 {
-	test1(10);
+	//test1(10);
+	test2();
 	
 	return (0);
 }
