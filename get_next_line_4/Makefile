@@ -18,9 +18,20 @@ SOURCES = \
 	get_next_line_utils.c \
 	tests.c
 
+B_HEADER = \
+	get_next_line_bonus.h
+
+B_SOURCES = \
+	get_next_line_bonus.c \
+	get_next_line_utils_bonus.c \
+	test_b.c
+
 OBJECTS = $(SOURCES:.c=.o)
 
+B_OBJECTS = $(B_SOURCES:.c=.o)
+
 ELF = get_next_line
+B_ELF = get_next_line_bonus
 
 RELEASE_FLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=42
 DEV_FLAGS = -g -O0
@@ -43,14 +54,30 @@ else
 	@echo "error: Invalid compilation mode. Set MODE to a valid value."
 endif
 
+$(B_ELF): $(B_OBJECTS)
+ifeq ($(MODE), ft)
+	@$(CC) $(RELEASE_FLAGS) -o $(B_ELF) $(B_OBJECTS)
+	@echo "\"$(B_ELF)\" compiled in $(shell echo $(MODE) | tr 'a-z' 'A-Z') mode."
+else ifeq ($(MODE), test)
+	@$(CC) $(DEV_FLAGS) -o $(B_ELF) $(B_OBJECTS)
+	@echo "\"$(B_ELF)\" compiled in $(shell echo $(MODE) | tr 'a-z' 'A-Z') mode."
+else
+	@echo "error: Invalid compilation mode. Set MODE to a valid value."
+endif
+
 all: $(ELF)
 
 test: $(ELF)
 	@./$(ELF)
 
+bonus: $(B_ELF)
+
+b_test: $(B_ELF)
+	@./$(B_ELF)
+
 clean:
-	@$(RM) $(OBJECTS) $(ELF)
+	@$(RM) $(OBJECTS) $(B_OBJECTS) $(B_ELF) $(ELF)
 
 re: clean all
 
-.PHONY: all test clean re
+.PHONY: all bonus test clean re
