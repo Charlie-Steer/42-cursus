@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 14:23:22 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/16 20:53:44 by cargonz2         ###   ########.fr       */
+/*   Created: 2024/09/16 19:37:03 by cargonz2          #+#    #+#             */
+/*   Updated: 2024/09/16 20:55:49 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
-#include <stdio.h> //! Careful with this dude.
-#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-void	sigusr1_handler()
+int main(int argc, char **argv)
 {
-	printf("Signal received!\n");
-}
+	//! Seems like we have to handle argv[i] possibly not existing.
+	//! Otherwise a segmentation fault happens.
+	int server_pid = atoi(argv[1]); //! CAREFUL! Non-ft atoi.
+	kill(server_pid, SIGUSR1);
 
-int	main(void)
-{
-	signal(SIGUSR1, sigusr1_handler);
-	int pid = getpid();
-	printf("Server PID: %d\n", pid);
-	while (1)
-	{
-		printf("Waiting...\n");
-		sleep(1);
-	}
 	return (0);
 }

@@ -6,16 +6,17 @@
 #    By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 12:25:12 by cargonz2          #+#    #+#              #
-#    Updated: 2024/09/16 13:23:45 by cargonz2         ###   ########.fr        #
+#    Updated: 2024/09/16 20:50:38 by cargonz2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = clang
 RELEASE_FLAGS = -Wall -Wextra -Werror
 DEBUG_FLAGS = -g -O0
+CFLAGS = $(if $(filter "Release", $(MODE)), $(RELEASE_FLAGS), $(DEBUG_FLAGS))
 RM = rm -rf
 
-DEFAULT_MODE = $(RELEASE_MODE)
+MODE ?= $(RELEASE_MODE)
 RELEASE_MODE = RELEASE
 TESTING_MODE = TESTING
 
@@ -23,15 +24,11 @@ CLIENT_NAME = client
 SERVER_NAME = server
 
 CLIENT_SOURCES = \
-	client.c \
-	client.h \
-	client_tests.c
+	client.c
 SERVER_SOURCES = \
-	server.c \
-	server.h \
-	server_tests.c
-CLIENT_OBJECTS = $(SOURCES:.c=.o)
-SERVER_OBJECTS = $(SOURCES:.c=.o)
+	server.c
+CLIENT_OBJECTS = $(CLIENT_SOURCES:.c=.o)
+SERVER_OBJECTS = $(SERVER_SOURCES:.c=.o)
 
 #BONUS
 #! INCOMPLETE
@@ -39,20 +36,17 @@ B_SOURCES =
 B_OBJECTS = $(B_SOURCES:.c=.o)
 
 %.o: %.c
-	@$(CC) $(RELEASE_FLAGS) -o $@ $<
-	@echo "successfully compiled $@"
+	@$(CC) $(CFLAGS) -o $@ -c $<
+	@echo "Compiled $@ ($(MODE) mode)"
+
 
 $(CLIENT_NAME): $(CLIENT_OBJECTS)
-ifeq ($(MODE), $(RELEASE_MODE))
-	@$(CC) $(RELEASE_FLAGS) -o $(CLIENT_NAME) $(CLIENT_OBJECTS)
-	@echo "$(CLIENT_NAME) compiled in $(RELEASE_MODE)"
-else ifeq ($(MODE), $(TESTING_MODE))
-	@$(CC) $(DEBUG_FLAGS) -o $(CLIENT_NAME) $(CLIENT_OBJECTS)
-	@echo "$(CLIENT_NAME) compiled in $(TESTING_MODE)"
-end
+	@$(CC) $(CFLAGS) -o $(CLIENT_NAME) $(CLIENT_OBJECTS)
+	@echo "Linked (CLIENT_NAME) ($(MODE) mode)"
 
 $(SERVER_NAME): $(SERVER_OBJECTS)
- 	@$(CC) $(RELEASE_FLAGS) -o $(SERVER_NAME) $(SERVER_OBJECTS)
+	@$(CC) $(CFLAGS) -o $(SERVER_NAME) $(SERVER_OBJECTS) # This line
+	@echo "Linked (SERVER_NAME) ($(MODE) mode)"
 
 all: $(CLIENT_NAME) $(SERVER_NAME)
 
@@ -64,7 +58,11 @@ fclean: clean
 	@$(RM) $(CLIENT_NAME) $(SERVER_NAME)
 	@echo "Cleaned: OBJECT and ELF files."
 
+re: fclean all
+
+#test: $(CLIENT_NAME) $(SERVER_NAME)
+
 bonus: 
 
 
-PHONY: all clean fclean re bonus
+PHONY: all clean fclean re test bonus
