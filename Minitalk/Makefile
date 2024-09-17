@@ -6,7 +6,7 @@
 #    By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 12:25:12 by cargonz2          #+#    #+#              #
-#    Updated: 2024/09/16 20:50:38 by cargonz2         ###   ########.fr        #
+#    Updated: 2024/09/17 11:17:40 by cargonz2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,11 +42,11 @@ B_OBJECTS = $(B_SOURCES:.c=.o)
 
 $(CLIENT_NAME): $(CLIENT_OBJECTS)
 	@$(CC) $(CFLAGS) -o $(CLIENT_NAME) $(CLIENT_OBJECTS)
-	@echo "Linked (CLIENT_NAME) ($(MODE) mode)"
+	@echo "Linked $(CLIENT_NAME) ($(MODE) mode)"
 
 $(SERVER_NAME): $(SERVER_OBJECTS)
 	@$(CC) $(CFLAGS) -o $(SERVER_NAME) $(SERVER_OBJECTS) # This line
-	@echo "Linked (SERVER_NAME) ($(MODE) mode)"
+	@echo "Linked $(SERVER_NAME) ($(MODE) mode)"
 
 all: $(CLIENT_NAME) $(SERVER_NAME)
 
