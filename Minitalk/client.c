@@ -6,18 +6,16 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:37:03 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/17 21:04:36 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/18 21:47:35 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include "minitalk.h"
 
 int main(int argc, char **argv)
 {
 	if (argc != 2 || argc != 3) //! Improve imput validation.
-		return (printf("Error: Invalid argument count.\n"), 1); //! Careful with stdio printf.
+		return (ft_printf("Error: Invalid argument count.\n"), 1); //! Careful with stdio printf.
 	int server_pid = atoi(argv[1]); //! CAREFUL! Non-ft atoi.
 	// kill(server_pid, SIGUSR1);
 	{

@@ -7,6 +7,8 @@
 
 */get_next_line
 
+.cache/
+
 # Prerequisites
 *.d
 

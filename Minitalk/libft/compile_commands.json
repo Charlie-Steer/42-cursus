@@ -1,0 +1,690 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_isalpha.o",
+      "basic/ft_isalpha.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_isalpha.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_isalpha.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_isdigit.o",
+      "basic/ft_isdigit.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_isdigit.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_isdigit.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_isalnum.o",
+      "basic/ft_isalnum.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_isalnum.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_isalnum.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_isascii.o",
+      "basic/ft_isascii.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_isascii.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_isascii.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_isprint.o",
+      "basic/ft_isprint.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_isprint.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_isprint.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_strlen.o",
+      "basic/ft_strlen.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_strlen.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_strlen.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_memset.o",
+      "basic/ft_memset.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_memset.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_memset.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_bzero.o",
+      "basic/ft_bzero.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_bzero.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_bzero.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_memcpy.o",
+      "basic/ft_memcpy.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_memcpy.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_memcpy.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_memmove.o",
+      "basic/ft_memmove.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_memmove.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_memmove.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_strlcpy.o",
+      "basic/ft_strlcpy.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_strlcpy.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_strlcpy.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_strlcat.o",
+      "basic/ft_strlcat.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_strlcat.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_strlcat.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_toupper.o",
+      "basic/ft_toupper.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_toupper.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_toupper.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_tolower.o",
+      "basic/ft_tolower.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_tolower.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_tolower.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_strchr.o",
+      "basic/ft_strchr.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_strchr.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_strchr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_strrchr.o",
+      "basic/ft_strrchr.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_strrchr.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_strrchr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_strncmp.o",
+      "basic/ft_strncmp.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_strncmp.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_strncmp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_memchr.o",
+      "basic/ft_memchr.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_memchr.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_memchr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_memcmp.o",
+      "basic/ft_memcmp.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_memcmp.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_memcmp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_strnstr.o",
+      "basic/ft_strnstr.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_strnstr.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_strnstr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_atoi.o",
+      "basic/ft_atoi.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_atoi.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_atoi.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_calloc.o",
+      "basic/ft_calloc.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_calloc.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_calloc.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_strdup.o",
+      "basic/ft_strdup.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_strdup.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_strdup.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_substr.o",
+      "basic/ft_substr.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_substr.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_substr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_strjoin.o",
+      "basic/ft_strjoin.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_strjoin.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_strjoin.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_strtrim.o",
+      "basic/ft_strtrim.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_strtrim.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_strtrim.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_split.o",
+      "basic/ft_split.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_split.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_split.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_itoa.o",
+      "basic/ft_itoa.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_itoa.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_itoa.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_strmapi.o",
+      "basic/ft_strmapi.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_strmapi.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_strmapi.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_striteri.o",
+      "basic/ft_striteri.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_striteri.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_striteri.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_putchar_fd.o",
+      "basic/ft_putchar_fd.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_putchar_fd.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_putchar_fd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_putstr_fd.o",
+      "basic/ft_putstr_fd.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_putstr_fd.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_putstr_fd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_putendl_fd.o",
+      "basic/ft_putendl_fd.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_putendl_fd.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_putendl_fd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_putnbr_fd.o",
+      "basic/ft_putnbr_fd.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/basic/ft_putnbr_fd.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_putnbr_fd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_lstnew_bonus.o",
+      "lists/ft_lstnew_bonus.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/lists/ft_lstnew_bonus.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_lstnew_bonus.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_lstadd_front_bonus.o",
+      "lists/ft_lstadd_front_bonus.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/lists/ft_lstadd_front_bonus.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_lstadd_front_bonus.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_lstsize_bonus.o",
+      "lists/ft_lstsize_bonus.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/lists/ft_lstsize_bonus.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_lstsize_bonus.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_lstlast_bonus.o",
+      "lists/ft_lstlast_bonus.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/lists/ft_lstlast_bonus.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_lstlast_bonus.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_lstadd_back_bonus.o",
+      "lists/ft_lstadd_back_bonus.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/lists/ft_lstadd_back_bonus.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_lstadd_back_bonus.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_lstdelone_bonus.o",
+      "lists/ft_lstdelone_bonus.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/lists/ft_lstdelone_bonus.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_lstdelone_bonus.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_lstclear_bonus.o",
+      "lists/ft_lstclear_bonus.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/lists/ft_lstclear_bonus.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_lstclear_bonus.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_lstiter_bonus.o",
+      "lists/ft_lstiter_bonus.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/lists/ft_lstiter_bonus.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_lstiter_bonus.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I.",
+      "-c",
+      "-o",
+      "ft_lstmap_bonus.o",
+      "lists/ft_lstmap_bonus.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/Minitalk/libft",
+    "file": "/home/charlie/projects/42-cursus/Minitalk/libft/lists/ft_lstmap_bonus.c",
+    "output": "/home/charlie/projects/42-cursus/Minitalk/libft/ft_lstmap_bonus.o"
+  }
+]
