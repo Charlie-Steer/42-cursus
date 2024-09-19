@@ -6,17 +6,19 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 16:37:49 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/18 21:52:12 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:59:32 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "get_next_line.h"
-#include "ft_printf.h"
+#ifndef LIBFT_H
+# define LIBFT_H
+# include "ft_printf.h"
+# include "get_next_line.h"
+# include <stddef.h>
+# include <string.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
 
 typedef struct s_list
 {
@@ -72,3 +74,4 @@ void		ft_lstdelone(t_list *lst, void (*del)(void *));
 void		ft_lstclear(t_list **lst, void (*del)(void *));
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+#endif

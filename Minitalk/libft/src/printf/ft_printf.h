@@ -10,11 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//! TEST WITHOUT THESE. IN CASE NON-FT FUNCTION USED.
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <stdarg.h>
 
 typedef struct s_conv_spec
 {
@@ -78,3 +79,4 @@ int			ft_numlen_base_unsigned(unsigned long num, char *base);
 void		*ft_memcpy(void *dst, const void *src, size_t n);
 void		ft_bzero(void *s, size_t n);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
+#endif
