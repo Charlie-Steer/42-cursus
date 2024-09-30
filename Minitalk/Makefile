@@ -31,6 +31,8 @@ B_OBJECTS = $(B_SOURCES:.c=.o)
 	@$(CC) $(CFLAGS) -o $@ -c $<
 	@echo "Compiled $@ ($(MODE) mode)"
 
+all: $(CLIENT_NAME) $(SERVER_NAME) $(LIBFT)
+
 $(CLIENT_NAME): $(CLIENT_OBJECTS) $(LIBFT)
 	@$(CC) $(CFLAGS) -o $(CLIENT_NAME) $(CLIENT_OBJECTS) $(LIBFT)
 	@echo "Linked $(CLIENT_NAME) ($(MODE) mode)"
@@ -42,8 +44,6 @@ $(SERVER_NAME): $(SERVER_OBJECTS) $(LIBFT)
 $(LIBFT):
 	@make -C libft all
 
-all: $(CLIENT_NAME) $(SERVER_NAME) $(LIBFT)
-
 clean:
 	@$(RM) $(CLIENT_OBJECTS) $(SERVER_OBJECTS) $(BONUS_CLIENT_OBJECTS) $(BONUS_SERVER_OBJECTS)
 	@echo "Cleaned: OBJECT files."
@@ -54,7 +54,8 @@ fclean: clean
 
 re: fclean all
 
-#test: $(CLIENT_NAME) $(SERVER_NAME)
+test: all
+	@./server
 
 bonus: 
 
