@@ -1,7 +1,8 @@
 # FLAGS
 CC = clang
-RELEASE_FLAGS = -Wall -Wextra -Werror -I. -Ilibft/src/printf -Ilibft/src/get_next_line
-DEBUG_FLAGS = -g -O0
+INCLUDES = -I. -Ilibft -Ilibft/src/printf -Ilibft/src/get_next_line
+RELEASE_FLAGS = -Wall -Wextra -Werror $(INCLUDES)
+DEBUG_FLAGS = -g -O0 $(INCLUDES)
 CFLAGS = $(if $(filter "Release", $(MODE)), $(RELEASE_FLAGS), $(DEBUG_FLAGS))
 RM = rm -rf
 LIBFT = libft/libft.a
@@ -30,18 +31,18 @@ B_OBJECTS = $(B_SOURCES:.c=.o)
 	@$(CC) $(CFLAGS) -o $@ -c $<
 	@echo "Compiled $@ ($(MODE) mode)"
 
-$(CLIENT_NAME): $(CLIENT_OBJECTS)
+$(CLIENT_NAME): $(CLIENT_OBJECTS) $(LIBFT)
 	@$(CC) $(CFLAGS) -o $(CLIENT_NAME) $(CLIENT_OBJECTS) $(LIBFT)
 	@echo "Linked $(CLIENT_NAME) ($(MODE) mode)"
 
-$(SERVER_NAME): $(SERVER_OBJECTS)
+$(SERVER_NAME): $(SERVER_OBJECTS) $(LIBFT)
 	@$(CC) $(CFLAGS) -o $(SERVER_NAME) $(SERVER_OBJECTS) $(LIBFT)
 	@echo "Linked $(SERVER_NAME) ($(MODE) mode)"
 
 $(LIBFT):
-	@make -C libft
+	@make -C libft all
 
-all: $(LIBFT) $(CLIENT_NAME) $(SERVER_NAME)
+all: $(CLIENT_NAME) $(SERVER_NAME) $(LIBFT)
 
 clean:
 	@$(RM) $(CLIENT_OBJECTS) $(SERVER_OBJECTS) $(BONUS_CLIENT_OBJECTS) $(BONUS_SERVER_OBJECTS)

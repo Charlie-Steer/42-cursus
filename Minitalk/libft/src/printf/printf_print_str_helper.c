@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_str_helper.c                                 :+:      :+:    :+:   */
+/*   printf_print_str_helper.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 22:21:30 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/08/08 22:28:23 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:14:24 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	calc_min_width_comp(int str_len, t_conv_spec cs, char *str)
+int	pf_calc_min_width_comp(int str_len, t_conv_spec cs, char *str)
 {
 	int	min_width_comp;
 
@@ -32,7 +32,7 @@ int	calc_min_width_comp(int str_len, t_conv_spec cs, char *str)
 	return (min_width_comp);
 }
 
-int	print_point_str(char *str, int str_len, t_conv_spec cs)
+int	pf_print_point_str(char *str, int str_len, t_conv_spec cs)
 {
 	int	bytes_written;
 
@@ -47,7 +47,7 @@ int	print_point_str(char *str, int str_len, t_conv_spec cs)
 	{
 		if (str != NULL)
 		{
-			if (ft_putstr_fd(str, 1) < 0)
+			if (pf_putstr_fd(str, 1) < 0)
 				return (-1);
 		}
 		else if (!cs.has_point || (cs.has_point && cs.point_width >= 6))
@@ -59,14 +59,14 @@ int	print_point_str(char *str, int str_len, t_conv_spec cs)
 		return (bytes_written);
 }
 
-int	get_strlen(char *str, t_conv_spec cs)
+int	pf_get_strlen(char *str, t_conv_spec cs)
 {
 	int	str_len;
 
 	if (cs.min_width == 0 && cs.has_point && cs.point_width == 0)
 		str_len = 0;
 	else if (str)
-		str_len = ft_strlen(str);
+		str_len = pf_strlen(str);
 	else
 		str_len = 6;
 	return (str_len);

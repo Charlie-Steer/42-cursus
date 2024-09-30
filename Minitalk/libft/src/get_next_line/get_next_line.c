@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:32:30 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/18 21:32:07 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:25:43 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	contains_newline(char *s)
 	if (!s)
 		return (0);
 	i = 0;
-	s_len = ft_strlen(s);
+	s_len = gnl_strlen(s);
 	while (s[i] && s[i] != '\n' && i < s_len)
 		i++;
 	if (s[i] == '\n')
@@ -38,14 +38,14 @@ char	*read_file_until_newline_found(
 	temp_buffer = NULL;
 	if (!static_buffer)
 	{
-		static_buffer = ft_malloc_zero(BUFFER_SIZE + 1);
+		static_buffer = gnl_malloc_zero(BUFFER_SIZE + 1);
 		if (!static_buffer)
 			return (NULL);
 	}
 	while (!contains_newline(static_buffer))
 	{
 		free_and_null(temp_buffer);
-		temp_buffer = ft_malloc_zero(BUFFER_SIZE + 1);
+		temp_buffer = gnl_malloc_zero(BUFFER_SIZE + 1);
 		if (!temp_buffer)
 			return (free(static_buffer), NULL);
 		n_bytes_read = read(fd, temp_buffer, BUFFER_SIZE);
@@ -53,7 +53,7 @@ char	*read_file_until_newline_found(
 			return (free(temp_buffer), static_buffer);
 		else if (n_bytes_read == 0 || n_bytes_read == -1)
 			return (free(temp_buffer), free_and_null(static_buffer), NULL);
-		static_buffer = ft_strjoin(static_buffer, temp_buffer);
+		static_buffer = gnl_strjoin(static_buffer, temp_buffer);
 	}
 	free_and_null(temp_buffer);
 	return (static_buffer);
@@ -64,7 +64,7 @@ char	*extract_line(
 {
 	int	i;
 
-	line = ft_malloc_zero(ft_strlen(static_buffer) + 1);
+	line = gnl_malloc_zero(gnl_strlen(static_buffer) + 1);
 	if (!line)
 		return (free_and_null(static_buffer), NULL);
 	i = 0;
@@ -91,16 +91,16 @@ char	*get_remainder(char *static_buffer)
 		old_line_len++;
 	if (static_buffer[old_line_len] == '\n')
 		old_line_len += 1;
-	static_buffer_len = ft_strlen(static_buffer);
-	temp_buffer = ft_malloc_zero(static_buffer_len + 1 - old_line_len);
+	static_buffer_len = gnl_strlen(static_buffer);
+	temp_buffer = gnl_malloc_zero(static_buffer_len + 1 - old_line_len);
 	if (!temp_buffer)
 		return (free_and_null(static_buffer), NULL);
-	ft_memcpy(temp_buffer, &(static_buffer)[old_line_len],
+	gnl_memcpy(temp_buffer, &(static_buffer)[old_line_len],
 		static_buffer_len - old_line_len);
 	i = 0;
 	while (static_buffer[i])
 		static_buffer[i++] = '\0';
-	ft_memcpy(static_buffer, temp_buffer, static_buffer_len - old_line_len);
+	gnl_memcpy(static_buffer, temp_buffer, static_buffer_len - old_line_len);
 	free(temp_buffer);
 	return (static_buffer);
 }

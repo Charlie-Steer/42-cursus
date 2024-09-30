@@ -9,6 +9,9 @@
 
 .cache/
 
+libft.a
+client
+
 # Prerequisites
 *.d
 

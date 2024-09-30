@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   printf_ft_memcpy.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 18:24:39 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/22 16:18:21 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:16:54 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void	*pf_memcpy(void *dst, const void *src, size_t n)
 {
 	size_t	i;
 

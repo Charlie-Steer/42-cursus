@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_hexadecimal_helper.c                         :+:      :+:    :+:   */
+/*   printf_print_hexadecimal_helper.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:39:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/25 19:00:39 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:13:01 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static int	hexa_add_hex(char *print_str, t_conv_spec cs)
 		hex_string = malloc(3);
 		if (hex_string == NULL)
 			return (-1);
-		ft_memcpy(hex_string, "0x", 3);
+		pf_memcpy(hex_string, "0x", 3);
 		if (cs.conv_specifier == 'X')
 			hex_string[1] = 'X';
-		ft_memmove(print_str, hex_string, 2);
+		pf_memmove(print_str, hex_string, 2);
 		free(hex_string);
 		offset = 2;
 	}
@@ -45,7 +45,7 @@ static int	add_min_width(char *print_str, t_conv_spec cs, char *n_str,
 	if (cs.has_point && cs.point_width == 0 && n_str[0] == '0')
 		min_width_comp = 0;
 	else
-		min_width_comp = ft_max(arg_len, cs.point_width);
+		min_width_comp = pf_max(arg_len, cs.point_width);
 	if (cs.has_alternate)
 		min_width_comp += 2;
 	if (cs.min_width > min_width_comp && !cs.has_right_pad)
@@ -62,7 +62,7 @@ static int	add_min_width(char *print_str, t_conv_spec cs, char *n_str,
 	return (offset);
 }
 
-int	hexa_add_prefix(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
+int	pf_hexa_add_prefix(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
 {
 	int	offset;
 	int	temp_offset;
@@ -88,7 +88,7 @@ int	hexa_add_prefix(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
 	return (offset);
 }
 
-char	*get_hex_base(int conv_specifier)
+char	*pf_get_hex_base(int conv_specifier)
 {
 	char	*base;
 

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcmp.c                                        :+:      :+:    :+:   */
+/*   printf_ft_memcmp.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:15:51 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/22 16:12:19 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:16:41 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
 
-int	ft_memcmp(const void *s1, const void *s2, size_t n)
+int	pf_memcmp(const void *s1, const void *s2, size_t n)
 {
 	size_t	i;
 

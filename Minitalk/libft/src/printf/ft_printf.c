@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:05:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/08/08 20:17:28 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:03:00 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@ int	print_conv_spec(va_list args, t_conv_spec cs)
 	print_len = 0;
 	c = cs.conv_specifier;
 	if (c == 'c')
-		print_len = print_char(va_arg(args, int), cs);
+		print_len = pf_print_char(va_arg(args, int), cs);
 	else if (c == 's')
-		print_len = print_str(va_arg(args, char *), cs);
+		print_len = pf_print_str(va_arg(args, char *), cs);
 	else if (c == 'd' || c == 'i')
-		print_len = print_int(va_arg(args, int), cs);
+		print_len = pf_print_int(va_arg(args, int), cs);
 	else if (c == 'u')
-		print_len = print_unsigned_int(va_arg(args, unsigned int), cs);
+		print_len = pf_print_unsigned_int(va_arg(args, unsigned int), cs);
 	else if (c == 'x' || c == 'X')
-		print_len = print_hexadecimal(va_arg(args, unsigned int), cs);
+		print_len = pf_print_hexadecimal(va_arg(args, unsigned int), cs);
 	else if (c == 'p')
-		print_len = print_pointer(va_arg(args, void *), cs);
+		print_len = pf_print_pointer(va_arg(args, void *), cs);
 	else if (c == '%')
 	{
-		if (ft_putchar_fd('%', 1) < 0)
+		if (pf_putchar_fd('%', 1) < 0)
 			return (-1);
 		print_len = 1;
 	}
@@ -61,7 +61,7 @@ int	get_conv_spec_str_len(const char *str)
 
 	len = 1;
 	str++;
-	while (!ft_strchr("cspdiuxX%", *str) && *str != '\0')
+	while (!pf_strchr("cspdiuxX%", *str) && *str != '\0')
 	{
 		len++;
 		str++;
@@ -80,7 +80,7 @@ static t_conv_spec	get_conv_spec_struct(char const *str)
 	t_conv_spec	cs;
 
 	cs = init_conv_spec();
-	cs = parse_conversion_specification(cs, str);
+	cs = pf_parse_conversion_specification(cs, str);
 	return (cs);
 }
 
@@ -97,7 +97,7 @@ int	ft_printf(char const *str, ...)
 	{
 		if (*str != '%')
 		{
-			if (ft_putchar_fd(*str, 1) < 0)
+			if (pf_putchar_fd(*str, 1) < 0)
 				return (-1);
 			str++;
 			print_len++;

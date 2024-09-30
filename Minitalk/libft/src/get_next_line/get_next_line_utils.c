@@ -6,13 +6,13 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 19:28:50 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/18 21:32:17 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:21:45 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_malloc_zero(size_t n)
+char	*gnl_malloc_zero(size_t n)
 {
 	size_t	i;
 	char	*new_block;
@@ -29,7 +29,7 @@ char	*ft_malloc_zero(size_t n)
 	return (new_block);
 }
 
-char	*free_and_null(char *s)
+char	*gnl_free_and_null(char *s)
 {
 	if (s)
 		free(s);
@@ -37,7 +37,7 @@ char	*free_and_null(char *s)
 	return (NULL);
 }
 
-int	ft_strlen(char *s)
+int	gnl_strlen(char *s)
 {
 	int	i;
 
@@ -49,7 +49,7 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-char	*ft_memcpy(char *s1, char *s2, int n)
+char	*gnl_memcpy(char *s1, char *s2, int n)
 {
 	int	i;
 
@@ -66,7 +66,7 @@ char	*ft_memcpy(char *s1, char *s2, int n)
 	return (s1);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*gnl_strjoin(char *s1, char *s2)
 {
 	char	*new_s;
 	int		s1_len;
@@ -75,16 +75,16 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s1)
 		s1_len = 0;
 	else
-		s1_len = ft_strlen(s1);
+		s1_len = gnl_strlen(s1);
 	if (!s2)
 		s2_len = 0;
 	else
-		s2_len = ft_strlen(s2);
-	new_s = ft_malloc_zero(s1_len + s2_len + 1);
+		s2_len = gnl_strlen(s2);
+	new_s = gnl_malloc_zero(s1_len + s2_len + 1);
 	if (!new_s)
 		return (NULL);
-	ft_memcpy(new_s, s1, s1_len);
-	ft_memcpy(&(new_s[s1_len]), s2, s2_len);
+	gnl_memcpy(new_s, s1, s1_len);
+	gnl_memcpy(&(new_s[s1_len]), s2, s2_len);
 	if (s1)
 		free(s1);
 	return (new_s);

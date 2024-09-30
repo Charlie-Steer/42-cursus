@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   determine_print_len.c                              :+:      :+:    :+:   */
+/*   printf_determine_print_len.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:26:56 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/08/08 20:11:31 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:12:16 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ static int	get_print_len_x(t_conv_spec cs, int print_len)
 
 static int	get_print_len_p(t_conv_spec cs, int print_len, char *n_str)
 {
-	if (!ft_strncmp("(nil)", n_str, 6))
+	if (!pf_strncmp("(nil)", n_str, 6))
 	{
-		print_len = ft_max(cs.min_width, print_len);
+		print_len = pf_max(cs.min_width, print_len);
 		return (print_len);
 	}
 	if (cs.point_width > print_len)
@@ -64,12 +64,12 @@ static int	get_print_len_p(t_conv_spec cs, int print_len, char *n_str)
 	return (print_len);
 }
 
-int	determine_cs_print_len(char *n_str, t_conv_spec cs)
+int	pf_determine_cs_print_len(char *n_str, t_conv_spec cs)
 {
 	int	print_len;
 	int	arg_len;
 
-	arg_len = ft_strlen(n_str);
+	arg_len = pf_strlen(n_str);
 	print_len = arg_len;
 	if ((cs.conv_specifier == 'd' || cs.conv_specifier == 'i'
 			|| cs.conv_specifier == 'u' || cs.conv_specifier == 'x'

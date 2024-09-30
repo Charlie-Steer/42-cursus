@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa_unsigned.c                                 :+:      :+:    :+:   */
+/*   printf_ft_itoa_unsigned.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 13:02:25 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/22 16:11:24 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:16:27 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	uintlen(unsigned int n)
 	return (len);
 }
 
-char	*ft_itoa_unsigned(unsigned int n)
+char	*pf_itoa_unsigned(unsigned int n)
 {
 	int		len;
 	char	*str;

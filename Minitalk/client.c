@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:37:03 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/18 21:47:35 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/26 20:53:07 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int main(int argc, char **argv)
 {
 	if (argc != 2 || argc != 3) //! Improve imput validation.
-		return (ft_printf("Error: Invalid argument count.\n"), 1); //! Careful with stdio printf.
-	int server_pid = atoi(argv[1]); //! CAREFUL! Non-ft atoi.
+		return (ft_printf("Error: Invalid argument count.\n"), 1);
+	int server_pid = ft_atoi(argv[1]);
 	// kill(server_pid, SIGUSR1);
 	{
 		char *message = argv[2]; //! Properly copy the contents to a malloc'd message.

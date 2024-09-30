@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_pointer_helper.c                             :+:      :+:    :+:   */
+/*   printf_print_pointer_helper.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:43:45 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/08/08 22:33:38 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:13:59 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ static int	add_hex(char *print_str, char *n_str)
 	int	offset;
 
 	offset = 0;
-	if (!ft_strncmp(n_str, "(nil)", ft_strlen(n_str)))
+	if (!pf_strncmp(n_str, "(nil)", pf_strlen(n_str)))
 	{
 		return (offset);
 	}
 	else
 	{
-		ft_memcpy(print_str, "0x", 2);
+		pf_memcpy(print_str, "0x", 2);
 		offset = 2;
 	}
 	return (offset);
@@ -56,9 +56,9 @@ static int	add_min_width(char *print_str, t_conv_spec cs, char *n_str,
 
 	offset = 0;
 	pad_char = ' ';
-	min_width_comp = ft_max(arg_len, cs.point_width)
+	min_width_comp = pf_max(arg_len, cs.point_width)
 		+ (cs.has_sign || cs.has_blank);
-	if (ft_memcmp(n_str, "(nil)", ft_strlen(n_str)))
+	if (pf_memcmp(n_str, "(nil)", pf_strlen(n_str)))
 		min_width_comp += 2;
 	if (cs.min_width > min_width_comp && !cs.has_right_pad)
 	{
@@ -74,7 +74,7 @@ static int	add_min_width(char *print_str, t_conv_spec cs, char *n_str,
 	return (offset);
 }
 
-int	pointer_add_prefix(char *print_str, t_conv_spec cs, char *n_str,
+int	pf_pointer_add_prefix(char *print_str, t_conv_spec cs, char *n_str,
 		int arg_len)
 {
 	int	offset;
@@ -104,11 +104,11 @@ int	pointer_add_prefix(char *print_str, t_conv_spec cs, char *n_str,
 	return (offset + temp_offset);
 }
 
-int	add_pointer_arg(char *print_str, char *n_str, int arg_len)
+int	pf_add_pointer_arg(char *print_str, char *n_str, int arg_len)
 {
 	int	offset;
 
-	ft_memmove(print_str, n_str, arg_len);
+	pf_memmove(print_str, n_str, arg_len);
 	offset = arg_len;
 	return (offset);
 }

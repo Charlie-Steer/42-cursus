@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_numlen.c                                        :+:      :+:    :+:   */
+/*   printf_ft_numlen.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:54:46 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/07/22 16:12:36 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:17:32 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
 
 // Returns the length of the string to write the given decimal number.
-int	ft_numlen(long num, int account_sign)
+int	pf_numlen(long num, int account_sign)
 {
 	int	len;
 
