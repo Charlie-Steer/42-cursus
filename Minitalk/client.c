@@ -6,17 +6,14 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:37:03 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/01 16:27:31 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/02 14:46:10 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 #include <assert.h>
 
-void	send_bit()
-{
-
-}
+char	*g_str = NULL;
 
 void	send_message(int server_pid, char *message)
 {
@@ -34,19 +31,19 @@ void	send_message(int server_pid, char *message)
 			bit_value >>= 7;
 			if (bit_value == 0)
 			{
-				ft_printf("0");
+				ft_printf("0\n");
 				kill(server_pid, SIGUSR1);
 			}
 			else
 			{
 				assert(bit_value == 1); //! remove
-				printf("1");
+				printf("1\n");
 				kill(server_pid, SIGUSR2);
 			}
 			message[char_index] <<= 1;
 			bit_index++;
-			ft_printf("\n");
-			usleep(200);
+			// ft_printf("\n");
+			usleep(150);
 		}
 		bit_index = 0;
 		char_index++;
@@ -60,7 +57,8 @@ int main(int argc, char **argv)
 	int server_pid = ft_atoi(argv[1]);
 
 	//? Properly copy the contents to a malloc'd message?
-	send_message(server_pid, argv[2]);
+	g_str = argv[2];
+	send_message(server_pid, g_str);
 
 	return (0);
 }
