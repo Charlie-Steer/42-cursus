@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:39:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/09/25 14:13:01 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:02:11 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ static int	add_min_width(char *print_str, t_conv_spec cs, char *n_str,
 	return (offset);
 }
 
-int	pf_hexa_add_prefix(char *print_str, t_conv_spec cs, char *n_str, int arg_len)
+int	pf_hexa_add_prefix(char *print_str, t_conv_spec cs, char *n_str,
+					int arg_len)
 {
 	int	offset;
 	int	temp_offset;
