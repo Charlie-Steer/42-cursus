@@ -21,11 +21,6 @@ SERVER_SOURCES = \
 CLIENT_OBJECTS = $(CLIENT_SOURCES:.c=.o)
 SERVER_OBJECTS = $(SERVER_SOURCES:.c=.o)
 
-# BONUS
-#! INCOMPLETE
-B_SOURCES = 
-B_OBJECTS = $(B_SOURCES:.c=.o)
-
 # RULES
 %.o: %.c
 	@$(CC) $(CFLAGS) -o $@ -c $<
@@ -45,11 +40,13 @@ $(LIBFT):
 	@make -C libft all
 
 clean:
-	@$(RM) $(CLIENT_OBJECTS) $(SERVER_OBJECTS) $(BONUS_CLIENT_OBJECTS) $(BONUS_SERVER_OBJECTS)
+	@$(RM) $(CLIENT_OBJECTS) $(SERVER_OBJECTS)
+	@make -C libft clean
 	@echo "Cleaned: OBJECT files."
 
 fclean: clean
 	@$(RM) $(CLIENT_NAME) $(SERVER_NAME)
+	@make -C libft fclean
 	@echo "Cleaned: OBJECT and ELF files."
 
 re: fclean all
@@ -57,7 +54,4 @@ re: fclean all
 test: all
 	@./server
 
-bonus: 
-
-
-PHONY: all clean fclean re test bonus
+PHONY: all clean fclean re test
