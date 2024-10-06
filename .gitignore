@@ -12,6 +12,7 @@
 libft.a
 client
 server
+push_swap
 
 # Prerequisites
 *.d
