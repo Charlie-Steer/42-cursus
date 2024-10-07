@@ -6,11 +6,11 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/06 18:18:40 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/07 20:11:17 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
+#include "push_swap.h"
 
 int	number_of_strings(char **char_array)
 {
@@ -28,9 +28,10 @@ int main(int argc, char *argv[])
 		ft_printf("Error: invalid argument count.\n");
 
 	char **number_strings = ft_split(argv[1], ' ');
-	char **list_a = ft_calloc(number_of_strings(number_strings), sizeof(int));
-	if (!list_a)
+	char **number_array = ft_calloc(number_of_strings(number_strings), sizeof(int));
+	if (!number_array)
 		return (1);
+
 	int	i = 0;
 	while (number_strings[i])
 	{
