@@ -6,12 +6,14 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:40:05 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/09 18:29:47 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:35:17 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+// Allocates a new node initialized to the "number" value.
+// Memory must be handled by the user.
 t_node	*create_node(int number)
 {
 	t_node	*node;
