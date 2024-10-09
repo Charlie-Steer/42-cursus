@@ -6,17 +6,36 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:40:05 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/07 20:13:30 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:29:47 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-lstnew()
+t_node	*create_node(int number)
 {
-	t_list	node;
+	t_node	*node;
 	
-	//! WIP
-	node = ft_calloc(1, lstnew);
+	node = ft_calloc(sizeof(t_node), 1);
+	if (!node)
+		return (NULL);
+
+	node->number = number;
 	return (node);
+}
+
+// Returns 0 if input is valid, -1 if any input is NULL.
+int add_last_link(t_node* list_node, t_node* node_to_point_to)
+{
+	if (list_node == NULL || node_to_point_to == NULL)
+		return (-1);
+	if (list_node == NULL)
+		list_node->next_node = node_to_point_to;
+	else
+	{
+		while (list_node->next_node != NULL)
+			list_node = list_node->next_node;
+		list_node->next_node = node_to_point_to;
+	}
+	return (0);
 }
