@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/09 20:25:15 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/10 21:31:06 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	calculate_number_of_integers(t_node *list)
 	while (list->next_node != NULL)
 	{
 		number_of_ints++;
+		list = list->next_node;
 	}
 	return (number_of_ints);
 }
@@ -93,20 +94,37 @@ int ft_min(int a, int b)
 }
 
 //! IMPLEMENT SORTING ALGO
-t_node *calc_order(t_node *list)
+t_node *set_ordered_position(t_node *list, int number_of_integers)
 {
-	int number_of_integers;
-	int smallest_number;
 	int i;
+	int j;
+	t_node *node_to_sort;
+	t_node *node_to_compare_to;
 
-	number_of_integers = calculate_number_of_integers(list);
+	node_to_sort = list;
+	node_to_compare_to = list;
 	i = 0;
-	smallest_number = list->number;
+	j = 0;
 	while (i < number_of_integers)
 	{
-		smallest_number = ft_min(smallest_number, list->number);
 		i++;
+		while (j < number_of_integers)
+		{
+			j++;
+			if (node_to_sort == node_to_compare_to)
+			{
+				node_to_compare_to = node_to_compare_to->next_node;
+				continue ;
+			}
+			if (node_to_sort->number > node_to_compare_to->number)
+				node_to_sort->ordered_position++;
+			node_to_compare_to = node_to_compare_to->next_node;
+		}
+		node_to_compare_to = list;
+		j = 0;
+		node_to_sort = node_to_sort->next_node;
 	}
+	return (list);
 }
 
 
@@ -121,14 +139,25 @@ int main(int argc, char *argv[])
 	if (check_if_duplicate_numbers(list) == 1)
 		return (ft_printf("Error: duplicate values are not allowed\n"), 1);
 
+	// // test
+	// {
+	// 	while (list->next_node != NULL)
+	// 	{
+	// 		ft_printf("%d\n", list->number);
+	// 		list = list->next_node;
+	// 	}
+	// 	ft_printf("%d\n", list->number);
+	// }
+
+	set_ordered_position(list, calculate_number_of_integers(list));
 	// test
 	{
 		while (list->next_node != NULL)
 		{
-			ft_printf("%d\n", list->number);
+			ft_printf("%d\n", list->ordered_position);
 			list = list->next_node;
 		}
-		ft_printf("%d\n", list->number);
+		ft_printf("%d\n", list->ordered_position);
 	}
 
 	return (0);
