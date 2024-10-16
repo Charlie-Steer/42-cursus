@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/10 21:31:06 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:24:33 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int ft_min(int a, int b)
 		return (b);
 }
 
-//! IMPLEMENT SORTING ALGO
 t_node *set_ordered_position(t_node *list, int number_of_integers)
 {
 	int i;
@@ -130,16 +129,27 @@ t_node *set_ordered_position(t_node *list, int number_of_integers)
 
 int main(int argc, char *argv[])
 {
-	if (argc != 2) //? Should argc !=2 behave differently?
+	// ! MAYBE VALUES SHOULDN'T BE PROVIDED AS A SINGLE STRING
+	// ! BUT AS AN INFINITE AMOUNT OF ARGUMENTS.
+
+	// ! ALLOWED TWO LISTS BECAUSE OF TESTING PURPOSES
+	if (argc != 2 && argc != 3) //? Should argc !=2 behave differently? Instructions say to "give the prompt back".
 		return (ft_printf("Error: invalid argument count.\n"), 1);
 	
+	// ! HANDLE THE FOLLOWING ERRORS (IN EVERY CASE THE OUTPUT SHOULD BE "Error\n"):
+	// ! SOME ARGUMENTS ARE NOT INTEGERS.
+	// ! SOME ARGUMENTS ARE BIGGER THAN AN INTEGER.
+	// ! THERE ARE DUPLICATE NUMBERS.
+	
 	char **number_strings = ft_split(argv[1], ' ');
+	char **number_strings_test = ft_split(argv[2], ' '); //! DELETE
 	t_node *list = create_list_of_integers_from_strings(number_strings);
+	t_node *list_test = create_list_of_integers_from_strings(number_strings_test); //! DELETE
 
 	if (check_if_duplicate_numbers(list) == 1)
 		return (ft_printf("Error: duplicate values are not allowed\n"), 1);
 
-	// // test
+	// // create_list  test
 	// {
 	// 	while (list->next_node != NULL)
 	// 	{
@@ -150,15 +160,56 @@ int main(int argc, char *argv[])
 	// }
 
 	set_ordered_position(list, calculate_number_of_integers(list));
-	// test
+	// // set_ordered_position test
+	// {
+	// 	while (list->next_node != NULL)
+	// 	{
+	// 		ft_printf("%d\n", list->ordered_position);
+	// 		list = list->next_node;
+	// 	}
+	// 	ft_printf("%d\n", list->ordered_position);
+	// }
+
+	// // list_state test
+	// {
+	// 	t_node *test_list = list;
+	// 	while (list->next_node != NULL)
+	// 	{
+	// 		ft_printf("%d\n", list->number);
+	// 		list = list->next_node;
+	// 	}
+	// 	ft_printf("%d\n\n", list->number);
+	// }
+
+	// swap_nodes(list);
+	// push_node(list, list_test);
+
+	// push_node(list, list_test);
+	list = inverse_rotate_stack(list);
+	list = inverse_rotate_stack(list);
+	
+	// list_state test
 	{
-		while (list->next_node != NULL)
+		t_node *test_list = list;
+		while (test_list->next_node != NULL)
 		{
-			ft_printf("%d\n", list->ordered_position);
-			list = list->next_node;
+			ft_printf("%d\n", test_list->number);
+			test_list = test_list->next_node;
 		}
-		ft_printf("%d\n", list->ordered_position);
+		ft_printf("%d\n\n", test_list->number);
 	}
+
+	// // list_state test
+	// {
+	// 	t_node *test_list = list_test;
+	// 	while (test_list->next_node != NULL)
+	// 	{
+	// 		ft_printf("%d\n", test_list->number);
+	// 		test_list = test_list->next_node;
+	// 	}
+	// 	ft_printf("%d\n\n", test_list->number);
+	// }
+
 
 	return (0);
 }
