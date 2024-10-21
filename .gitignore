@@ -1,4 +1,4 @@
-#Custom
+# Custom
 .vscode/
 *.sw*
 *.dev*
@@ -9,9 +9,13 @@
 
 .cache/
 
+# Projects
 libft.a
 client
 server
+push_swap
+
+# -----
 
 # Prerequisites
 *.d

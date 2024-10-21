@@ -1,7 +1,7 @@
 # FLAGS
 CC = clang
 INCLUDES = -I. -Ilibft -Ilibft/src/printf -Ilibft/src/get_next_line
-RELEASE_FLAGS = -Wall -Wextra -Werror
+RELEASE_FLAGS = -Wall -Wextra -Werror -g
 DEBUG_FLAGS = -g -O0
 CFLAGS = $(if $(filter "Release", $(MODE)), $(RELEASE_FLAGS), $(DEBUG_FLAGS))
 RM = rm -rf
@@ -47,6 +47,6 @@ fclean: clean
 re: fclean all
 
 test: all
-	@./server
+	@./$(NAME)
 
 PHONY: all clean fclean re test

@@ -1,6 +1,6 @@
 # VARIABLES
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -I. -Isrc/printf -Isrc/get_next_line
+CFLAGS = -Wall -Wextra -Werror -g -I. -Isrc/printf -Isrc/get_next_line
 NAME = libft.a
 VPATH = src/basic src/lists src/printf src/printf/libft_funcs src/get_next_line
 
