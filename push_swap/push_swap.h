@@ -6,13 +6,14 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:41:38 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/18 18:31:00 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/21 18:44:41 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 # include "libft/libft.h"
+# include <limits.h>
 
 // ! REMOVE COMPETING STRUCT DEFINITION?
 typedef struct s_node {

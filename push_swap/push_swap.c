@@ -6,11 +6,12 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/21 17:35:12 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/21 19:13:26 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <climits>
 
 int	number_of_strings(char **char_array)
 {
@@ -20,6 +21,106 @@ int	number_of_strings(char **char_array)
 	while (char_array[count])
 		count++;
 	return (count);
+}
+
+int check_if_numbers(char **number_strings)
+{
+	int i = 0;
+	int j = 0;
+	char c;
+	while (number_strings[i])
+	{
+		c = number_strings[i][j];
+		if (c == '-' || c == '+')
+		{
+			j++;
+			c = number_strings[i][j];
+			if (!c)
+				return (0);
+		}
+		while (c && (c >= '0' && c <= '9'))
+		{
+			j++;
+			c = number_strings[i][j];
+		}
+		if (c != '\0' && !(c >= '0' && c <= '9'))
+		{
+			// ft_printf("Error on: %c (%d)\n", c, c); 
+			return (0);
+		}
+		i++;
+		j = 0;
+	}
+	return (1);
+}
+
+int check_if_int_overflow(char **number_strings)
+{
+	int number = 0;
+	int sign = 1;
+	int i = 0;
+	int j = 0;
+
+	char *max_int_str = ft_itoa(INT_MAX);
+	int max_int_str_len = strlen(max_int_str);
+	free(max_int_str);
+	// if (number_strings[i][0] == '-')
+	if (ft_strlen(number_strings[i]) > max_int_str_len)
+	{
+		free(max_int_str);
+		return (1);
+	}
+	free(max_int_str);
+	if ()
+
+	while (number_strings[i])
+	{
+		while (number_strings[i][j])
+		{
+			if (number_strings[i][j] == '-')
+			{
+				sign = -1;
+				i++;
+			}
+			else if (number_strings[i][j] == '+')
+				i++;
+			while (number_strings[i][j] >= '0' && number_strings[i][j] <= '9')
+			{
+				if (i > 0)
+					num *= 10;
+				num += str[i] - '0';
+				i++;
+			}
+		}
+		j = 0;
+		i++;
+	}
+	return (0);
+}
+
+int check_if_duplicate_numbers(t_node *list)
+{
+	t_node	*a = list;
+	t_node	*b = list;
+	while (a->next_node != NULL)
+	{
+		while (b->next_node != NULL)
+		{
+			if (a == b)
+			{
+				b = b->next_node;
+				continue ;
+			}
+			if (a->number == b->number)
+				return (1);
+			b = b->next_node;
+		}
+		if (a->number == b->number)
+			return (1);
+		b = list;
+		a = a->next_node;
+	}
+	return (0);
 }
 
 t_node	*create_list_of_integers_from_strings(char **number_strings)
@@ -45,29 +146,6 @@ t_node	*create_list_of_integers_from_strings(char **number_strings)
 	}
 
 	return (first_node);
-}
-
-int check_if_duplicate_numbers(t_node *list)
-{
-	t_node	*a = list;
-	t_node	*b = list;
-	while (a->next_node != NULL)
-	{
-		while (b->next_node != NULL)
-		{
-			if (a == b)
-			{
-				b = b->next_node;
-				continue ;
-			}
-			if (a->number == b->number)
-				return (1);
-			b = b->next_node;
-		}
-		b = list;
-		a = a->next_node;
-	}
-	return (0);
 }
 
 int	calculate_number_of_integers(t_node *list)
@@ -126,47 +204,46 @@ t_node *set_ordered_position(t_node *list, int number_of_integers)
 	return (list);
 }
 
-
+//! ENSURE CORRECT MEMORY MANAGEMENT.
+//! For example no ft_split malloc unfreed.
 int main(int argc, char *argv[])
 {
-	// ! PROVIDE BOTH
-		// ! MAYBE VALUES SHOULDN'T BE PROVIDED AS A SINGLE STRING
-		// ! BUT AS AN INFINITE AMOUNT OF ARGUMENTS.
-
-	// ! ALLOWED TWO LISTS BECAUSE OF TESTING PURPOSES
-	if (argc == 1 || argc == 2) //? Should argc !=2 behave differently? Instructions say to "give the prompt back".
-		return (ft_printf("Error: invalid argument count.\n"), 1);
+	if (argc == 1)
+		return (1);
 	
 	// ! HANDLE THE FOLLOWING ERRORS (IN EVERY CASE THE OUTPUT SHOULD BE "Error\n"):
-	// ! SOME ARGUMENTS ARE NOT INTEGERS.
+	// // ! SOME ARGUMENTS ARE NOT NUMBERS.
 	// ! SOME ARGUMENTS ARE BIGGER THAN AN INTEGER.
-	// ! THERE ARE DUPLICATE NUMBERS.
+	// // ! THERE ARE DUPLICATE NUMBERS.
 
 	char **number_strings;
 	char **number_strings_test;
-	if (argc == 2 || argc == 3) // ! REMOVE SECOND EXPRESSION!
+	if (argc == 2)
 	{
 		number_strings = ft_split(argv[1], ' ');
-		number_strings_test = ft_split(argv[2], ' '); //! DELETE
+		if (!check_if_numbers(number_strings))
+			return (write(2, "Error: Non-number input.\n", 25), 1);
+
+		int i = 0;
+		while (number_strings[i] != NULL)
+		{
+			ft_printf("%s\n", number_strings[i]);
+			i++;
+		}
+		i = 0;
+		// number_strings_test = ft_split(argv[2], ' '); //! DELETE
 	}
 	else
 		number_strings = &argv[1];
 
 	t_node *list = create_list_of_integers_from_strings(number_strings);
-	t_node *list_test = create_list_of_integers_from_strings(number_strings_test); //! DELETE
+	// t_node *list_test = create_list_of_integers_from_strings(number_strings_test); //! DELETE
 
-	if (check_if_duplicate_numbers(list) == 1)
-		return (ft_printf("Error: duplicate values are not allowed\n"), 1);
+	if (check_if_int_overflow(list))
+		return (write(2, "Error: Number values outside integer bounds not allowed.\n", 57), 1);
 
-	// // create_list  test
-	// {
-	// 	while (list->next_node != NULL)
-	// 	{
-	// 		ft_printf("%d\n", list->number);
-	// 		list = list->next_node;
-	// 	}
-	// 	ft_printf("%d\n", list->number);
-	// }
+	if (check_if_duplicate_numbers(list))
+		return (write(2, "Error: Duplicate values are not allowed.\n", 41), 1);
 
 	set_ordered_position(list, calculate_number_of_integers(list));
 	// // set_ordered_position test
@@ -178,24 +255,6 @@ int main(int argc, char *argv[])
 	// 	}
 	// 	ft_printf("%d\n", list->ordered_position);
 	// }
-
-	// // list_state test
-	// {
-	// 	t_node *test_list = list;
-	// 	while (list->next_node != NULL)
-	// 	{
-	// 		ft_printf("%d\n", list->number);
-	// 		list = list->next_node;
-	// 	}
-	// 	ft_printf("%d\n\n", list->number);
-	// }
-
-	// list = swap_nodes(list);
-
-	// t_list_tuple list_tuple;
-	// list_tuple = push_node(list, list_test);
-	// list = list_tuple.from;
-	// list_test = list_tuple.to;
 
 	// list = rotate_stack(list);
 	list = inverse_rotate_stack(list);
@@ -211,16 +270,16 @@ int main(int argc, char *argv[])
 		ft_printf("%d\n\n", test_list->number);
 	}
 
-	// list_state test
-	{
-		t_node *test_list = list_test;
-		while (test_list->next_node != NULL)
-		{
-			ft_printf("%d\n", test_list->number);
-			test_list = test_list->next_node;
-		}
-		ft_printf("%d\n\n", test_list->number);
-	}
+	// // list_state test
+	// {
+	// 	t_node *test_list = list_test;
+	// 	while (test_list->next_node != NULL)
+	// 	{
+	// 		ft_printf("%d\n", test_list->number);
+	// 		test_list = test_list->next_node;
+	// 	}
+	// 	ft_printf("%d\n\n", test_list->number);
+	// }
 
 
 	return (0);
