@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:40:05 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/21 18:53:10 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:31:28 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,53 @@ int add_last_link(t_node* list_node, t_node* node_to_point_to)
 		list_node->next_node = node_to_point_to;
 	}
 	return (0);
+}
+
+#include <stdio.h>
+long	ft_atoi_long(const char *str)
+{
+	long	num;
+	int		i;
+	int		sign;
+
+	num = 0;
+	i = 0;
+	sign = 1;
+	while ((str[i] >= '\t' && str[i] <= '\r') || str[i] == ' ')
+		i++;
+	if (str[i] == '-')
+	{
+		sign = -1;
+		i++;
+	}
+	else if (str[i] == '+')
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		if (i > 0)
+			num *= 10;
+		num += str[i] - '0';
+		// printf("num (i == %d): %11ld\n", i, num);
+		i++;
+	}
+	// printf("num,  sign: %11ld, %1d\n", num, sign);
+	// printf("num * sign: %ld\n", num * sign);
+	return (num * sign);
+}
+
+//! UNTESTED
+int numlen(long long n)
+{
+	int	len;
+
+	if (n == 0)
+		return (1);
+
+	len = 1;
+	if (n < 0)
+		len += 1;
+
+	while (n /= 10)
+		len += 1;
+	return (len);
 }

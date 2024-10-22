@@ -6,12 +6,11 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/21 19:13:26 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:34:49 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <climits>
 
 int	number_of_strings(char **char_array)
 {
@@ -54,45 +53,31 @@ int check_if_numbers(char **number_strings)
 	return (1);
 }
 
+#include <stdio.h>
 int check_if_int_overflow(char **number_strings)
 {
-	int number = 0;
-	int sign = 1;
+	long number;
 	int i = 0;
-	int j = 0;
+	int	min_int_len;
+	int max_int_len;
 
-	char *max_int_str = ft_itoa(INT_MAX);
-	int max_int_str_len = strlen(max_int_str);
-	free(max_int_str);
-	// if (number_strings[i][0] == '-')
-	if (ft_strlen(number_strings[i]) > max_int_str_len)
-	{
-		free(max_int_str);
-		return (1);
-	}
-	free(max_int_str);
-	if ()
-
+	min_int_len = numlen(INT_MIN);
+	max_int_len = numlen(INT_MAX);
 	while (number_strings[i])
 	{
-		while (number_strings[i][j])
+		ft_printf("s[%d]: %s\n", i, number_strings[i]);
+		int number_string_len = ft_strlen(number_strings[i]);
+		if (number_strings[i][0] == '-' && number_string_len > min_int_len)
+				return (1);
+		else if (number_strings[i][0] != '-' && number_string_len > max_int_len)
+				return (1);
+		else
 		{
-			if (number_strings[i][j] == '-')
-			{
-				sign = -1;
-				i++;
-			}
-			else if (number_strings[i][j] == '+')
-				i++;
-			while (number_strings[i][j] >= '0' && number_strings[i][j] <= '9')
-			{
-				if (i > 0)
-					num *= 10;
-				num += str[i] - '0';
-				i++;
-			}
+			number = ft_atoi_long(number_strings[i]);
+			if (number_strings[i][0] == '-' && number < (long)INT_MIN
+			|| number_strings[i][0] != '-' && number > (long)INT_MAX)
+				return (1);
 		}
-		j = 0;
 		i++;
 	}
 	return (0);
@@ -210,11 +195,6 @@ int main(int argc, char *argv[])
 {
 	if (argc == 1)
 		return (1);
-	
-	// ! HANDLE THE FOLLOWING ERRORS (IN EVERY CASE THE OUTPUT SHOULD BE "Error\n"):
-	// // ! SOME ARGUMENTS ARE NOT NUMBERS.
-	// ! SOME ARGUMENTS ARE BIGGER THAN AN INTEGER.
-	// // ! THERE ARE DUPLICATE NUMBERS.
 
 	char **number_strings;
 	char **number_strings_test;
@@ -239,7 +219,7 @@ int main(int argc, char *argv[])
 	t_node *list = create_list_of_integers_from_strings(number_strings);
 	// t_node *list_test = create_list_of_integers_from_strings(number_strings_test); //! DELETE
 
-	if (check_if_int_overflow(list))
+	if (check_if_int_overflow(number_strings))
 		return (write(2, "Error: Number values outside integer bounds not allowed.\n", 57), 1);
 
 	if (check_if_duplicate_numbers(list))
