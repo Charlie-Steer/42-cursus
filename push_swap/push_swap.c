@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/22 16:34:49 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:22:23 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,19 +133,19 @@ t_node	*create_list_of_integers_from_strings(char **number_strings)
 	return (first_node);
 }
 
-int	calculate_number_of_integers(t_node *list)
+int	get_list_len(t_node *list)
 {
-	int number_of_ints;
+	int len;
 
 	if (!list)
 		return (0);
-	number_of_ints = 1;
+	len = 1;
 	while (list->next_node != NULL)
 	{
-		number_of_ints++;
+		len++;
 		list = list->next_node;
 	}
-	return (number_of_ints);
+	return (len);
 }
 
 int ft_min(int a, int b)
@@ -189,43 +189,8 @@ t_node *set_ordered_position(t_node *list, int number_of_integers)
 	return (list);
 }
 
-//! ENSURE CORRECT MEMORY MANAGEMENT.
-//! For example no ft_split malloc unfreed.
-int main(int argc, char *argv[])
+void test_stack_actions(t_node *list)
 {
-	if (argc == 1)
-		return (1);
-
-	char **number_strings;
-	char **number_strings_test;
-	if (argc == 2)
-	{
-		number_strings = ft_split(argv[1], ' ');
-		if (!check_if_numbers(number_strings))
-			return (write(2, "Error: Non-number input.\n", 25), 1);
-
-		int i = 0;
-		while (number_strings[i] != NULL)
-		{
-			ft_printf("%s\n", number_strings[i]);
-			i++;
-		}
-		i = 0;
-		// number_strings_test = ft_split(argv[2], ' '); //! DELETE
-	}
-	else
-		number_strings = &argv[1];
-
-	t_node *list = create_list_of_integers_from_strings(number_strings);
-	// t_node *list_test = create_list_of_integers_from_strings(number_strings_test); //! DELETE
-
-	if (check_if_int_overflow(number_strings))
-		return (write(2, "Error: Number values outside integer bounds not allowed.\n", 57), 1);
-
-	if (check_if_duplicate_numbers(list))
-		return (write(2, "Error: Duplicate values are not allowed.\n", 41), 1);
-
-	set_ordered_position(list, calculate_number_of_integers(list));
 	// // set_ordered_position test
 	// {
 	// 	while (list->next_node != NULL)
@@ -260,7 +225,65 @@ int main(int argc, char *argv[])
 	// 	}
 	// 	ft_printf("%d\n\n", test_list->number);
 	// }
+}
 
+char **create_number_strings(int argc, char *argv[])
+{
+	if (argc == 1)
+		return (NULL);
+
+	char **number_strings;
+	if (argc == 2)
+		number_strings = ft_split(argv[1], ' ');
+	else
+		number_strings = &argv[1];
+
+	//print number_strings
+	{
+		int i = 0;
+		while (number_strings[i] != NULL)
+		{
+			ft_printf("%11s\n", number_strings[i]);
+			i++;
+		}
+	}
+
+	if (!check_if_numbers(number_strings))
+		return (write(2, "Error: Non-number input.\n", 25), NULL);
+	else if (check_if_int_overflow(number_strings))
+		return (write(2, "Error: Number values outside integer bounds not allowed.\n", 57), NULL);
+	else
+	 	return (number_strings);
+}
+
+t_node	*create_stack_a(char *number_strings[])
+{
+	t_node *list = create_list_of_integers_from_strings(number_strings);
+	if (!list)
+		return (write(2, "Error\n", 6), NULL);
+
+	if (check_if_duplicate_numbers(list))
+		return (write(2, "Error: Duplicate values are not allowed.\n", 41), NULL);
+	else
+		return (list);
+}
+
+
+//! ENSURE CORRECT MEMORY MANAGEMENT.
+//! For example no ft_split malloc unfreed.
+int main(int argc, char *argv[])
+{
+	char **number_strings;
+	t_node *stack_a;
+	t_node stack_b;
+
+	if (!(number_strings = create_number_strings(argc, argv)))
+		return (1);
+	if (!(stack_a = create_stack_a(number_strings)))
+		return (1);
+
+	set_ordered_position(stack_a, get_list_len(stack_a));
+	
 
 	return (0);
 }
