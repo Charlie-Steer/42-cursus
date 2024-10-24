@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/24 14:22:23 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/24 16:18:46 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int check_if_int_overflow(char **number_strings)
 	max_int_len = numlen(INT_MAX);
 	while (number_strings[i])
 	{
-		ft_printf("s[%d]: %s\n", i, number_strings[i]);
 		int number_string_len = ft_strlen(number_strings[i]);
 		if (number_strings[i][0] == '-' && number_string_len > min_int_len)
 				return (1);
@@ -238,15 +237,15 @@ char **create_number_strings(int argc, char *argv[])
 	else
 		number_strings = &argv[1];
 
-	//print number_strings
-	{
-		int i = 0;
-		while (number_strings[i] != NULL)
-		{
-			ft_printf("%11s\n", number_strings[i]);
-			i++;
-		}
-	}
+	// //print number_strings
+	// {
+	// 	int i = 0;
+	// 	while (number_strings[i] != NULL)
+	// 	{
+	// 		ft_printf("%11s\n", number_strings[i]);
+	// 		i++;
+	// 	}
+	// }
 
 	if (!check_if_numbers(number_strings))
 		return (write(2, "Error: Non-number input.\n", 25), NULL);
@@ -268,6 +267,77 @@ t_node	*create_stack_a(char *number_strings[])
 		return (list);
 }
 
+void print_stack_values(t_node *stack)
+{
+	int i;
+	int list_len;
+
+	i = 0;
+	list_len = get_list_len(stack);
+	ft_printf("%11s   %2s   %2s\n", "number", "ord_pos", "pos");
+	while (i < list_len)
+	{
+		ft_printf("%11d   %7d   %3d\n", stack->number, stack->ordered_position, stack->position);
+		if (stack->next_node)
+			stack = stack->next_node;
+		i++;
+	}
+}
+
+void set_position(t_node *stack)
+{
+	int i;
+	int len;
+
+	i = 0;
+	len = get_list_len(stack);
+	while (i < len)
+	{
+		// ft_printf("%d\n", i);
+		stack->position = i;
+		stack = stack->next_node;
+		i++;
+	}
+}
+
+
+//! NON-WORKING STATE. ASK FOR ADVICE.
+//! This only works if stack_a is at least of size 2.
+void split_stacks(t_node *stack_a, t_node *stack_b)
+{
+	int	largest_numbers[3];
+	int large_numbers_index;
+	int a_len;
+	int i;
+	t_node *stack_a_traversal;
+
+	large_numbers_index = 0;
+	a_len = get_list_len(stack_a);
+	i = 0;
+	stack_a_traversal = stack_a;
+
+	// init largest_numbers[].
+	while (i < 3)
+	{
+		largest_numbers[i] = stack_a_traversal->number;
+		stack_a_traversal = stack_a_traversal->next_node;
+	}
+
+	while (i < a_len)
+	{
+		ft_max(stack_a->number, );
+		i++;
+	}
+
+	// Alternate solution.
+
+	while ((a_len = get_list_len(stack_a)) > 3)
+	{
+		push_node(stack_a, stack_b);
+	}
+
+}
+
 
 //! ENSURE CORRECT MEMORY MANAGEMENT.
 //! For example no ft_split malloc unfreed.
@@ -283,7 +353,15 @@ int main(int argc, char *argv[])
 		return (1);
 
 	set_ordered_position(stack_a, get_list_len(stack_a));
+
+	//
 	
+	for (int i = 0; i < 10; i++) //! Change condition and for to while.
+	{
+		set_position(stack_a);
+	}
+
+	print_stack_values(stack_a);
 
 	return (0);
 }
