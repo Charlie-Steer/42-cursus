@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/24 16:18:46 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/25 14:29:27 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ void test_stack_actions(t_node *list)
 	// }
 
 	// list = rotate_stack(list);
-	list = inverse_rotate_stack(list);
+	list = reverse_rotate_stack(list);
 	
 	// list_state test
 	{
@@ -301,41 +301,101 @@ void set_position(t_node *stack)
 }
 
 
-//! NON-WORKING STATE. ASK FOR ADVICE.
 //! This only works if stack_a is at least of size 2.
-void split_stacks(t_node *stack_a, t_node *stack_b)
+//! BUGGY!
+t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 {
 	int	largest_numbers[3];
 	int large_numbers_index;
 	int a_len;
 	int i;
-	t_node *stack_a_traversal;
+	int temp_number;
+	t_node *stack_a_start;
 
 	large_numbers_index = 0;
 	a_len = get_list_len(stack_a);
 	i = 0;
-	stack_a_traversal = stack_a;
+	stack_a_start = stack_a;
 
 	// init largest_numbers[].
 	while (i < 3)
 	{
-		largest_numbers[i] = stack_a_traversal->number;
-		stack_a_traversal = stack_a_traversal->next_node;
+		largest_numbers[i] = stack_a->number;
+		stack_a = stack_a->next_node;
+		i++;
+	}
+	// order temp values.
+	//! Seemingly working
+	while (!(largest_numbers[0] < largest_numbers[1])
+		|| !(largest_numbers[1] < largest_numbers[2])
+		|| !(largest_numbers[0] < largest_numbers[2]))
+	{
+		if (largest_numbers[1] > largest_numbers[2])
+		{
+			temp_number = largest_numbers[2];
+			largest_numbers[2] = largest_numbers[1];
+			largest_numbers[1] = temp_number;
+		}
+		if (largest_numbers[0] > largest_numbers[1])
+		{
+			temp_number = largest_numbers[1];
+			largest_numbers[1] = largest_numbers[0];
+			largest_numbers[0] = temp_number;
+		}
 	}
 
-	while (i < a_len)
+	while (i < a_len) //! Shares i with previous loop!
 	{
-		ft_max(stack_a->number, );
+		if (stack_a->number > largest_numbers[2])
+		{
+			temp_number = largest_numbers[1];
+			largest_numbers[0] = temp_number;
+			largest_numbers[1] = largest_numbers[2];
+			largest_numbers[2] = stack_a->number;
+		}
+		else if (stack_a->number > largest_numbers[1])
+		{
+			largest_numbers[0] = largest_numbers[1];
+			largest_numbers[1] = stack_a->number;
+		}
+		else if (stack_a->number > largest_numbers[0])
+			largest_numbers[0] = stack_a->number;
+		stack_a = stack_a->next_node;
 		i++;
 	}
 
-	// Alternate solution.
-
-	while ((a_len = get_list_len(stack_a)) > 3)
+	for(int j = 0; j < 3; j++)
+		ft_printf("largest_numbers[%d]: %d\n", j, largest_numbers[j]);
+	i = 0;
+	stack_a = stack_a_start;
+	t_node *temp_node;
+	while (i < a_len)
 	{
-		push_node(stack_a, stack_b);
+		if ((stack_a->number == largest_numbers[0])
+			|| (stack_a->number == largest_numbers[1])
+			|| (stack_a->number == largest_numbers[2]))
+		{
+			printf("match!\n");
+			stack_a = ra(stack_a);
+		}
+		else
+		{
+			printf("nope!\n");
+			t_stack_tuple *stacks = pb(stack_b, stack_a); //! HANDLE NULL!
+			printf("here?\n");
+			stack_a = stacks->stack_a;
+			stack_b = stacks->stack_b;
+		}
+		i++;
 	}
+	for(int j = 0; j < 3; j++)
+		ft_printf("largest_numbers[%d]: %d\n", j, largest_numbers[j]);
 
+	t_stack_tuple *stacks;
+	stacks->stack_a = stack_a;
+	stacks->stack_b = stack_b;
+
+	return (stacks);
 }
 
 
@@ -345,7 +405,8 @@ int main(int argc, char *argv[])
 {
 	char **number_strings;
 	t_node *stack_a;
-	t_node stack_b;
+	t_node *stack_b;
+	t_stack_tuple *stacks;
 
 	if (!(number_strings = create_number_strings(argc, argv)))
 		return (1);
@@ -354,11 +415,15 @@ int main(int argc, char *argv[])
 
 	set_ordered_position(stack_a, get_list_len(stack_a));
 
-	//
-	
-	for (int i = 0; i < 10; i++) //! Change condition and for to while.
+	stack_b = NULL;
+	print_stack_values(stack_a);
+	stacks = split_stacks(stack_a, stack_b);
+	while (stack_b)
 	{
-		set_position(stack_a);
+		set_position(stack_a); //! Premise wrong?
+
+		stack_a = stacks->stack_a;
+		stack_b = stacks->stack_b;
 	}
 
 	print_stack_values(stack_a);

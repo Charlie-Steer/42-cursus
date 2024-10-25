@@ -15,8 +15,12 @@ NAME = push_swap
 
 SOURCES = \
 	push_swap.c \
-	stack_operations_1.c \
-	utils.c
+	utils.c \
+	actions_base_functions.c \
+	actions_swap.c \
+	actions_push.c \
+	actions_rotate.c \
+	actions_reverse_rotate.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
