@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/28 13:39:12 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:04:20 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -423,26 +423,28 @@ t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 //! NOT SURE IF BASED ON STACK_A'S ORD_POS OR POS.
 void set_target(t_node *stack_a, t_node *stack_b)
 {
-	int len = get_list_len(stack_a);
+	int a_len = get_list_len(stack_a);
+	int b_len = get_list_len(stack_b);
+	t_node *a_start = stack_a;
 	int i = 0;
 	int j = 0;
-	while (i < len)
+	while (i < b_len)
 	{
-		while (j < len)
+		while (j < a_len)
 		{
 			if (stack_b->number < stack_a->number)
 			{
 				stack_b->target_position = stack_a->position; //? May be ord_pos?
-				
+				break;
 			}
-
+			stack_a = stack_a->next_node;
 			j++;
 		}
+		stack_a = a_start;
 		j = 0;
-		stack_a->target_position;
+		stack_b = stack_b->next_node;
 		i++;
 	}
-
 }
 
 
