@@ -4,6 +4,7 @@
 *.dev*
 *.test*
 *Tester*/
+test
 
 */get_next_line
 
@@ -14,6 +15,7 @@ libft.a
 client
 server
 push_swap
+!*/
 
 # -----
 

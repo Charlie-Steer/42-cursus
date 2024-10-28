@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/25 14:29:27 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:39:12 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,10 +274,10 @@ void print_stack_values(t_node *stack)
 
 	i = 0;
 	list_len = get_list_len(stack);
-	ft_printf("%11s   %2s   %2s\n", "number", "ord_pos", "pos");
+	ft_printf("%11s   %2s   %2s   %2s\n", "number", "ord_pos", "pos", "tar_pos");
 	while (i < list_len)
 	{
-		ft_printf("%11d   %7d   %3d\n", stack->number, stack->ordered_position, stack->position);
+		ft_printf("%11d   %7d   %3d   %7d\n", stack->number, stack->ordered_position, stack->position, stack->target_position);
 		if (stack->next_node)
 			stack = stack->next_node;
 		i++;
@@ -324,6 +324,7 @@ t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 		stack_a = stack_a->next_node;
 		i++;
 	}
+
 	// order temp values.
 	//! Seemingly working
 	while (!(largest_numbers[0] < largest_numbers[1])
@@ -344,6 +345,7 @@ t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 		}
 	}
 
+	// set actual largest_numbers.
 	while (i < a_len) //! Shares i with previous loop!
 	{
 		if (stack_a->number > largest_numbers[2])
@@ -369,6 +371,7 @@ t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 	i = 0;
 	stack_a = stack_a_start;
 	t_node *temp_node;
+	t_stack_tuple *stacks;
 	while (i < a_len)
 	{
 		if ((stack_a->number == largest_numbers[0])
@@ -381,7 +384,10 @@ t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 		else
 		{
 			printf("nope!\n");
-			t_stack_tuple *stacks = pb(stack_b, stack_a); //! HANDLE NULL!
+			printf("stack_a: %d\n", stack_a->number);
+			printf("stack_b: %p\n", stack_b);
+			// printf("stack_b: %d\n", stack_b->number);
+			stacks = pb(stack_b, stack_a); //! HANDLE NULL!
 			printf("here?\n");
 			stack_a = stacks->stack_a;
 			stack_b = stacks->stack_b;
@@ -391,11 +397,52 @@ t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 	for(int j = 0; j < 3; j++)
 		ft_printf("largest_numbers[%d]: %d\n", j, largest_numbers[j]);
 
-	t_stack_tuple *stacks;
+	// Set order of stack_a to ascending.
+	t_node *first_node = stack_a;
+	t_node *middle_node = stack_a->next_node;
+	t_node *last_node = stack_a->next_node->next_node;
+
+	temp_node = first_node;
+	first_node = last_node;
+	last_node = temp_node;
+	first_node->next_node = middle_node;
+	middle_node->next_node = last_node;
+	last_node->next_node = NULL;
+	stack_a = first_node;
+	printf("%d\n", first_node->number);
+	printf("%d\n", first_node->next_node->number);
+	printf("%d\n", first_node->next_node->next_node->number);
+
+
 	stacks->stack_a = stack_a;
 	stacks->stack_b = stack_b;
 
 	return (stacks);
+}
+
+//! NOT SURE IF BASED ON STACK_A'S ORD_POS OR POS.
+void set_target(t_node *stack_a, t_node *stack_b)
+{
+	int len = get_list_len(stack_a);
+	int i = 0;
+	int j = 0;
+	while (i < len)
+	{
+		while (j < len)
+		{
+			if (stack_b->number < stack_a->number)
+			{
+				stack_b->target_position = stack_a->position; //? May be ord_pos?
+				
+			}
+
+			j++;
+		}
+		j = 0;
+		stack_a->target_position;
+		i++;
+	}
+
 }
 
 
@@ -417,16 +464,22 @@ int main(int argc, char *argv[])
 
 	stack_b = NULL;
 	print_stack_values(stack_a);
+	print_stack_values(stack_b);
 	stacks = split_stacks(stack_a, stack_b);
+	stack_a = stacks->stack_a;
+	stack_b = stacks->stack_b;
 	while (stack_b)
 	{
-		set_position(stack_a); //! Premise wrong?
+		set_position(stack_a);
+		set_position(stack_b);
+		print_stack_values(stack_a);
+		printf("\n");
+		print_stack_values(stack_b);
+		printf("\n");
 
-		stack_a = stacks->stack_a;
-		stack_b = stacks->stack_b;
+		set_target(stack_a, stack_b);
 	}
 
-	print_stack_values(stack_a);
 
 	return (0);
 }
