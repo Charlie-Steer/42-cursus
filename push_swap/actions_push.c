@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 12:07:59 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/28 12:30:50 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:48:46 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_stack_tuple	*pb(t_node *stack_b, t_node *stack_a)
 	t_node *temp_stack;
 
 	stacks = push_node(stack_b, stack_a);
-	ft_printf("Gets here?\n");
 	temp_stack = stacks->stack_a;
 	stacks->stack_a = stacks->stack_b;
 	stacks->stack_b = temp_stack;

@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:41:38 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/25 12:19:04 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:49:30 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ typedef struct s_stack_tuple {
 	t_node *stack_a;
 	t_node *stack_b;
 } t_stack_tuple;
+
+enum e_stack {
+	A,
+	B
+};
 
 t_node			*create_node(int number);
 int				add_last_link(t_node* list_node, t_node* node_to_point_to);

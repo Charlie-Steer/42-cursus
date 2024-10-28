@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/28 15:04:20 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:48:08 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -366,8 +366,6 @@ t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 		i++;
 	}
 
-	for(int j = 0; j < 3; j++)
-		ft_printf("largest_numbers[%d]: %d\n", j, largest_numbers[j]);
 	i = 0;
 	stack_a = stack_a_start;
 	t_node *temp_node;
@@ -378,24 +376,16 @@ t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 			|| (stack_a->number == largest_numbers[1])
 			|| (stack_a->number == largest_numbers[2]))
 		{
-			printf("match!\n");
 			stack_a = ra(stack_a);
 		}
 		else
 		{
-			printf("nope!\n");
-			printf("stack_a: %d\n", stack_a->number);
-			printf("stack_b: %p\n", stack_b);
-			// printf("stack_b: %d\n", stack_b->number);
 			stacks = pb(stack_b, stack_a); //! HANDLE NULL!
-			printf("here?\n");
 			stack_a = stacks->stack_a;
 			stack_b = stacks->stack_b;
 		}
 		i++;
 	}
-	for(int j = 0; j < 3; j++)
-		ft_printf("largest_numbers[%d]: %d\n", j, largest_numbers[j]);
 
 	// Set order of stack_a to ascending.
 	t_node *first_node = stack_a;
@@ -409,9 +399,6 @@ t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 	middle_node->next_node = last_node;
 	last_node->next_node = NULL;
 	stack_a = first_node;
-	printf("%d\n", first_node->number);
-	printf("%d\n", first_node->next_node->number);
-	printf("%d\n", first_node->next_node->next_node->number);
 
 
 	stacks->stack_a = stack_a;
@@ -444,6 +431,41 @@ void set_target(t_node *stack_a, t_node *stack_b)
 		j = 0;
 		stack_b = stack_b->next_node;
 		i++;
+	}
+}
+
+void set_surface_cost(enum e_stack cost_stack, t_node *node, int stack_len)
+{
+	printf("position: %d, stack_len: %d, stack_len/2: %d", node->position, stack_len, stack_len/2);
+	if (node->position <= stack_len / 2)
+	{
+		if (cost_stack == A)
+			node->a_surface_cost = node->position;
+		else if (cost_stack == B)
+			node->b_surface_cost = node->position;
+	}
+	else
+	{
+		node->a_surface_cost = stack_len - node->position;
+	}
+}
+
+void calculate_costs(t_node *stack_a, t_node *stack_b)
+{
+	int a_len = get_list_len(stack_a);
+	int b_len = get_list_len(stack_b);
+
+	int i = 0;
+	while (i < b_len)
+	{
+		set_surface_cost(B, stack_b, b_len);
+		stack_b = stack_b->next_node;
+	}
+	i = 0;
+	while (i < a_len)
+	{
+		set_surface_cost(A, stack_a, a_len);
+		stack_a = stack_a->next_node;
 	}
 }
 
@@ -480,6 +502,7 @@ int main(int argc, char *argv[])
 		printf("\n");
 
 		set_target(stack_a, stack_b);
+		calculate_costs(stack_a, stack_b);
 	}
 
 

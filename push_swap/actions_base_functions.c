@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:29:06 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/28 12:43:02 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:48:38 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,6 @@ t_stack_tuple	*push_node(t_node *to, t_node *from)
 	// }
 	else
 	{
-		ft_printf("pushing (from): %d\n", from->number);
-		ft_printf("pushing (from): %p\n", from);
-		ft_printf("Seriously?\n");
 		stacks->stack_a = from;
 		stacks->stack_a->next_node = to;
 		stacks->stack_b = from_new_start;
