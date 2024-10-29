@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/28 15:48:08 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:40:27 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,10 +274,10 @@ void print_stack_values(t_node *stack)
 
 	i = 0;
 	list_len = get_list_len(stack);
-	ft_printf("%11s   %2s   %2s   %2s\n", "number", "ord_pos", "pos", "tar_pos");
+	ft_printf("%11s   %2s   %2s   %2s   %2s   %2s\n", "number", "ord_pos", "pos", "tar_pos", "cost_a", "cost_b");
 	while (i < list_len)
 	{
-		ft_printf("%11d   %7d   %3d   %7d\n", stack->number, stack->ordered_position, stack->position, stack->target_position);
+		ft_printf("%11d   %7d   %3d   %7d   %7d   %7d\n", stack->number, stack->ordered_position, stack->position, stack->target_position, stack->a_surface_cost, stack->b_surface_cost);
 		if (stack->next_node)
 			stack = stack->next_node;
 		i++;
@@ -436,7 +436,7 @@ void set_target(t_node *stack_a, t_node *stack_b)
 
 void set_surface_cost(enum e_stack cost_stack, t_node *node, int stack_len)
 {
-	printf("position: %d, stack_len: %d, stack_len/2: %d", node->position, stack_len, stack_len/2);
+	printf("position: %d, stack_len: %d, stack_len/2: %d\n", node->position, stack_len, stack_len/2);
 	if (node->position <= stack_len / 2)
 	{
 		if (cost_stack == A)
@@ -446,26 +446,51 @@ void set_surface_cost(enum e_stack cost_stack, t_node *node, int stack_len)
 	}
 	else
 	{
-		node->a_surface_cost = stack_len - node->position;
+		if (cost_stack == A)
+			node->a_surface_cost = stack_len - node->position;
+		else if (cost_stack == B)
+			node->b_surface_cost = stack_len - node->position;
 	}
 }
 
 void calculate_costs(t_node *stack_a, t_node *stack_b)
 {
+	t_node *stack_a_start = stack_a;
+	t_node *stack_b_start = stack_b;
 	int a_len = get_list_len(stack_a);
 	int b_len = get_list_len(stack_b);
 
+	// set cost_b
 	int i = 0;
 	while (i < b_len)
 	{
+		printf("%p\n", stack_b);
 		set_surface_cost(B, stack_b, b_len);
 		stack_b = stack_b->next_node;
+		i++;
 	}
+
+	// set cost_a
 	i = 0;
 	while (i < a_len)
 	{
 		set_surface_cost(A, stack_a, a_len);
 		stack_a = stack_a->next_node;
+		i++;
+	}
+	stack_a = stack_a_start;
+	stack_b = stack_b_start;
+	i = 0;
+	while (i < b_len)
+	{
+		while (stack_b->target_position != stack_a->position)
+		{
+			stack_a = stack_a->next_node;
+		}
+		stack_b->a_surface_cost = stack_a->a_surface_cost;
+		
+		stack_b = stack_b->next_node;
+		i++;
 	}
 }
 
