@@ -6,11 +6,12 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/29 14:40:27 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:12:40 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <sys/select.h>
 
 int	number_of_strings(char **char_array)
 {
@@ -274,10 +275,10 @@ void print_stack_values(t_node *stack)
 
 	i = 0;
 	list_len = get_list_len(stack);
-	ft_printf("%11s   %2s   %2s   %2s   %2s   %2s\n", "number", "ord_pos", "pos", "tar_pos", "cost_a", "cost_b");
+	ft_printf("%11s   %2s   %2s   %2s   %2s   %2s   %2s\n", "number", "ord_pos", "pos", "tar_pos", "cost_a", "cost_b", "total_cost");
 	while (i < list_len)
 	{
-		ft_printf("%11d   %7d   %3d   %7d   %7d   %7d\n", stack->number, stack->ordered_position, stack->position, stack->target_position, stack->a_surface_cost, stack->b_surface_cost);
+		ft_printf("%11d   %7d   %3d   %7d   %7d   %7d   %7d\n", stack->number, stack->ordered_position, stack->position, stack->target_position, stack->a_surface_cost, stack->b_surface_cost, stack->total_cost);
 		if (stack->next_node)
 			stack = stack->next_node;
 		i++;
@@ -447,9 +448,9 @@ void set_surface_cost(enum e_stack cost_stack, t_node *node, int stack_len)
 	else
 	{
 		if (cost_stack == A)
-			node->a_surface_cost = stack_len - node->position;
+			node->a_surface_cost = node->position - stack_len;
 		else if (cost_stack == B)
-			node->b_surface_cost = stack_len - node->position;
+			node->b_surface_cost = node->position - stack_len;
 	}
 }
 
@@ -494,6 +495,95 @@ void calculate_costs(t_node *stack_a, t_node *stack_b)
 	}
 }
 
+void set_total_cost(t_node *stack_b)
+{
+	int	b_len;
+	int i;
+
+	b_len = get_list_len(stack_b);
+	i = 0;
+	while (i < b_len)
+	{
+		stack_b->total_cost = ft_abs(stack_b->a_surface_cost)
+			+ ft_abs(stack_b->b_surface_cost);
+		stack_b = stack_b->next_node;
+		i++;
+	}
+}
+
+t_node	*select_node(t_node *stack_b)
+{
+	int	b_len;
+	int	i;
+	t_node *cheapest_node;
+
+	cheapest_node = stack_b;
+	b_len = get_list_len(stack_b);
+	i = 0;
+	while (i < b_len) {
+		if (stack_b->total_cost < cheapest_node->total_cost)
+		{
+			cheapest_node = stack_b;
+		}
+		stack_b = stack_b -> next_node;
+		i++;
+	}
+	printf("cheapest node: %d\n", cheapest_node->number);
+	return (cheapest_node);
+}
+
+void surface_nodes_and_push_a(t_node *stack_a, t_node* stack_b, t_node *node_to_move)
+{
+	int a_cost = node_to_move->a_surface_cost;
+	int b_cost = node_to_move->b_surface_cost;
+	t_stack_tuple *stacks;
+	printf("number to move: %d, cost_a: %d, cost_b: %d, total_cost: %d\n", node_to_move->number, node_to_move->a_surface_cost, node_to_move->b_surface_cost, node_to_move->total_cost);
+	while (a_cost || b_cost)
+	{
+		printf("Iteration!\n");
+		if (a_cost > 0 && b_cost > 0)
+		{
+			stacks = rr(stack_a, stack_b);
+			stack_a = stacks->stack_a;
+			stack_b = stacks->stack_b;
+			a_cost -= 1;
+			b_cost -= 1;
+		}
+		else if (a_cost < 0 && b_cost < 0)
+		{
+			stacks = rrr(stack_a, stack_b);
+			stack_a = stacks->stack_a;
+			stack_b = stacks->stack_b;
+			a_cost += 1;
+			b_cost += 1;
+		}
+		else if (a_cost > 0)
+		{
+			stack_a = ra(stack_a);
+			a_cost -= 1;
+		}
+		else if (a_cost < 0)
+		{
+			stack_a = rra(stack_a);
+			a_cost += 1;
+		}
+		else if (b_cost > 0)
+		{
+			stack_b = rb(stack_b);
+			b_cost -= 1;
+		}
+		else if (b_cost < 0)
+		{
+			stack_b = rrb(stack_b);
+			b_cost += 1;
+		}
+		else
+			printf("This shouldn't be happening.\n");
+	}
+	printf("Just here?\n");
+	pa(stack_a, stack_b);
+}
+
 
 //! ENSURE CORRECT MEMORY MANAGEMENT.
 //! For example no ft_split malloc unfreed.
@@ -528,8 +618,10 @@ int main(int argc, char *argv[])
 
 		set_target(stack_a, stack_b);
 		calculate_costs(stack_a, stack_b);
+		set_total_cost(stack_b);
+		t_node *node_to_move = select_node(stack_b);
+		surface_nodes_and_push_a(stack_a, stack_b, node_to_move);
 	}
-
 
 	return (0);
 }

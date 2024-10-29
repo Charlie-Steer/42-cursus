@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:41:38 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/28 15:49:30 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:38:19 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_node			*swap_nodes(t_node *list);
 t_stack_tuple	*push_node(t_node *to, t_node *from);
 t_node			*rotate_stack(t_node* stack);
 t_node			*reverse_rotate_stack(t_node* stack);
+int				ft_abs(int n);
 
 // STACK ACTIONS
 // swap

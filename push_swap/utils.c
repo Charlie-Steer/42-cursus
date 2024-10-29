@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:40:05 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/22 16:31:28 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:35:48 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,11 @@ int numlen(long long n)
 	while (n /= 10)
 		len += 1;
 	return (len);
+}
+
+int ft_abs(int n) {
+	if (n < 0)
+		return (-n);
+	else
+	 	return (n);
 }
