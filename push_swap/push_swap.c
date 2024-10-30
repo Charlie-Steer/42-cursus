@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/29 17:12:40 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/10/30 21:05:35 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -418,18 +418,27 @@ void set_target(t_node *stack_a, t_node *stack_b)
 	int j = 0;
 	while (i < b_len)
 	{
+		int min_a_above_b_number = INT_MAX;
 		while (j < a_len)
 		{
-			if (stack_b->number < stack_a->number)
+			printf("stack_a: %d, stack_b: %d\n", stack_a->number, stack_b->number);
+			printf("min_a_above_b_number: %d\n", min_a_above_b_number);
+			if (stack_a->number > stack_b->number && stack_a->number <= min_a_above_b_number)
 			{
-				stack_b->target_position = stack_a->position; //? May be ord_pos?
-				break;
+				min_a_above_b_number = stack_a->number;
+				printf("new min_a_above_b_number: %d\n", min_a_above_b_number);
 			}
 			stack_a = stack_a->next_node;
 			j++;
 		}
-		stack_a = a_start;
 		j = 0;
+		stack_a = a_start;
+		while (stack_a->number != min_a_above_b_number)
+		{
+			stack_a = stack_a->next_node;
+		}
+		stack_b->target_position = stack_a->position;
+		stack_a = a_start;
 		stack_b = stack_b->next_node;
 		i++;
 	}
@@ -437,20 +446,31 @@ void set_target(t_node *stack_a, t_node *stack_b)
 
 void set_surface_cost(enum e_stack cost_stack, t_node *node, int stack_len)
 {
-	printf("position: %d, stack_len: %d, stack_len/2: %d\n", node->position, stack_len, stack_len/2);
+	// printf("position: %d, stack_len: %d, stack_len/2: %d\n", node->position, stack_len, stack_len/2);
+	// printf("cost function gets called\n");
 	if (node->position <= stack_len / 2)
 	{
 		if (cost_stack == A)
+		{
 			node->a_surface_cost = node->position;
+			printf("a_surface_cost: %d\n", node->a_surface_cost);
+		}
 		else if (cost_stack == B)
+		{
 			node->b_surface_cost = node->position;
+			printf("b_surface_cost: %d\n", node->b_surface_cost);
+		}
 	}
 	else
 	{
 		if (cost_stack == A)
+		{
 			node->a_surface_cost = node->position - stack_len;
+		}
 		else if (cost_stack == B)
+		{
 			node->b_surface_cost = node->position - stack_len;
+		}
 	}
 }
 
@@ -465,7 +485,7 @@ void calculate_costs(t_node *stack_a, t_node *stack_b)
 	int i = 0;
 	while (i < b_len)
 	{
-		printf("%p\n", stack_b);
+		printf("stack_b node: %p\n", stack_b);
 		set_surface_cost(B, stack_b, b_len);
 		stack_b = stack_b->next_node;
 		i++;
@@ -484,12 +504,21 @@ void calculate_costs(t_node *stack_a, t_node *stack_b)
 	i = 0;
 	while (i < b_len)
 	{
-		while (stack_b->target_position != stack_a->position)
+		// printf("stack_a node: %p\n", stack_a);
+		// printf("stack_b node: %p\n", stack_b);
+		// printf("stack_a position: %d\n", stack_a->position);
+		// printf("stack_b position: %d\n", stack_b->target_position);
+		printf("stack_b->number: %d\n", stack_b->number);
+		printf("stack_b->target_position: %d\n", stack_b->target_position);
+		while (stack_a->position != stack_b->target_position)
 		{
+			printf("stack_a: %p, stack_a->next_node: %p\n", stack_a, stack_a->next_node);
+			printf("stack_a->position: %d, stack_b->target_position: %d\n", stack_a->position, stack_b->target_position);
 			stack_a = stack_a->next_node;
 		}
 		stack_b->a_surface_cost = stack_a->a_surface_cost;
 		
+		stack_a = stack_a_start;
 		stack_b = stack_b->next_node;
 		i++;
 	}
@@ -532,7 +561,7 @@ t_node	*select_node(t_node *stack_b)
 	return (cheapest_node);
 }
 
-void surface_nodes_and_push_a(t_node *stack_a, t_node* stack_b, t_node *node_to_move)
+t_stack_tuple *surface_nodes_and_push_a(t_node *stack_a, t_node* stack_b, t_node *node_to_move)
 {
 	int a_cost = node_to_move->a_surface_cost;
 	int b_cost = node_to_move->b_surface_cost;
@@ -581,7 +610,39 @@ void surface_nodes_and_push_a(t_node *stack_a, t_node* stack_b, t_node *node_to_
 			printf("This shouldn't be happening.\n");
 	}
 	printf("Just here?\n");
-	pa(stack_a, stack_b);
+	stacks = pa(stack_a, stack_b);
+	return (stacks);
+}
+
+t_node *rotate_until_ordered(t_node *stack_a)
+{
+	int i = 0;
+	int a_len = get_list_len(stack_a);
+	t_node *stack_a_start = stack_a;
+	t_node *stack_a_end = stack_a;
+	while (i < a_len - 1)
+	{
+		// printf("node: %d, next_node: %d\n", stack_a_end->number, stack_a_end->next_node->number);
+		printf("node: %d\n", stack_a_end->number);
+		stack_a_end = stack_a_end->next_node;
+		i++;
+	}
+	printf("stack_a_end: %d.\n", stack_a_end->number);
+
+	i = 0;
+	while (stack_a_end->number <= stack_a_start->number)
+	{
+		stack_a = rra(stack_a);
+		stack_a_end = stack_a;
+		while (i < a_len - 1)
+		{
+			printf("stack_a_end: %d.\n", stack_a_end->number);
+			stack_a_end = stack_a_end->next_node;
+			i++;
+		}
+		i = 0;
+	}
+	return (stack_a);
 }
 
 
@@ -602,26 +663,58 @@ int main(int argc, char *argv[])
 	set_ordered_position(stack_a, get_list_len(stack_a));
 
 	stack_b = NULL;
-	print_stack_values(stack_a);
-	print_stack_values(stack_b);
+	// printf("\nSTARTING VALUES:\n");
+	// print_stack_values(stack_a);
+	// print_stack_values(stack_b);
+	// printf("-----\n");
 	stacks = split_stacks(stack_a, stack_b);
 	stack_a = stacks->stack_a;
 	stack_b = stacks->stack_b;
 	while (stack_b)
 	{
+		printf("\nSTARTING VALUES:\n");
+		print_stack_values(stack_a);
+		print_stack_values(stack_b);
+		printf("-----\n");
+
 		set_position(stack_a);
 		set_position(stack_b);
+		set_target(stack_a, stack_b);
+
+		printf("\nBEFORE CALCULATING COSTS:\n");
+		print_stack_values(stack_a);
+		print_stack_values(stack_b);
+		printf("-----\n");
+
+		calculate_costs(stack_a, stack_b);
+		set_total_cost(stack_b);
+
+		// printf("\nBEFORE ACTIONS:\n");
+		// print_stack_values(stack_a);
+		// printf("\n");
+		// print_stack_values(stack_b);
+		// printf("\n");
+		// printf("-----\n");
+
+		t_node *node_to_move = select_node(stack_b);
+		stacks = surface_nodes_and_push_a(stack_a, stack_b, node_to_move);
+		stack_a = stacks->stack_a;
+		stack_b = stacks->stack_b;
+
+		printf("\nAFTER ACTIONS:\n");
 		print_stack_values(stack_a);
 		printf("\n");
 		print_stack_values(stack_b);
 		printf("\n");
-
-		set_target(stack_a, stack_b);
-		calculate_costs(stack_a, stack_b);
-		set_total_cost(stack_b);
-		t_node *node_to_move = select_node(stack_b);
-		surface_nodes_and_push_a(stack_a, stack_b, node_to_move);
+		printf("-----\n");
 	}
+	stack_a = rotate_until_ordered(stack_a);
+	printf("\nAFTER ROTATION:\n");
+	print_stack_values(stack_a);
+	printf("\n");
+	print_stack_values(stack_b);
+	printf("\n");
+	printf("-----\n");
 
 	return (0);
 }
