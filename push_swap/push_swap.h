@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:41:38 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/29 15:38:19 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/04 15:19:22 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_node {
 typedef struct s_stack_tuple {
 	t_node *stack_a;
 	t_node *stack_b;
+	int		return_code;
 } t_stack_tuple;
 
 enum e_stack {

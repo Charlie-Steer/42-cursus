@@ -6,12 +6,14 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/30 21:05:35 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:22:30 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <sys/select.h>
+
+void print_stacks(char *title, t_node *stack_a, t_node *stack_b);
+void set_target(t_node *stack_a, t_node *stack_b);
 
 int	number_of_strings(char **char_array)
 {
@@ -45,7 +47,6 @@ int check_if_numbers(char **number_strings)
 		}
 		if (c != '\0' && !(c >= '0' && c <= '9'))
 		{
-			// ft_printf("Error on: %c (%d)\n", c, c); 
 			return (0);
 		}
 		i++;
@@ -191,17 +192,6 @@ t_node *set_ordered_position(t_node *list, int number_of_integers)
 
 void test_stack_actions(t_node *list)
 {
-	// // set_ordered_position test
-	// {
-	// 	while (list->next_node != NULL)
-	// 	{
-	// 		ft_printf("%d\n", list->ordered_position);
-	// 		list = list->next_node;
-	// 	}
-	// 	ft_printf("%d\n", list->ordered_position);
-	// }
-
-	// list = rotate_stack(list);
 	list = reverse_rotate_stack(list);
 	
 	// list_state test
@@ -214,22 +204,11 @@ void test_stack_actions(t_node *list)
 		}
 		ft_printf("%d\n\n", test_list->number);
 	}
-
-	// // list_state test
-	// {
-	// 	t_node *test_list = list_test;
-	// 	while (test_list->next_node != NULL)
-	// 	{
-	// 		ft_printf("%d\n", test_list->number);
-	// 		test_list = test_list->next_node;
-	// 	}
-	// 	ft_printf("%d\n\n", test_list->number);
-	// }
 }
 
 char **create_number_strings(int argc, char *argv[])
 {
-	if (argc == 1)
+	if (argc == 1 || argv[1][0] == '\0')
 		return (NULL);
 
 	char **number_strings;
@@ -238,20 +217,12 @@ char **create_number_strings(int argc, char *argv[])
 	else
 		number_strings = &argv[1];
 
-	// //print number_strings
-	// {
-	// 	int i = 0;
-	// 	while (number_strings[i] != NULL)
-	// 	{
-	// 		ft_printf("%11s\n", number_strings[i]);
-	// 		i++;
-	// 	}
-	// }
-
 	if (!check_if_numbers(number_strings))
-		return (write(2, "Error: Non-number input.\n", 25), NULL);
+		return (write(2, "Error\n", 6), NULL);
+		// return (write(2, "Error: Non-number input.\n", 25), NULL);
 	else if (check_if_int_overflow(number_strings))
-		return (write(2, "Error: Number values outside integer bounds not allowed.\n", 57), NULL);
+		return (write(2, "Error\n", 6), NULL);
+		// return (write(2, "Error: Number values outside integer bounds not allowed.\n", 57), NULL);
 	else
 	 	return (number_strings);
 }
@@ -263,7 +234,8 @@ t_node	*create_stack_a(char *number_strings[])
 		return (write(2, "Error\n", 6), NULL);
 
 	if (check_if_duplicate_numbers(list))
-		return (write(2, "Error: Duplicate values are not allowed.\n", 41), NULL);
+		return (write(2, "Error\n", 6), NULL);
+		// return (write(2, "Error: Duplicate values are not allowed.\n", 41), NULL);
 	else
 		return (list);
 }
@@ -301,22 +273,8 @@ void set_position(t_node *stack)
 	}
 }
 
-
-//! This only works if stack_a is at least of size 2.
-//! BUGGY!
-t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
-{
-	int	largest_numbers[3];
-	int large_numbers_index;
-	int a_len;
-	int i;
-	int temp_number;
-	t_node *stack_a_start;
-
-	large_numbers_index = 0;
-	a_len = get_list_len(stack_a);
-	i = 0;
-	stack_a_start = stack_a;
+int *init_largest_numbers_array(t_node *stack_a, int *largest_numbers) {
+	int i = 0;
 
 	// init largest_numbers[].
 	while (i < 3)
@@ -325,9 +283,14 @@ t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 		stack_a = stack_a->next_node;
 		i++;
 	}
+	return (largest_numbers);
+}
+
+int *order_largest_numbers_array(t_node *stack_a, int *largest_numbers) {
+	int i = 0;
+	int temp_number;
 
 	// order temp values.
-	//! Seemingly working
 	while (!(largest_numbers[0] < largest_numbers[1])
 		|| !(largest_numbers[1] < largest_numbers[2])
 		|| !(largest_numbers[0] < largest_numbers[2]))
@@ -345,14 +308,29 @@ t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 			largest_numbers[0] = temp_number;
 		}
 	}
+	return (largest_numbers);
+}
 
-	// set actual largest_numbers.
-	while (i < a_len) //! Shares i with previous loop!
+// returns 0 if ordered, 1 if unordered.
+int init_and_order_largest_numbers(t_node *stack_a, int *largest_numbers, int a_len) {
+	init_largest_numbers_array(stack_a, largest_numbers);
+	printf("%d, %d, %d\n", largest_numbers[0], largest_numbers[1], largest_numbers[2]);
+	order_largest_numbers_array(stack_a, largest_numbers);
+	printf("%d, %d, %d\n", largest_numbers[0], largest_numbers[1], largest_numbers[2]);
+	if (a_len == 3)
+		return (1);
+	return (0);
+}
+
+void set_actual_largest_numbers(t_node *stack_a, int a_len, int *largest_numbers) {
+	int i = 3;
+
+	stack_a = stack_a->next_node->next_node->next_node;
+	while (i < a_len)
 	{
 		if (stack_a->number > largest_numbers[2])
 		{
-			temp_number = largest_numbers[1];
-			largest_numbers[0] = temp_number;
+			largest_numbers[0] = largest_numbers[1];
 			largest_numbers[1] = largest_numbers[2];
 			largest_numbers[2] = stack_a->number;
 		}
@@ -366,9 +344,10 @@ t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 		stack_a = stack_a->next_node;
 		i++;
 	}
+}
 
-	i = 0;
-	stack_a = stack_a_start;
+t_stack_tuple *push_nodes_to_b(t_node *stack_a, t_node *stack_b, int a_len, int *largest_numbers) {
+	int i = 0;
 	t_node *temp_node;
 	t_stack_tuple *stacks;
 	while (i < a_len)
@@ -387,28 +366,86 @@ t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 		}
 		i++;
 	}
-
-	// Set order of stack_a to ascending.
-	t_node *first_node = stack_a;
-	t_node *middle_node = stack_a->next_node;
-	t_node *last_node = stack_a->next_node->next_node;
-
-	temp_node = first_node;
-	first_node = last_node;
-	last_node = temp_node;
-	first_node->next_node = middle_node;
-	middle_node->next_node = last_node;
-	last_node->next_node = NULL;
-	stack_a = first_node;
-
-
 	stacks->stack_a = stack_a;
 	stacks->stack_b = stack_b;
-
 	return (stacks);
 }
 
-//! NOT SURE IF BASED ON STACK_A'S ORD_POS OR POS.
+t_node *order_stack_a(t_node *stack_a, t_node *stack_b) {
+	// Set order of stack_a to ascending.
+	t_stack_tuple *stacks;
+	t_node *stack_a_start = stack_a;
+	int largest_number = stack_a->number;
+	if (stack_a->next_node->number > largest_number)
+		largest_number = stack_a->next_node->number;
+	if (stack_a->next_node->next_node->number > largest_number)
+		largest_number = stack_a->next_node->next_node->number;
+
+	if (stack_a->number == largest_number)
+		stack_a = ra(stack_a);
+	else if (stack_a->next_node->number == largest_number)
+		stack_a = rra(stack_a);
+
+	if (stack_a->number > stack_a->next_node->number)
+		stack_a = sa(stack_a);
+
+	return (stack_a);
+}
+
+t_stack_tuple *handle_one_and_two_len_cases(t_stack_tuple *stacks, int a_len)
+{
+	if (a_len == 1)
+	{
+		stacks->return_code = 0;
+		return (stacks);
+	}
+	else if (a_len == 2)
+	{
+		if (stacks->stack_a->number > stacks->stack_a->next_node->number) {
+			stacks->stack_a = sa(stacks->stack_a);
+			printf("%d, %d\n", stacks->stack_a->number, stacks->stack_a->next_node->number);
+			stacks->return_code = 0;
+		}
+		return (stacks);
+	}
+	else
+	{
+		ft_printf("This shouldn't be happening.");	
+		return (NULL);
+	}
+}
+
+//! This only works if stack_a is at least of size 2.
+//! USER HAS TO FREE T_STACK_TUPLE.
+t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
+{
+	t_stack_tuple *stacks = malloc(sizeof(t_stack_tuple));
+	int	*largest_numbers;
+	int a_len;
+
+	stacks->stack_a = stack_a;
+	stacks->stack_b = stack_b;
+	a_len = get_list_len(stack_a);
+	if (a_len == 1 || a_len == 2)
+	{
+		stacks = handle_one_and_two_len_cases(stacks, a_len);
+		return (stacks);
+	}
+	largest_numbers = malloc(3 * sizeof(int));
+	init_and_order_largest_numbers(stack_a, largest_numbers, a_len);
+	if (a_len > 3)
+	{
+		set_actual_largest_numbers(stack_a, a_len, largest_numbers);
+		stacks = push_nodes_to_b(stack_a, stack_b, a_len, largest_numbers);
+		stack_a = stacks->stack_a;
+	}
+	stack_a = order_stack_a(stack_a, stack_b);
+	stacks->stack_a = stack_a;
+	stacks->return_code = 1;
+	free(largest_numbers);
+	return (stacks);
+}
+
 void set_target(t_node *stack_a, t_node *stack_b)
 {
 	int a_len = get_list_len(stack_a);
@@ -421,12 +458,9 @@ void set_target(t_node *stack_a, t_node *stack_b)
 		int min_a_above_b_number = INT_MAX;
 		while (j < a_len)
 		{
-			printf("stack_a: %d, stack_b: %d\n", stack_a->number, stack_b->number);
-			printf("min_a_above_b_number: %d\n", min_a_above_b_number);
 			if (stack_a->number > stack_b->number && stack_a->number <= min_a_above_b_number)
 			{
 				min_a_above_b_number = stack_a->number;
-				printf("new min_a_above_b_number: %d\n", min_a_above_b_number);
 			}
 			stack_a = stack_a->next_node;
 			j++;
@@ -446,19 +480,15 @@ void set_target(t_node *stack_a, t_node *stack_b)
 
 void set_surface_cost(enum e_stack cost_stack, t_node *node, int stack_len)
 {
-	// printf("position: %d, stack_len: %d, stack_len/2: %d\n", node->position, stack_len, stack_len/2);
-	// printf("cost function gets called\n");
 	if (node->position <= stack_len / 2)
 	{
 		if (cost_stack == A)
 		{
 			node->a_surface_cost = node->position;
-			printf("a_surface_cost: %d\n", node->a_surface_cost);
 		}
 		else if (cost_stack == B)
 		{
 			node->b_surface_cost = node->position;
-			printf("b_surface_cost: %d\n", node->b_surface_cost);
 		}
 	}
 	else
@@ -485,7 +515,6 @@ void calculate_costs(t_node *stack_a, t_node *stack_b)
 	int i = 0;
 	while (i < b_len)
 	{
-		printf("stack_b node: %p\n", stack_b);
 		set_surface_cost(B, stack_b, b_len);
 		stack_b = stack_b->next_node;
 		i++;
@@ -504,16 +533,8 @@ void calculate_costs(t_node *stack_a, t_node *stack_b)
 	i = 0;
 	while (i < b_len)
 	{
-		// printf("stack_a node: %p\n", stack_a);
-		// printf("stack_b node: %p\n", stack_b);
-		// printf("stack_a position: %d\n", stack_a->position);
-		// printf("stack_b position: %d\n", stack_b->target_position);
-		printf("stack_b->number: %d\n", stack_b->number);
-		printf("stack_b->target_position: %d\n", stack_b->target_position);
 		while (stack_a->position != stack_b->target_position)
 		{
-			printf("stack_a: %p, stack_a->next_node: %p\n", stack_a, stack_a->next_node);
-			printf("stack_a->position: %d, stack_b->target_position: %d\n", stack_a->position, stack_b->target_position);
 			stack_a = stack_a->next_node;
 		}
 		stack_b->a_surface_cost = stack_a->a_surface_cost;
@@ -557,7 +578,6 @@ t_node	*select_node(t_node *stack_b)
 		stack_b = stack_b -> next_node;
 		i++;
 	}
-	printf("cheapest node: %d\n", cheapest_node->number);
 	return (cheapest_node);
 }
 
@@ -566,10 +586,8 @@ t_stack_tuple *surface_nodes_and_push_a(t_node *stack_a, t_node* stack_b, t_node
 	int a_cost = node_to_move->a_surface_cost;
 	int b_cost = node_to_move->b_surface_cost;
 	t_stack_tuple *stacks;
-	printf("number to move: %d, cost_a: %d, cost_b: %d, total_cost: %d\n", node_to_move->number, node_to_move->a_surface_cost, node_to_move->b_surface_cost, node_to_move->total_cost);
 	while (a_cost || b_cost)
 	{
-		printf("Iteration!\n");
 		if (a_cost > 0 && b_cost > 0)
 		{
 			stacks = rr(stack_a, stack_b);
@@ -607,9 +625,8 @@ t_stack_tuple *surface_nodes_and_push_a(t_node *stack_a, t_node* stack_b, t_node
 			b_cost += 1;
 		}
 		else
-			printf("This shouldn't be happening.\n");
+			ft_printf("This shouldn't be happening.\n");
 	}
-	printf("Just here?\n");
 	stacks = pa(stack_a, stack_b);
 	return (stacks);
 }
@@ -622,12 +639,9 @@ t_node *rotate_until_ordered(t_node *stack_a)
 	t_node *stack_a_end = stack_a;
 	while (i < a_len - 1)
 	{
-		// printf("node: %d, next_node: %d\n", stack_a_end->number, stack_a_end->next_node->number);
-		printf("node: %d\n", stack_a_end->number);
 		stack_a_end = stack_a_end->next_node;
 		i++;
 	}
-	printf("stack_a_end: %d.\n", stack_a_end->number);
 
 	i = 0;
 	while (stack_a_end->number <= stack_a_start->number)
@@ -636,7 +650,6 @@ t_node *rotate_until_ordered(t_node *stack_a)
 		stack_a_end = stack_a;
 		while (i < a_len - 1)
 		{
-			printf("stack_a_end: %d.\n", stack_a_end->number);
 			stack_a_end = stack_a_end->next_node;
 			i++;
 		}
@@ -645,6 +658,14 @@ t_node *rotate_until_ordered(t_node *stack_a)
 	return (stack_a);
 }
 
+void print_stacks(char *title, t_node *stack_a, t_node *stack_b) {
+	printf("\n%s\n", title);
+	print_stack_values(stack_a);
+	printf("\n");
+	print_stack_values(stack_b);
+	printf("\n");
+	printf("-----\n");
+}
 
 //! ENSURE CORRECT MEMORY MANAGEMENT.
 //! For example no ft_split malloc unfreed.
@@ -661,54 +682,30 @@ int main(int argc, char *argv[])
 		return (1);
 
 	set_ordered_position(stack_a, get_list_len(stack_a));
+	printf("passes this?\n");
 
 	stack_b = NULL;
-	// printf("\nSTARTING VALUES:\n");
-	// print_stack_values(stack_a);
-	// print_stack_values(stack_b);
-	// printf("-----\n");
 	stacks = split_stacks(stack_a, stack_b);
+	print_stacks("AFTER SPLIT", stacks->stack_a, stacks->stack_b);
+	if (stacks->return_code == 0)
+		return (0);
 	stack_a = stacks->stack_a;
 	stack_b = stacks->stack_b;
 	while (stack_b)
 	{
-		printf("\nSTARTING VALUES:\n");
-		print_stack_values(stack_a);
-		print_stack_values(stack_b);
-		printf("-----\n");
-
 		set_position(stack_a);
 		set_position(stack_b);
 		set_target(stack_a, stack_b);
 
-		printf("\nBEFORE CALCULATING COSTS:\n");
-		print_stack_values(stack_a);
-		print_stack_values(stack_b);
-		printf("-----\n");
-
 		calculate_costs(stack_a, stack_b);
 		set_total_cost(stack_b);
-
-		// printf("\nBEFORE ACTIONS:\n");
-		// print_stack_values(stack_a);
-		// printf("\n");
-		// print_stack_values(stack_b);
-		// printf("\n");
-		// printf("-----\n");
-
 		t_node *node_to_move = select_node(stack_b);
 		stacks = surface_nodes_and_push_a(stack_a, stack_b, node_to_move);
 		stack_a = stacks->stack_a;
 		stack_b = stacks->stack_b;
-
-		printf("\nAFTER ACTIONS:\n");
-		print_stack_values(stack_a);
-		printf("\n");
-		print_stack_values(stack_b);
-		printf("\n");
-		printf("-----\n");
 	}
 	stack_a = rotate_until_ordered(stack_a);
+
 	printf("\nAFTER ROTATION:\n");
 	print_stack_values(stack_a);
 	printf("\n");

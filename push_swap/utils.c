@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:40:05 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/29 15:35:48 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/04 13:23:29 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int add_last_link(t_node* list_node, t_node* node_to_point_to)
 	return (0);
 }
 
-#include <stdio.h>
 long	ft_atoi_long(const char *str)
 {
 	long	num;
@@ -66,11 +65,8 @@ long	ft_atoi_long(const char *str)
 		if (i > 0)
 			num *= 10;
 		num += str[i] - '0';
-		// printf("num (i == %d): %11ld\n", i, num);
 		i++;
 	}
-	// printf("num,  sign: %11ld, %1d\n", num, sign);
-	// printf("num * sign: %ld\n", num * sign);
 	return (num * sign);
 }
 
