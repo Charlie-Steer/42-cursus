@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 12:08:27 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/10/25 12:08:42 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/05 14:50:17 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ t_node *rb(t_node *stack_b)
 	return (stack_b);
 }
 
+//! NEEDS TO BE FREED
 t_stack_tuple *rr(t_node *stack_a, t_node *stack_b)
 {
 	t_stack_tuple *stacks;
 
+	stacks = malloc(sizeof(t_stack_tuple));
 	stacks->stack_a = rotate_stack(stack_a);
 	stacks->stack_b = rotate_stack(stack_b);
 	ft_printf("rr\n");

@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:41:38 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/04 15:19:22 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/05 18:34:27 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ enum e_stack {
 	A,
 	B
 };
+
+// DEBUGGING //! DELETE
+void print_stacks(char *title, t_node *stack_a, t_node *stack_b);
+void print_stack_values(t_node *stack);
 
 t_node			*create_node(int number);
 int				add_last_link(t_node* list_node, t_node* node_to_point_to);

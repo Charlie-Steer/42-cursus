@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/04 18:22:30 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/05 18:32:35 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,8 +208,10 @@ void test_stack_actions(t_node *list)
 
 char **create_number_strings(int argc, char *argv[])
 {
-	if (argc == 1 || argv[1][0] == '\0')
+	if (argc == 1)
 		return (NULL);
+	else if (argv[1] == NULL || argv[1][0] == '\0')
+		return (write(2, "Error\n", 6), NULL);
 
 	char **number_strings;
 	if (argc == 2)
@@ -227,9 +229,22 @@ char **create_number_strings(int argc, char *argv[])
 	 	return (number_strings);
 }
 
+void free_number_strings(char **number_strings)
+{
+    int i = 0;
+    if (!number_strings)
+        return;
+    while (number_strings[i]) {
+        free(number_strings[i]);
+		i++;
+	}
+    free(number_strings);
+}
+
 t_node	*create_stack_a(char *number_strings[])
 {
 	t_node *list = create_list_of_integers_from_strings(number_strings);
+	free_number_strings(number_strings);
 	if (!list)
 		return (write(2, "Error\n", 6), NULL);
 
@@ -314,9 +329,9 @@ int *order_largest_numbers_array(t_node *stack_a, int *largest_numbers) {
 // returns 0 if ordered, 1 if unordered.
 int init_and_order_largest_numbers(t_node *stack_a, int *largest_numbers, int a_len) {
 	init_largest_numbers_array(stack_a, largest_numbers);
-	printf("%d, %d, %d\n", largest_numbers[0], largest_numbers[1], largest_numbers[2]);
+	// printf("%d, %d, %d\n", largest_numbers[0], largest_numbers[1], largest_numbers[2]);
 	order_largest_numbers_array(stack_a, largest_numbers);
-	printf("%d, %d, %d\n", largest_numbers[0], largest_numbers[1], largest_numbers[2]);
+	// printf("%d, %d, %d\n", largest_numbers[0], largest_numbers[1], largest_numbers[2]);
 	if (a_len == 3)
 		return (1);
 	return (0);
@@ -403,7 +418,7 @@ t_stack_tuple *handle_one_and_two_len_cases(t_stack_tuple *stacks, int a_len)
 	{
 		if (stacks->stack_a->number > stacks->stack_a->next_node->number) {
 			stacks->stack_a = sa(stacks->stack_a);
-			printf("%d, %d\n", stacks->stack_a->number, stacks->stack_a->next_node->number);
+			// printf("%d, %d\n", stacks->stack_a->number, stacks->stack_a->next_node->number);
 			stacks->return_code = 0;
 		}
 		return (stacks);
@@ -420,6 +435,8 @@ t_stack_tuple *handle_one_and_two_len_cases(t_stack_tuple *stacks, int a_len)
 t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 {
 	t_stack_tuple *stacks = malloc(sizeof(t_stack_tuple));
+	if (!stacks)
+		return (NULL);
 	int	*largest_numbers;
 	int a_len;
 
@@ -435,6 +452,7 @@ t_stack_tuple *split_stacks(t_node *stack_a, t_node *stack_b)
 	init_and_order_largest_numbers(stack_a, largest_numbers, a_len);
 	if (a_len > 3)
 	{
+		free(stacks);
 		set_actual_largest_numbers(stack_a, a_len, largest_numbers);
 		stacks = push_nodes_to_b(stack_a, stack_b, a_len, largest_numbers);
 		stack_a = stacks->stack_a;
@@ -667,6 +685,42 @@ void print_stacks(char *title, t_node *stack_a, t_node *stack_b) {
 	printf("-----\n");
 }
 
+int check_if_ordered(t_node *stack_a)
+{
+	while (stack_a->next_node)
+	{
+		if (stack_a->number < stack_a->next_node->number)
+		{
+			stack_a = stack_a->next_node;
+			continue;
+		}
+		else
+		 	return (0);
+	}
+	return (1);
+}
+
+void free_stacks(t_stack_tuple *stacks)
+{
+	t_node *next_node;
+	if (!stacks)
+		return;
+
+	while (stacks->stack_a)
+	{
+		next_node = stacks->stack_a->next_node;
+		free(stacks->stack_a);
+		stacks->stack_a = next_node;
+	}
+	while (stacks->stack_b)
+	{
+		next_node = stacks->stack_b->next_node;
+		free(stacks->stack_b);
+		stacks->stack_b = next_node;
+	}
+	free(stacks);
+}
+
 //! ENSURE CORRECT MEMORY MANAGEMENT.
 //! For example no ft_split malloc unfreed.
 int main(int argc, char *argv[])
@@ -681,16 +735,20 @@ int main(int argc, char *argv[])
 	if (!(stack_a = create_stack_a(number_strings)))
 		return (1);
 
+	// print_stacks("START", stack_a, NULL);
+	if (check_if_ordered(stack_a))
+		return (0);
+
 	set_ordered_position(stack_a, get_list_len(stack_a));
-	printf("passes this?\n");
 
 	stack_b = NULL;
 	stacks = split_stacks(stack_a, stack_b);
-	print_stacks("AFTER SPLIT", stacks->stack_a, stacks->stack_b);
+	// print_stacks("AFTER SPLIT", stacks->stack_a, stacks->stack_b);
 	if (stacks->return_code == 0)
-		return (0);
+		return (free(stacks), 0);
 	stack_a = stacks->stack_a;
 	stack_b = stacks->stack_b;
+	free(stacks);
 	while (stack_b)
 	{
 		set_position(stack_a);
@@ -706,12 +764,8 @@ int main(int argc, char *argv[])
 	}
 	stack_a = rotate_until_ordered(stack_a);
 
-	printf("\nAFTER ROTATION:\n");
-	print_stack_values(stack_a);
-	printf("\n");
-	print_stack_values(stack_b);
-	printf("\n");
-	printf("-----\n");
+	// print_stacks("AFTER ROTATION", stack_a, stack_b);
 
+	free_stacks(stacks);
 	return (0);
 }

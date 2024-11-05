@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:11:38 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/04 16:37:25 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/05 14:15:12 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_node	*sa(t_node *stack_a)
 {
 	stack_a = swap_nodes(stack_a);
 	ft_printf("sa\n");
-	ft_printf("%p\n", (void *)stack_a);
+	// ft_printf("%p\n", (void *)stack_a);
 	return (stack_a);
 }
 
