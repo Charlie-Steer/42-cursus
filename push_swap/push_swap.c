@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/05 18:32:35 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/06 17:39:34 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void print_stacks(char *title, t_node *stack_a, t_node *stack_b);
 void set_target(t_node *stack_a, t_node *stack_b);
+void free_stacks_separately(t_node *stack_a, t_node *stack_b);
+t_number_strings free_number_strings(t_number_strings number_strings);
 
 int	number_of_strings(char **char_array)
 {
@@ -206,51 +208,97 @@ void test_stack_actions(t_node *list)
 	}
 }
 
-char **create_number_strings(int argc, char *argv[])
+// char **create_number_strings(int argc, char *argv[])
+// {
+// 	if (argc == 1)
+// 		return (NULL);
+// 	else if (argv[1] == NULL || argv[1][0] == '\0')
+// 		return (write(2, "Error\n", 6), NULL);
+
+// 	char **number_strings;
+// 	if (argc == 2)
+// 		number_strings = ft_split(argv[1], ' ');
+// 	else
+// 		number_strings = &argv[1];
+
+// 	if (!check_if_numbers(number_strings))
+// 		return (write(2, "Error\n", 6), NULL);
+// 		// return (write(2, "Error: Non-number input.\n", 25), NULL);
+// 	else if (check_if_int_overflow(number_strings))
+// 		return (write(2, "Error\n", 6), NULL);
+// 		// return (write(2, "Error: Number values outside integer bounds not allowed.\n", 57), NULL);
+// 	else
+// 	 	return (number_strings);
+// }
+
+t_number_strings create_number_strings(int argc, char *argv[])
 {
+	t_number_strings number_strings;
+	ft_memset(&number_strings, 0, sizeof(number_strings));
 	if (argc == 1)
-		return (NULL);
+		return (number_strings);
 	else if (argv[1] == NULL || argv[1][0] == '\0')
-		return (write(2, "Error\n", 6), NULL);
+		return (write(2, "Error\n", 6), number_strings);
 
-	char **number_strings;
-	if (argc == 2)
-		number_strings = ft_split(argv[1], ' ');
+	if (argc == 2) {
+		number_strings.number_strings = ft_split(argv[1], ' ');
+		number_strings.is_heap_allocated = 1;
+	}
 	else
-		number_strings = &argv[1];
+		number_strings.number_strings = &argv[1];
 
-	if (!check_if_numbers(number_strings))
-		return (write(2, "Error\n", 6), NULL);
+	if (!check_if_numbers(number_strings.number_strings)) {
+		number_strings = free_number_strings(number_strings);
+		return (write(2, "Error\n", 6), number_strings);
+	}
 		// return (write(2, "Error: Non-number input.\n", 25), NULL);
-	else if (check_if_int_overflow(number_strings))
-		return (write(2, "Error\n", 6), NULL);
+	else if (check_if_int_overflow(number_strings.number_strings)) {
+		number_strings = free_number_strings(number_strings);
+		return (write(2, "Error\n", 6), number_strings);
+	}
 		// return (write(2, "Error: Number values outside integer bounds not allowed.\n", 57), NULL);
 	else
 	 	return (number_strings);
 }
 
-void free_number_strings(char **number_strings)
+t_number_strings free_number_strings(t_number_strings number_strings)
 {
     int i = 0;
-    if (!number_strings)
-        return;
-    while (number_strings[i]) {
-        free(number_strings[i]);
+    if (!number_strings.number_strings || !number_strings.is_heap_allocated)
+        return (number_strings);
+    while (number_strings.number_strings[i]) {
+        free(number_strings.number_strings[i]);
 		i++;
 	}
-    free(number_strings);
+    free(number_strings.number_strings);
+	number_strings.number_strings = NULL;
+	return (number_strings);
 }
 
-t_node	*create_stack_a(char *number_strings[])
+void test_number_strings(char **number_strings)
 {
-	t_node *list = create_list_of_integers_from_strings(number_strings);
-	free_number_strings(number_strings);
+	int i = 0;
+	while (number_strings[i] != NULL) {
+		printf("%s\n", number_strings[i]);
+		i++;
+	}
+}
+
+t_node	*create_stack_a(t_number_strings number_strings)
+{
+	t_node *list = create_list_of_integers_from_strings(number_strings.number_strings);
+	// test_number_strings(number_strings.number_strings);
+	if (number_strings.is_heap_allocated) {
+		free_number_strings(number_strings);
+	}
 	if (!list)
 		return (write(2, "Error\n", 6), NULL);
 
-	if (check_if_duplicate_numbers(list))
+	if (check_if_duplicate_numbers(list)) {
+		free_stacks_separately(list, NULL);
 		return (write(2, "Error\n", 6), NULL);
 		// return (write(2, "Error: Duplicate values are not allowed.\n", 41), NULL);
+	}
 	else
 		return (list);
 }
@@ -378,9 +426,11 @@ t_stack_tuple *push_nodes_to_b(t_node *stack_a, t_node *stack_b, int a_len, int 
 			stacks = pb(stack_b, stack_a); //! HANDLE NULL!
 			stack_a = stacks->stack_a;
 			stack_b = stacks->stack_b;
+			free(stacks);
 		}
 		i++;
 	}
+	stacks = malloc(sizeof(t_stack_tuple));
 	stacks->stack_a = stack_a;
 	stacks->stack_b = stack_b;
 	return (stacks);
@@ -721,23 +771,44 @@ void free_stacks(t_stack_tuple *stacks)
 	free(stacks);
 }
 
+void free_stacks_separately(t_node *stack_a, t_node *stack_b)
+{
+	t_node *next_node;
+
+	while (stack_a)
+	{
+		next_node = stack_a->next_node;
+		free(stack_a);
+		stack_a = next_node;
+	}
+	while (stack_b)
+	{
+		next_node = stack_b->next_node;
+		free(stack_b);
+		stack_b = next_node;
+	}
+}
+
 //! ENSURE CORRECT MEMORY MANAGEMENT.
 //! For example no ft_split malloc unfreed.
 int main(int argc, char *argv[])
 {
-	char **number_strings;
+	// char **number_strings;
+	t_number_strings number_strings;
 	t_node *stack_a;
 	t_node *stack_b;
 	t_stack_tuple *stacks;
 
-	if (!(number_strings = create_number_strings(argc, argv)))
+	if (!((number_strings = create_number_strings(argc, argv)).number_strings)) {
 		return (1);
-	if (!(stack_a = create_stack_a(number_strings)))
+	}
+	if (!(stack_a = create_stack_a(number_strings))) {
 		return (1);
+	}
 
 	// print_stacks("START", stack_a, NULL);
 	if (check_if_ordered(stack_a))
-		return (0);
+		return (free_stacks_separately(stack_a, NULL), 0);
 
 	set_ordered_position(stack_a, get_list_len(stack_a));
 
@@ -745,7 +816,7 @@ int main(int argc, char *argv[])
 	stacks = split_stacks(stack_a, stack_b);
 	// print_stacks("AFTER SPLIT", stacks->stack_a, stacks->stack_b);
 	if (stacks->return_code == 0)
-		return (free(stacks), 0);
+		return (free_stacks(stacks), 0);
 	stack_a = stacks->stack_a;
 	stack_b = stacks->stack_b;
 	free(stacks);
@@ -761,11 +832,13 @@ int main(int argc, char *argv[])
 		stacks = surface_nodes_and_push_a(stack_a, stack_b, node_to_move);
 		stack_a = stacks->stack_a;
 		stack_b = stacks->stack_b;
+		free(stacks);
 	}
 	stack_a = rotate_until_ordered(stack_a);
 
 	// print_stacks("AFTER ROTATION", stack_a, stack_b);
 
-	free_stacks(stacks);
+	// free_stacks(stacks);
+	free_stacks_separately(stack_a, stack_b);
 	return (0);
 }
