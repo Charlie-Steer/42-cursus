@@ -16,11 +16,21 @@ NAME = push_swap
 SOURCES = \
 	push_swap.c \
 	utils.c \
+	list_utils.c \
 	actions_base_functions.c \
 	actions_swap.c \
 	actions_push.c \
 	actions_rotate.c \
-	actions_reverse_rotate.c
+	actions_reverse_rotate.c \
+	checks.c \
+	free.c \
+	split_stacks.c \
+	split_stacks_helper.c \
+	push_swap_subroutines_1.c \
+	set_costs.c \
+	rotate_and_push.c \
+	debug.c 
+	#! Delete debug.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
