@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/08 15:51:26 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/08 16:13:35 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,43 @@ t_stack_tuple	*push_smaller_half_to_b(t_node *stack_a, t_node *stack_b)
 
 	stack_a_start = stack_a;
 	a_len = get_list_len(stack_a);
-	a_half_len = a_len / 2;
+	int a_third_len = a_len / 3;
+
+	while (stack_a && stack_a->ordered_position != a_third_len)
+	{
+		// ft_printf("Inside loop\n");
+		// ft_printf("a_half_len: %d, ord_position: %d\n", a_half_len, stack_a->ordered_position);
+		stack_a = stack_a->next_node;
+	}
+	t_node *thirdway_node = stack_a;
+	stack_a = stack_a_start;
+
+	// push numbers smaller than halfway_node->number.
+	// stacks = ft_calloc(1, sizeof(t_stack_tuple));
+	// ft_printf("hello!\n");
+	int i = 0;
+	while (stack_a && i++ < a_len)
+	{
+		// ft_printf("%d\n", stack_a->number);
+		if (stack_a->number < thirdway_node->number)
+		{
+			stacks = pb(stack_b, stack_a);
+			stack_a = stacks->stack_a;
+			stack_b = stacks->stack_b;
+			free(stacks);
+		}
+		else
+		{
+			stack_a = ra(stack_a);
+		}
+	}
+	// print_stacks("After Thirds", stack_a, stack_b);
+
+
+
+	a_half_len = get_list_len(stack_a) / 2;
+
+
 
 	// ft_printf("Before loop\n");
 	// find halfway number
@@ -158,8 +194,8 @@ t_stack_tuple	*push_smaller_half_to_b(t_node *stack_a, t_node *stack_b)
 	// push numbers smaller than halfway_node->number.
 	// stacks = ft_calloc(1, sizeof(t_stack_tuple));
 	// ft_printf("hello!\n");
-	int i = 0;
-	while (stack_a && i++ < a_len)
+	i = 0;
+	while (stack_a && i++ < a_half_len) //! IF SINGLE SPLIT CHANGE TO a_len
 	{
 		// ft_printf("%d\n", stack_a->number);
 		if (stack_a->number < halfway_node->number)
