@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 12:09:47 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/07 12:11:29 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/08 10:18:46 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 t_number_strings	free_number_strings(t_number_strings number_strings)
 {
-    int i;
+	int	i;
 
 	i = 0;
-    if (!number_strings.number_strings || !number_strings.is_heap_allocated)
-        return (number_strings);
-    while (number_strings.number_strings[i]) {
-        free(number_strings.number_strings[i]);
+	if (!number_strings.number_strings || !number_strings.is_heap_allocated)
+		return (number_strings);
+	while (number_strings.number_strings[i])
+	{
+		free(number_strings.number_strings[i]);
 		i++;
 	}
-    free(number_strings.number_strings);
+	free(number_strings.number_strings);
 	number_strings.number_strings = NULL;
 	return (number_strings);
 }
@@ -33,8 +34,7 @@ void	free_stacks(t_stack_tuple *stacks)
 	t_node	*next_node;
 
 	if (!stacks)
-		return;
-
+		return ;
 	while (stacks->stack_a)
 	{
 		next_node = stacks->stack_a->next_node;

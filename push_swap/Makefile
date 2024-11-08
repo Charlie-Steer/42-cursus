@@ -15,7 +15,8 @@ NAME = push_swap
 
 SOURCES = \
 	push_swap.c \
-	utils.c \
+	utils_1.c \
+	utils_2.c \
 	list_utils.c \
 	actions_base_functions.c \
 	actions_swap.c \

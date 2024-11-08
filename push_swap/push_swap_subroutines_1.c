@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 12:43:30 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/07 15:07:45 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/08 10:26:57 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,16 @@ t_node	*create_list_of_integers_from_strings(char **number_strings)
 	t_node	*previous_node;
 	t_node	*first_node;
 	int		i;
+	int		number;
 
 	previous_node = NULL;
 	i = 0;
 	while (number_strings[i])
 	{
-		int number = ft_atoi(number_strings[i]);
+		number = ft_atoi(number_strings[i]);
 		new_node = create_node(number);
 		if (!new_node)
-			return (NULL); //? Frees?
+			return (NULL);
 		if (!previous_node)
 			first_node = new_node;
 		else
@@ -45,15 +46,13 @@ t_node	*set_ordered_position(t_node *list, int number_of_integers)
 	int		j;
 
 	node_to_sort = list;
-	node_to_compare_to = list;
 	i = 0;
-	j = 0;
-	while (i < number_of_integers)
+	while (i++ < number_of_integers)
 	{
-		i++;
-		while (j < number_of_integers)
+		j = 0;
+		node_to_compare_to = list;
+		while (j++ < number_of_integers)
 		{
-			j++;
 			if (node_to_sort == node_to_compare_to)
 			{
 				node_to_compare_to = node_to_compare_to->next_node;
@@ -63,8 +62,6 @@ t_node	*set_ordered_position(t_node *list, int number_of_integers)
 				node_to_sort->ordered_position++;
 			node_to_compare_to = node_to_compare_to->next_node;
 		}
-		node_to_compare_to = list;
-		j = 0;
 		node_to_sort = node_to_sort->next_node;
 	}
 	return (list);
@@ -93,12 +90,12 @@ t_number_strings	create_number_strings(int argc, char *argv[])
 		return (write(2, "Error\n", 6), number_strings);
 	}
 	else
-	 	return (number_strings);
+		return (number_strings);
 }
 
 t_node	*create_stack_a(t_number_strings number_strings)
 {
-	t_node *list;
+	t_node	*list;
 
 	list = create_list_of_integers_from_strings(number_strings.number_strings);
 	if (number_strings.is_heap_allocated)
@@ -125,7 +122,6 @@ void	set_position(t_node *stack)
 	i = 0;
 	while (i < len)
 	{
-		// ft_printf("%d\n", i);
 		stack->position = i;
 		stack = stack->next_node;
 		i++;

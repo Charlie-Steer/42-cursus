@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/07 16:38:06 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/08 15:51:26 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,36 +113,111 @@ t_stack_tuple	*run_core_algorithm(t_node *stack_a, t_node *stack_b)
 	return (return_stacks);
 }
 
-int	main(int argc, char *argv[])
+t_node	*create_number_strings_and_stack_a(int argc, char *argv[])
 {
 	t_number_strings	number_strings;
+	t_node				*stack_a;
+
+	stack_a = NULL;
+	number_strings = create_number_strings(argc, argv);
+	if (!number_strings.number_strings)
+		return (NULL);
+	stack_a = create_stack_a(number_strings);
+	if (!stack_a)
+		return (NULL);
+	return (stack_a);
+}
+
+#include <assert.h>
+t_stack_tuple	*push_smaller_half_to_b(t_node *stack_a, t_node *stack_b)
+{
+	t_node			*stack_a_start;
+	int				a_len;
+	int				a_half_len;
+	t_stack_tuple	*stacks;
+	t_node			*halfway_node;
+
+	stack_a_start = stack_a;
+	a_len = get_list_len(stack_a);
+	a_half_len = a_len / 2;
+
+	// ft_printf("Before loop\n");
+	// find halfway number
+	while (stack_a && stack_a->ordered_position != a_half_len)
+	{
+		// ft_printf("Inside loop\n");
+		// ft_printf("a_half_len: %d, ord_position: %d\n", a_half_len, stack_a->ordered_position);
+		stack_a = stack_a->next_node;
+	}
+	// ft_printf("a_half_len: %d, ord_position: %d\n", a_half_len, stack_a->ordered_position);
+	// ft_printf("stack_a: %d\n", stack_a->number);
+	// assert(0);
+	halfway_node = stack_a;
+	stack_a = stack_a_start;
+
+	// push numbers smaller than halfway_node->number.
+	// stacks = ft_calloc(1, sizeof(t_stack_tuple));
+	// ft_printf("hello!\n");
+	int i = 0;
+	while (stack_a && i++ < a_len)
+	{
+		// ft_printf("%d\n", stack_a->number);
+		if (stack_a->number < halfway_node->number)
+		{
+			stacks = pb(stack_b, stack_a);
+			stack_a = stacks->stack_a;
+			stack_b = stacks->stack_b;
+			free(stacks);
+		}
+		else
+		{
+			stack_a = ra(stack_a);
+		}
+	}
+	// ft_printf("Yay!\n");
+	stacks = ft_calloc(1, sizeof(t_stack_tuple));
+	stacks->stack_a = stack_a;
+	stacks->stack_b = stack_b;
+	return (stacks);
+}
+
+int	main(int argc, char *argv[])
+{
 	t_node				*stack_a;
 	t_node				*stack_b;
 	t_stack_tuple		*stacks;
 
-	if (!((number_strings = create_number_strings(argc, argv)).number_strings))
+	stack_a = create_number_strings_and_stack_a(argc, argv);
+	if (!stack_a)
 		return (1);
-	if (!(stack_a = create_stack_a(number_strings)))
-		return (1);
-
 	if (check_if_ordered(stack_a))
 		return (free_stacks_separately(stack_a, NULL), 0);
-
 	set_ordered_position(stack_a, get_list_len(stack_a));
 
 	stack_b = NULL;
+	if (get_list_len(stack_a) > 4)
+	{
+		stacks = push_smaller_half_to_b(stack_a, stack_b);
+		stack_a = stacks->stack_a;
+		stack_b = stacks->stack_b;
+		free (stacks);
+	}
+
+	// ft_printf("%p\n", stack_b);
+	// print_stacks("After Premoves", stack_a, stack_b);
+
+	// stack_b = NULL;
 	stacks = split_stacks(stack_a, stack_b);
 	if (stacks->return_code == 0)
 		return (free_stacks(stacks), 0);
 	stack_a = stacks->stack_a;
 	stack_b = stacks->stack_b;
 	free(stacks);
-
 	stacks = run_core_algorithm(stack_a, stack_b);
 	stack_a = stacks->stack_a;
 	stack_b = stacks->stack_b;
-
 	stack_a = rotate_until_ordered(stack_a);
+	// print_stacks("END", stack_a, stack_b);
 	free_stacks_separately(stack_a, stack_b);
 	free(stacks);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:25:08 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/07 16:26:02 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/08 10:28:28 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,16 @@ t_stacks_and_costs	single_action(t_stacks_and_costs stacks_and_costs)
 	return (stacks_and_costs);
 }
 
-t_stack_tuple	*surface_nodes_and_push_a(t_node *stack_a, t_node* stack_b, t_node *node_to_move)
+t_stack_tuple	*surface_nodes_and_push_a(
+	t_node *stack_a, t_node *stack_b, t_node *node_to_move)
 {
-	t_stack_tuple	*stacks;
-	t_stacks_and_costs stacks_and_costs;
+	t_stack_tuple		*stacks;
+	t_stacks_and_costs	stacks_and_costs;
 
 	stacks_and_costs.stack_a = stack_a;
 	stacks_and_costs.stack_b = stack_b;
-	stacks_and_costs.a_cost = node_to_move->a_surface_cost;;
-	stacks_and_costs.b_cost = node_to_move->b_surface_cost;;
+	stacks_and_costs.a_cost = node_to_move->a_surface_cost;
+	stacks_and_costs.b_cost = node_to_move->b_surface_cost;
 	while (stacks_and_costs.a_cost || stacks_and_costs.b_cost)
 	{
 		if (stacks_and_costs.a_cost > 0 && stacks_and_costs.b_cost > 0

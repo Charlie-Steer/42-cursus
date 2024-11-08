@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:40:05 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/07 12:06:11 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/08 10:39:52 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,28 +40,29 @@ long	ft_atoi_long(const char *str)
 	return (num * sign);
 }
 
-//! UNTESTED
-int numlen(long long n)
+int	numlen(long long n)
 {
 	int	len;
 
 	if (n == 0)
 		return (1);
-
 	len = 1;
 	if (n < 0)
 		len += 1;
-
-	while (n /= 10)
+	while (n)
+	{
+		n /= 10;
 		len += 1;
+	}
 	return (len);
 }
 
-int ft_abs(int n) {
+int	ft_abs(int n)
+{
 	if (n < 0)
 		return (-n);
 	else
-	 	return (n);
+		return (n);
 }
 
 int	get_list_len(t_node *list)
@@ -85,14 +86,4 @@ int	ft_min(int a, int b)
 		return (a);
 	else
 		return (b);
-}
-
-int	number_of_strings(char **char_array)
-{
-	int	count;
-
-	count = 0;
-	while (char_array[count])
-		count++;
-	return (count);
 }

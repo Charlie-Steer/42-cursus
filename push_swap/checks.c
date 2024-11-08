@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 11:51:40 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/07 12:15:11 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/08 10:15:13 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,18 @@ int	check_if_numbers(char **number_strings)
 int	check_if_int_overflow(char **number_strings)
 {
 	long	number;
-	int		min_int_len;
-	int		max_int_len;
 	int		i;
+	int		number_string_len;
 
-	min_int_len = numlen(INT_MIN);
-	max_int_len = numlen(INT_MAX);
 	i = 0;
 	while (number_strings[i])
 	{
-		int number_string_len = ft_strlen(number_strings[i]);
-		if (number_strings[i][0] == '-' && number_string_len > min_int_len)
-				return (1);
-		else if (number_strings[i][0] != '-' && number_string_len > max_int_len)
-				return (1);
+		number_string_len = ft_strlen(number_strings[i]);
+		if (number_strings[i][0] == '-' && number_string_len > numlen(INT_MIN))
+			return (1);
+		else if (number_strings[i][0] != '-'
+			&& number_string_len > numlen(INT_MAX))
+			return (1);
 		else
 		{
 			number = ft_atoi_long(number_strings[i]);
@@ -104,7 +102,7 @@ int	check_if_ordered(t_node *stack_a)
 		if (stack_a->number < stack_a->next_node->number)
 		{
 			stack_a = stack_a->next_node;
-			continue;
+			continue ;
 		}
 		else
 			return (0);

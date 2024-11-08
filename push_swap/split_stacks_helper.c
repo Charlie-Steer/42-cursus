@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_stacks_subroutines.c                         :+:      :+:    :+:   */
+/*   split_stacks_helper.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 13:00:44 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/07 13:03:51 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/08 10:33:25 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	*init_largest_numbers_array(t_node *stack_a, int *largest_numbers)
 	int	i;
 
 	i = 0;
-	// init largest_numbers[].
 	while (i < 3)
 	{
 		largest_numbers[i] = stack_a->number;
@@ -33,7 +32,6 @@ int	*order_largest_numbers_array(t_node *stack_a, int *largest_numbers)
 	int	i;
 
 	i = 0;
-	// order temp values.
 	while (!(largest_numbers[0] < largest_numbers[1])
 		|| !(largest_numbers[1] < largest_numbers[2])
 		|| !(largest_numbers[0] < largest_numbers[2]))
@@ -55,7 +53,8 @@ int	*order_largest_numbers_array(t_node *stack_a, int *largest_numbers)
 }
 
 // returns 0 if ordered, 1 if unordered.
-int	init_and_order_largest_numbers(t_node *stack_a, int *largest_numbers, int a_len)
+int	init_and_order_largest_numbers(
+	t_node *stack_a, int *largest_numbers, int a_len)
 {
 	init_largest_numbers_array(stack_a, largest_numbers);
 	order_largest_numbers_array(stack_a, largest_numbers);
@@ -64,7 +63,8 @@ int	init_and_order_largest_numbers(t_node *stack_a, int *largest_numbers, int a_
 	return (0);
 }
 
-void	set_actual_largest_numbers(t_node *stack_a, int a_len, int *largest_numbers)
+void	set_actual_largest_numbers(
+	t_node *stack_a, int a_len, int *largest_numbers)
 {
 	int	i;
 

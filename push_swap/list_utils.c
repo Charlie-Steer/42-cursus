@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 12:06:43 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/07 12:06:54 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/08 10:20:11 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,16 @@
 t_node	*create_node(int number)
 {
 	t_node	*node;
-	
+
 	node = ft_calloc(sizeof(t_node), 1);
 	if (!node)
 		return (NULL);
-
 	node->number = number;
 	return (node);
 }
 
 // Returns 0 if input is valid, -1 if any input is NULL.
-int add_last_link(t_node* list_node, t_node* node_to_point_to)
+int	add_last_link(t_node *list_node, t_node *node_to_point_to)
 {
 	if (list_node == NULL || node_to_point_to == NULL)
 		return (-1);
