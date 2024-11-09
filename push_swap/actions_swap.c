@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 10:11:38 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/08 10:10:52 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:03:55 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_stack_tuple	*ss(t_node *stack_a, t_node *stack_b)
 {
 	t_stack_tuple	*stacks;
 
+	stacks = ft_calloc(1, sizeof(t_stack_tuple));
 	stacks->stack_a = swap_nodes(stack_a);
 	stacks->stack_b = swap_nodes(stack_b);
 	ft_printf("ss\n");

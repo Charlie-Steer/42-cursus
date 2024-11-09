@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 12:49:37 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/08 10:36:32 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:09:08 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 t_stack_tuple	*push_nodes_to_b(
 	t_node *stack_a, t_node *stack_b, int a_len, int *largest_numbers)
 {
-	t_node			*temp_node;
 	t_stack_tuple	*stacks;
 	int				i;
 
@@ -43,7 +42,6 @@ t_stack_tuple	*push_nodes_to_b(
 
 t_node	*order_stack_a(t_node *stack_a)
 {
-	t_stack_tuple	*stacks;
 	t_node			*stack_a_start;
 	int				largest_number;
 

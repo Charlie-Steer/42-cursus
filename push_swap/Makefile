@@ -1,17 +1,13 @@
 # FLAGS
 CC = clang
 INCLUDES = -I. -Ilibft -Ilibft/src/printf -Ilibft/src/get_next_line
-RELEASE_FLAGS = -Wall -Wextra -Werror -g
-DEBUG_FLAGS = -g -O0
-CFLAGS = $(if $(filter "Release", $(MODE)), $(RELEASE_FLAGS), $(DEBUG_FLAGS))
+# CFLAGS = -g
+CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -rf
 LIBFT = libft/libft.a
 
-MODE ?= $(RELEASE_MODE)
-RELEASE_MODE = RELEASE
-TESTING_MODE = TESTING
-
 NAME = push_swap
+BNAME = checker
 
 SOURCES = \
 	push_swap.c \
@@ -28,34 +24,52 @@ SOURCES = \
 	split_stacks.c \
 	split_stacks_helper.c \
 	push_swap_subroutines_1.c \
+	core_algo.c \
 	set_costs.c \
 	rotate_and_push.c \
 	debug.c 
 	#! Delete debug.c
 
+BSOURCES = \
+	checker_bonus.c \
+	checks_bonus.c \
+	free_bonus.c \
+	utils_bonus.c
+
 OBJECTS = $(SOURCES:.c=.o)
+BOBJECTS = $(BSOURCES:.c=.o)
+
 
 # RULES
 %.o: %.c
 	@$(CC) $(CFLAGS) -o $@ -c $<
-	@echo "Compiled $@ ($(MODE) mode)"
+	@echo "Compiled $@."
 
 all: $(NAME) $(LIBFT)
 
+bonus: $(BNAME) $(LIBFT)
+
 $(NAME): $(OBJECTS) $(LIBFT)
 	@$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJECTS) $(LIBFT)
-	@echo "Linked $(NAME) ($(MODE) mode)"
+	@echo $(CFLAGS)
+	@echo "Linked $(NAME)."
+
+$(BNAME): $(BOBJECTS) $(LIBFT)
+	@$(CC) $(CFLAGS) $(INCLUDES) -o $(BNAME) $(BOBJECTS) $(LIBFT)
+	@echo "Linked $(BNAME)."
+
+
 
 $(LIBFT):
 	@make -C libft all
 
 clean:
-	@$(RM) $(OBJECTS) $(OBJECTS)
+	@$(RM) $(OBJECTS) $(BOBJECTS)
 	@make -C libft clean
 	@echo "Cleaned: OBJECT files."
 
 fclean: clean
-	@$(RM) $(NAME) $(NAME)
+	@$(RM) $(NAME) $(BNAME)
 	@make -C libft fclean
 	@echo "Cleaned: OBJECT and ELF files."
 
@@ -64,4 +78,4 @@ re: fclean all
 test: all
 	@./$(NAME)
 
-PHONY: all clean fclean re test
+PHONY: all bonus clean fclean re test

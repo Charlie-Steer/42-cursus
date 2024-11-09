@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:25:08 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/08 10:28:28 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:13:14 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ t_stack_tuple	*surface_nodes_and_push_a(
 	stacks_and_costs.b_cost = node_to_move->b_surface_cost;
 	while (stacks_and_costs.a_cost || stacks_and_costs.b_cost)
 	{
-		if (stacks_and_costs.a_cost > 0 && stacks_and_costs.b_cost > 0
-			|| stacks_and_costs.a_cost < 0 && stacks_and_costs.b_cost < 0)
+		if ((stacks_and_costs.a_cost > 0 && stacks_and_costs.b_cost > 0)
+			|| (stacks_and_costs.a_cost < 0 && stacks_and_costs.b_cost < 0))
 			stacks_and_costs = dual_action(stacks_and_costs);
 		else
 			stacks_and_costs = single_action(stacks_and_costs);

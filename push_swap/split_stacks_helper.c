@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 13:00:44 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/08 10:33:25 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:12:21 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	*init_largest_numbers_array(t_node *stack_a, int *largest_numbers)
 	return (largest_numbers);
 }
 
-int	*order_largest_numbers_array(t_node *stack_a, int *largest_numbers)
+int	*order_largest_numbers_array(int *largest_numbers)
 {
 	int	temp_number;
 	int	i;
@@ -57,7 +57,7 @@ int	init_and_order_largest_numbers(
 	t_node *stack_a, int *largest_numbers, int a_len)
 {
 	init_largest_numbers_array(stack_a, largest_numbers);
-	order_largest_numbers_array(stack_a, largest_numbers);
+	order_largest_numbers_array(largest_numbers);
 	if (a_len == 3)
 		return (1);
 	return (0);
