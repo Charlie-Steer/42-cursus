@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/08 16:13:35 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/09 11:26:48 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ t_node	*create_number_strings_and_stack_a(int argc, char *argv[])
 	return (stack_a);
 }
 
-#include <assert.h>
+#include <assert.h> //! DELETE!
 t_stack_tuple	*push_smaller_half_to_b(t_node *stack_a, t_node *stack_b)
 {
 	t_node			*stack_a_start;
@@ -143,22 +143,17 @@ t_stack_tuple	*push_smaller_half_to_b(t_node *stack_a, t_node *stack_b)
 
 	while (stack_a && stack_a->ordered_position != a_third_len)
 	{
-		// ft_printf("Inside loop\n");
-		// ft_printf("a_half_len: %d, ord_position: %d\n", a_half_len, stack_a->ordered_position);
 		stack_a = stack_a->next_node;
 	}
 	t_node *thirdway_node = stack_a;
 	stack_a = stack_a_start;
 
-	// push numbers smaller than halfway_node->number.
-	// stacks = ft_calloc(1, sizeof(t_stack_tuple));
-	// ft_printf("hello!\n");
 	int i = 0;
-	while (stack_a && i++ < a_len)
+	while (stack_a && i <= thirdway_node->ordered_position)
 	{
-		// ft_printf("%d\n", stack_a->number);
-		if (stack_a->number < thirdway_node->number)
+		if (stack_a->number <= thirdway_node->number)
 		{
+			i++;
 			stacks = pb(stack_b, stack_a);
 			stack_a = stacks->stack_a;
 			stack_b = stacks->stack_b;
@@ -172,34 +167,26 @@ t_stack_tuple	*push_smaller_half_to_b(t_node *stack_a, t_node *stack_b)
 	// print_stacks("After Thirds", stack_a, stack_b);
 
 
-
-	a_half_len = get_list_len(stack_a) / 2;
-
-
-
-	// ft_printf("Before loop\n");
-	// find halfway number
+	stack_a_start = stack_a;
+	// a_len = get_list_len(stack_a);
+	a_half_len = a_len / 2;
+	// ft_printf("%d, %d\n", a_len, a_half_len);
 	while (stack_a && stack_a->ordered_position != a_half_len)
 	{
-		// ft_printf("Inside loop\n");
-		// ft_printf("a_half_len: %d, ord_position: %d\n", a_half_len, stack_a->ordered_position);
 		stack_a = stack_a->next_node;
 	}
-	// ft_printf("a_half_len: %d, ord_position: %d\n", a_half_len, stack_a->ordered_position);
-	// ft_printf("stack_a: %d\n", stack_a->number);
-	// assert(0);
 	halfway_node = stack_a;
+	// ft_printf("halfway_node: %d", halfway_node->number);
 	stack_a = stack_a_start;
+	// print_stacks("Pre-halves", stack_a, stack_b);
 
-	// push numbers smaller than halfway_node->number.
-	// stacks = ft_calloc(1, sizeof(t_stack_tuple));
-	// ft_printf("hello!\n");
-	i = 0;
-	while (stack_a && i++ < a_half_len) //! IF SINGLE SPLIT CHANGE TO a_len
+	// ft_printf("i: %d\n", i);
+	// assert(0);
+	while (stack_a && i <= halfway_node->ordered_position) //! IF SINGLE SPLIT CHANGE TO a_len
 	{
-		// ft_printf("%d\n", stack_a->number);
-		if (stack_a->number < halfway_node->number)
+		if (stack_a->number <= halfway_node->number)
 		{
+			i++;
 			stacks = pb(stack_b, stack_a);
 			stack_a = stacks->stack_a;
 			stack_b = stacks->stack_b;
@@ -210,7 +197,7 @@ t_stack_tuple	*push_smaller_half_to_b(t_node *stack_a, t_node *stack_b)
 			stack_a = ra(stack_a);
 		}
 	}
-	// ft_printf("Yay!\n");
+	// print_stacks("After Halved", stack_a, stack_b);
 	stacks = ft_calloc(1, sizeof(t_stack_tuple));
 	stacks->stack_a = stack_a;
 	stacks->stack_b = stack_b;
@@ -226,12 +213,15 @@ int	main(int argc, char *argv[])
 	stack_a = create_number_strings_and_stack_a(argc, argv);
 	if (!stack_a)
 		return (1);
+	// ft_printf("here?\n");
 	if (check_if_ordered(stack_a))
 		return (free_stacks_separately(stack_a, NULL), 0);
+	// print_stacks("HEALTH CHECK", stack_a, NULL);
+	// ft_printf("MESSAGE\n");
 	set_ordered_position(stack_a, get_list_len(stack_a));
 
 	stack_b = NULL;
-	if (get_list_len(stack_a) > 4)
+	if (get_list_len(stack_a) > 10)
 	{
 		stacks = push_smaller_half_to_b(stack_a, stack_b);
 		stack_a = stacks->stack_a;
@@ -246,6 +236,7 @@ int	main(int argc, char *argv[])
 	stacks = split_stacks(stack_a, stack_b);
 	if (stacks->return_code == 0)
 		return (free_stacks(stacks), 0);
+	// ft_printf("hello!\n");
 	stack_a = stacks->stack_a;
 	stack_b = stacks->stack_b;
 	free(stacks);
