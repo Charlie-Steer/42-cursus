@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:16:29 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/10 20:46:54 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/10 20:50:10 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,9 @@ int main(int argc, char *argv[])
 	stack_a = create_number_strings_and_stack_a(argc, argv);
 	if (!stack_a)
 		return (1);
-
-	// print_stacks("START", stack_a, stack_b);
-
-	//! MAKE RESIZEABLE ARRAYS.
 	char *line;
 	int instruction_array_size = INITIAL_INSTRUCTION_NUMBER;
-	int *instructions = ft_calloc(instruction_array_size, sizeof(int));	//! MAKE RESIZEABLE ARRAYS.
+	int *instructions = ft_calloc(instruction_array_size, sizeof(int));
 	int i = 0;
 	int instructions_recorded = 0;
 	while (1)
@@ -55,35 +51,21 @@ int main(int argc, char *argv[])
 			break ; //? RETURN?
 		else
 		{
-			// printf("hello?\n");
 		 	record_instruction(line, instructions, i);
-			// printf("BEFORE FREE(LINE)\n");
 			free(line);
-			// printf("AFTER FREE(LINE)\n");
 			instructions_recorded++;
 			if (instructions_recorded > instruction_array_size)
 			{
 				instruction_array_size *= 2;
 				int *new_instructions = ft_calloc(instruction_array_size, sizeof(int));
 				memcpy(new_instructions, instructions, instruction_array_size / 2);
-				// printf("BEFORE FREE\n");
 				free(instructions);
 				instructions = new_instructions;
-				// printf("AFTER FREE\n");
 			}
 		}
 		i++;
 	}
 	int number_of_numbers = get_list_len(stack_a);
-	// if (check_if_valid_instructions(instructions))
-	// 	ft_printf("VALID!\n");
-
-	// print_stacks("START", stack_a, stack_b);
-	// for (int j = 0; j < 1000; j++)
-	// {
-	// 	printf("%d, ", instructions[j]);
-	// }
-	// printf("\n");
 
 	if (!check_if_valid_instructions(instructions))
 	{
@@ -97,17 +79,12 @@ int main(int argc, char *argv[])
 
 
 	i = 0;
-	// printf("%d\n", instructions[i]);
 	while (instructions[i] != 0)
 	{
-		// printf("i: %d\n", i);
 		run_instruction(instructions, i, &stack_a, &stack_b);
-		// print_stacks("INSTRUCTION", stack_a, stack_b);
 		i++;
 	}
 	
-	// print_stacks("END", stack_a, stack_b);
-
 	if (check_if_ordered(stack_a) && number_of_numbers == get_list_len(stack_a))
 		ft_printf("OK\n");
 	else
