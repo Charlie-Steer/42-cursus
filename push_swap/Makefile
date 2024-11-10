@@ -34,7 +34,14 @@ BSOURCES = \
 	checker_bonus.c \
 	checks_bonus.c \
 	free_bonus.c \
-	utils_bonus.c
+	utils_bonus.c \
+	actions_base_functions_bonus.c \
+	actions_swap_bonus.c \
+	actions_push_bonus.c \
+	actions_rotate_bonus.c \
+	actions_reverse_rotate_bonus.c \
+	debug.c
+	#! Delete debug.c
 
 OBJECTS = $(SOURCES:.c=.o)
 BOBJECTS = $(BSOURCES:.c=.o)

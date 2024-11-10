@@ -6,12 +6,12 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:38:34 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/09 14:51:02 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/10 19:30:22 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#ifndef PUSH_SWAP_BONUS_H
+# define PUSH_SWAP_BONUS_H
 # include "libft/libft.h"
 
 typedef struct s_node
@@ -39,6 +39,21 @@ typedef struct s_number_strings
 	int		is_heap_allocated;
 }	t_number_strings;
 
+enum  e_action
+{
+	SA = 1,
+	SB,
+	SS,
+	PA,
+	PB,
+	RA,
+	RB,
+	RR,
+	RRA,
+	RRB,
+	RRR
+};
+
 // debug.c //! DELETE
 void				test_number_strings(char **number_strings);
 void				print_stacks(char *title, t_node *stack_a, t_node *stack_b);
@@ -53,6 +68,7 @@ int					check_if_ordered(t_node *stack_a);
 // utils
 t_node              *create_node(int number);
 int                 add_last_link(t_node *list_node, t_node *node_to_point_to);
+int					get_list_len(t_node *list);
 
 // free.c
 t_number_strings	free_number_strings(t_number_strings number_strings);
@@ -67,18 +83,18 @@ t_node				*rotate_stack(t_node *stack);
 t_node				*reverse_rotate_stack(t_node *stack);
 
 // swap
-t_node				*sa(t_node *stack_a);
-t_node				*sb(t_node *stack_b);
-t_stack_tuple		*ss(t_node *stack_a, t_node *stack_b);
+void				sa(t_node **stack_a);
+void				sb(t_node **stack_b);
+void				ss(t_node **stack_a, t_node **stack_b);
 // push
-t_stack_tuple		*pa(t_node *stack_a, t_node *stack_b);
-t_stack_tuple		*pb(t_node *stack_b, t_node *stack_a);
+void				pa(t_node **stack_a, t_node **stack_b);
+void				pb(t_node **stack_b, t_node **stack_a);
 // rotate
-t_node				*ra(t_node *stack_a);
-t_node				*rb(t_node *stack_b);
-t_stack_tuple		*rr(t_node *stack_a, t_node *stack_b);
+void				ra(t_node **stack_a);
+void				rb(t_node **stack_b);
+void				rr(t_node **stack_a, t_node **stack_b);
 // reverse rotate
-t_node				*rra(t_node *stack_a);
-t_node				*rrb(t_node *stack_b);
-t_stack_tuple		*rrr(t_node *stack_a, t_node *stack_b);
+void				rra(t_node **stack_a);
+void				rrb(t_node **stack_b);
+void				rrr(t_node **stack_a, t_node **stack_b);
 #endif
