@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:08:31 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/10 14:57:44 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/10 20:15:23 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_stack_tuple	*push_node(t_node *to, t_node *from)
 	t_node			*from_new_start;
 
 	stacks = ft_calloc(1, sizeof(t_stack_tuple));
-	from_new_start = from->next_node;
 	if (!from)
 	{
 		stacks->stack_a = to;
@@ -41,6 +40,7 @@ t_stack_tuple	*push_node(t_node *to, t_node *from)
 	}
 	else
 	{
+		from_new_start = from->next_node;
 		stacks->stack_a = from;
 		stacks->stack_a->next_node = to;
 		stacks->stack_b = from_new_start;

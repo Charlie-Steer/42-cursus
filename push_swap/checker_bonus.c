@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:16:29 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/10 19:49:45 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/10 20:46:54 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_node	*create_list_of_integers_from_strings(char **number_strings);
 int check_if_valid_instructions(int *instructions);
 void	record_instruction(char *line, int *instructions, int index);
 void	run_instruction(int *instructions, int i, t_node **stack_a, t_node **stack_b);
+void	handle_one_number(int *instructions);
 
 //! CHECK FOR LEAKS
 //! ENSURE EVERYTHING IN THE PDF IS HANDLED THE SAME.
@@ -73,6 +74,7 @@ int main(int argc, char *argv[])
 		}
 		i++;
 	}
+	int number_of_numbers = get_list_len(stack_a);
 	// if (check_if_valid_instructions(instructions))
 	// 	ft_printf("VALID!\n");
 
@@ -88,6 +90,12 @@ int main(int argc, char *argv[])
 		return (write(1, "ERROR\n", 6), 1);
 	}
 
+	if (number_of_numbers == 1)
+	{
+		handle_one_number(instructions);
+	}
+
+
 	i = 0;
 	// printf("%d\n", instructions[i]);
 	while (instructions[i] != 0)
@@ -100,12 +108,40 @@ int main(int argc, char *argv[])
 	
 	// print_stacks("END", stack_a, stack_b);
 
-	//! ALSO CHECK IF LEN IS THE SAME AS START.
-	if (check_if_ordered(stack_a))
+	if (check_if_ordered(stack_a) && number_of_numbers == get_list_len(stack_a))
 		ft_printf("OK\n");
 	else
 		ft_printf("KO\n");
 	return (0);
+}
+
+void	handle_one_number(int *instructions)
+{
+	int	i;
+	int push_a_balance;
+	int push_b_balance;
+
+	push_a_balance = 0;
+	push_b_balance = 1;
+	i = 0;
+	while (instructions[i++] != 0)
+	{
+		if (push_a_balance == 1 && instructions[i] == PA)
+		{
+			push_a_balance = 0;
+			push_b_balance = 1;
+		}
+		else if (push_b_balance == 1 && instructions[i] == PB)
+		{
+			push_b_balance = 0;
+			push_a_balance = 1;
+		}
+	}
+	if (push_a_balance == 0 && push_b_balance == 1)
+		ft_printf("OK\n");
+	else
+		ft_printf("KO\n");
+	exit(0);
 }
 
 void	run_instruction(int *instructions, int i, t_node **stack_a, t_node **stack_b)
