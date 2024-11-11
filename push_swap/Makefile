@@ -40,7 +40,9 @@ BSOURCES = \
 	actions_push_bonus.c \
 	actions_rotate_bonus.c \
 	actions_reverse_rotate_bonus.c \
-	debug.c
+	extra_bonus.c \
+	debug.c \
+	instruction_handling.c
 	#! Delete debug.c
 
 OBJECTS = $(SOURCES:.c=.o)

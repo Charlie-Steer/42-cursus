@@ -6,13 +6,15 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:38:34 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/11 12:02:38 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 15:48:23 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_BONUS_H
 # define PUSH_SWAP_BONUS_H
 # include "libft/libft.h"
+
+# define INITIAL_INSTRUCTION_NUMBER 100000
 
 typedef struct s_node
 {
@@ -39,7 +41,7 @@ typedef struct s_number_strings
 	int		is_heap_allocated;
 }	t_number_strings;
 
-enum  e_action
+enum e_action
 {
 	SA = 1,
 	SB,
@@ -59,18 +61,29 @@ void				test_number_strings(char **number_strings);
 void				print_stacks(char *title, t_node *stack_a, t_node *stack_b);
 void				print_stack_values(t_node *stack);
 
-// checks.c
+// extra_bonus.c
+void				print_ok_or_ko(int condition);
+
+// instruction_handling.c
+int					*read_input_and_record_instructions(int *instructions);
+// int					*read_input_and_record_instructions(void);
+void				run_instructions(
+						int *instructions, t_node **stack_a, t_node **stack_b);
+void				handle_one_number(int *instructions);
+
+// checks_bonus.c
 int					check_if_numbers(char **number_strings);
 int					check_if_int_overflow(char **number_strings);
 int					check_if_duplicate_numbers(t_node *list);
 int					check_if_ordered(t_node *stack_a);
+int					check_if_valid_instructions(int *instructions);
 
-// utils
-t_node              *create_node(int number);
-int                 add_last_link(t_node *list_node, t_node *node_to_point_to);
+// utils_bonus.c
+t_node				*create_node(int number);
+int					add_last_link(t_node *list_node, t_node *node_to_point_to);
 int					get_list_len(t_node *list);
 
-// free.c
+// free_bonus.c
 t_number_strings	free_number_strings(t_number_strings number_strings);
 void				free_stacks(t_stack_tuple *stacks);
 void				free_everything(int *instructions, t_node *stack_a,

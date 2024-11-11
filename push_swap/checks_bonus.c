@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:43:11 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/11 12:44:41 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 15:29:11 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,23 @@ int	check_if_ordered(t_node *stack_a)
 		}
 		else
 			return (0);
+	}
+	return (1);
+}
+
+int	check_if_valid_instructions(int *instructions)
+{
+	int	i;
+
+	i = 0;
+	while (instructions[i] != 0)
+	{
+		if (instructions[i] == -1)
+		{
+			write(STDERR_FILENO, "Error\n", 6);
+			return (0);
+		}
+		i++;
 	}
 	return (1);
 }

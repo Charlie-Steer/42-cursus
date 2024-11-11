@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 12:43:30 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/11 12:03:04 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 15:22:58 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ t_number_strings	create_number_strings(int argc, char *argv[])
 		|| check_if_int_overflow(number_strings.number_strings))
 	{
 		number_strings = free_number_strings(number_strings);
-		// return (write(2, "Error\n", 6), number_strings);
 		write(2, "Error\n", 6);
 		exit(1);
 	}

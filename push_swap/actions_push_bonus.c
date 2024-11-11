@@ -6,13 +6,13 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:10:25 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/11 13:03:59 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:40:53 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap_bonus.h"
 
-void pa(t_node **stack_a, t_node **stack_b)
+void	pa(t_node **stack_a, t_node **stack_b)
 {
 	t_stack_tuple	*stacks;
 
@@ -20,7 +20,6 @@ void pa(t_node **stack_a, t_node **stack_b)
 	*stack_a = stacks->stack_a;
 	*stack_b = stacks->stack_b;
 	free(stacks);
-	// ft_printf("pa\n");
 }
 
 void	pb(t_node **stack_b, t_node **stack_a)
