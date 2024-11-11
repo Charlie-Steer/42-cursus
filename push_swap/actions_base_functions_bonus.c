@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:08:31 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/10 20:15:23 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:02:58 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,11 @@ t_node	*reverse_rotate_stack(t_node *stack)
 		second_last = last;
 		last = last->next_node;
 	}
-	second_last->next_node = NULL;
-	last->next_node = first;
+	if (second_last)
+	{
+		second_last->next_node = NULL;
+		last->next_node = first;
+	}
 	stack = last;
 	return (stack);
 }

@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:41:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/09 12:34:46 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 09:00:55 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_node	*create_number_strings_and_stack_a(int argc, char *argv[])
 	t_node				*stack_a;
 
 	stack_a = NULL;
+	//! Error: on int overflow doesn't stop execution.
+	//! Error: on non-digit character doesn't stop execution.
 	number_strings = create_number_strings(argc, argv);
 	if (!number_strings.number_strings)
 		return (NULL);
@@ -92,6 +94,8 @@ void	push_smaller_half_to_b(t_node **stack_a, t_node **stack_b)
 
 int	main(int argc, char *argv[])
 {
+	//! CHECK MANUALLY FOR LEAKS
+	//! TEST EVERYTHING WITH BOTH "" AND UNCAPPED ARGUMENTS.
 	t_node				*stack_a;
 	t_node				*stack_b;
 	t_stack_tuple		*stacks;

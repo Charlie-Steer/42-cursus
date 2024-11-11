@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:16:29 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/10 20:50:10 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:03:42 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,69 +26,64 @@ void	record_instruction(char *line, int *instructions, int index);
 void	run_instruction(int *instructions, int i, t_node **stack_a, t_node **stack_b);
 void	handle_one_number(int *instructions);
 
-//! CHECK FOR LEAKS
-//! ENSURE EVERYTHING IN THE PDF IS HANDLED THE SAME.
-int main(int argc, char *argv[])
+int	*read_input_and_record_instructions()
 {
-	t_node	*stack_a;
-	t_node	*stack_b;
+	char	*line;
+	int		instruction_index;
+	int		*instructions;
+	int		instruction_array_size;
 
-	stack_a = NULL;
-	stack_b = NULL;
-
-	stack_a = create_number_strings_and_stack_a(argc, argv);
-	if (!stack_a)
-		return (1);
-	char *line;
-	int instruction_array_size = INITIAL_INSTRUCTION_NUMBER;
-	int *instructions = ft_calloc(instruction_array_size, sizeof(int));
-	int i = 0;
-	int instructions_recorded = 0;
+	instruction_array_size = INITIAL_INSTRUCTION_NUMBER;
+	instructions = ft_calloc(instruction_array_size, sizeof(int));
+	instruction_index = 0;
 	while (1)
 	{
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
-			break ; //? RETURN?
-		else
+			break ; //? RETURN? //! POTENTIAL ERROR
+		record_instruction(line, instructions, instruction_index);
+		free(line);
+		if (++instruction_index > instruction_array_size)
 		{
-		 	record_instruction(line, instructions, i);
-			free(line);
-			instructions_recorded++;
-			if (instructions_recorded > instruction_array_size)
-			{
-				instruction_array_size *= 2;
-				int *new_instructions = ft_calloc(instruction_array_size, sizeof(int));
-				memcpy(new_instructions, instructions, instruction_array_size / 2);
-				free(instructions);
-				instructions = new_instructions;
-			}
+			instruction_array_size *= 2;
+			int *new_instructions = ft_calloc(instruction_array_size, sizeof(int));
+			memcpy(new_instructions, instructions, instruction_array_size / 2);
+			free(instructions);
+			instructions = new_instructions;
 		}
-		i++;
 	}
-	int number_of_numbers = get_list_len(stack_a);
+	return (instructions);
+}
 
+int main(int argc, char *argv[])
+{
+	//! CHECK FOR LEAKS
+	//! ENSURE EVERYTHING IN THE PDF IS HANDLED THE SAME.
+	//! TEST EVERYTHING WITH BOTH "" AND UNCAPPED ARGUMENTS.
+	t_node	*stack_a;
+	t_node	*stack_b;
+	int		i;
+
+	stack_a = NULL;
+	stack_b = NULL;
+	stack_a = create_number_strings_and_stack_a(argc, argv);
+	if (!stack_a)
+		return (1);
+	int *instructions = read_input_and_record_instructions();
 	if (!check_if_valid_instructions(instructions))
-	{
-		return (write(1, "ERROR\n", 6), 1);
-	}
-
+		return (free_everything(instructions, stack_a, stack_b),
+			write(1, "ERROR\n", 6), 1);
+	int number_of_numbers = get_list_len(stack_a);
 	if (number_of_numbers == 1)
-	{
 		handle_one_number(instructions);
-	}
-
-
 	i = 0;
 	while (instructions[i] != 0)
-	{
-		run_instruction(instructions, i, &stack_a, &stack_b);
-		i++;
-	}
-	
+		run_instruction(instructions, i++, &stack_a, &stack_b);
 	if (check_if_ordered(stack_a) && number_of_numbers == get_list_len(stack_a))
 		ft_printf("OK\n");
 	else
 		ft_printf("KO\n");
+	free_everything(instructions, stack_a, stack_b);
 	return (0);
 }
 
@@ -232,7 +227,9 @@ t_number_strings	create_number_strings(int argc, char *argv[])
 		|| check_if_int_overflow(number_strings.number_strings))
 	{
 		number_strings = free_number_strings(number_strings);
-		return (write(2, "Error\n", 6), number_strings);
+		// ft_printf("wut?\n");
+		write(2, "Error\n", 6);
+		exit(1);
 	}
 	else
 		return (number_strings);
@@ -243,6 +240,11 @@ t_node	*create_stack_a(t_number_strings number_strings)
 	t_node	*list;
 
 	list = create_list_of_integers_from_strings(number_strings.number_strings);
+	// free_stacks_separately(list, NULL); //! TEST
+	// printf("before\n");
+	// exit(0); //! TEST
+	// printf("after\n");
+
 	if (number_strings.is_heap_allocated)
 	{
 		free_number_strings(number_strings);
@@ -251,7 +253,7 @@ t_node	*create_stack_a(t_number_strings number_strings)
 		return (write(2, "Error\n", 6), NULL);
 	if (check_if_duplicate_numbers(list))
 	{
-		free_stacks_separately(list, NULL);
+		free_everything(NULL, list, NULL);
 		return (write(2, "Error\n", 6), NULL);
 	}
 	else

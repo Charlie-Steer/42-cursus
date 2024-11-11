@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:38:34 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/10 19:30:22 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 12:02:38 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int					get_list_len(t_node *list);
 // free.c
 t_number_strings	free_number_strings(t_number_strings number_strings);
 void				free_stacks(t_stack_tuple *stacks);
-void				free_stacks_separately(t_node *stack_a, t_node *stack_b);
+void				free_everything(int *instructions, t_node *stack_a,
+						t_node *stack_b);
 
 // STACK ACTIONS
 // base

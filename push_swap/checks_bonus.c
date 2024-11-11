@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:43:11 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/09 15:19:57 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 12:44:41 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ int	check_if_duplicate_numbers(t_node *list)
 
 int	check_if_ordered(t_node *stack_a)
 {
+	if (!stack_a)
+		return (0);
 	while (stack_a->next_node)
 	{
 		if (stack_a->number < stack_a->next_node->number)

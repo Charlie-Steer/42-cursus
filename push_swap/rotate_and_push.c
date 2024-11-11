@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:25:08 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/09 15:13:14 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 08:47:54 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_stacks_and_costs	dual_action(t_stacks_and_costs stacks_and_costs)
 		stacks_and_costs.stack_b = stacks->stack_b;
 		stacks_and_costs.a_cost -= 1;
 		stacks_and_costs.b_cost -= 1;
+		free(stacks);
 	}
 	else if (stacks_and_costs.a_cost < 0 && stacks_and_costs.b_cost < 0)
 	{
@@ -31,6 +32,7 @@ t_stacks_and_costs	dual_action(t_stacks_and_costs stacks_and_costs)
 		stacks_and_costs.stack_b = stacks->stack_b;
 		stacks_and_costs.a_cost += 1;
 		stacks_and_costs.b_cost += 1;
+		free(stacks);
 	}
 	return (stacks_and_costs);
 }

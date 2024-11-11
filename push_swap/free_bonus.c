@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:44:52 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/09 14:45:12 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 11:58:07 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,13 @@ void	free_stacks(t_stack_tuple *stacks)
 	free(stacks);
 }
 
-void	free_stacks_separately(t_node *stack_a, t_node *stack_b)
+void	free_everything(int *instructions, t_node *stack_a,
+	t_node *stack_b)
 {
 	t_node	*next_node;
 
+	if (instructions)
+		free(instructions);
 	while (stack_a)
 	{
 		next_node = stack_a->next_node;
