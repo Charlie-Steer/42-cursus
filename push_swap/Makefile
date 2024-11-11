@@ -1,7 +1,6 @@
 # FLAGS
 CC = clang
 INCLUDES = -I. -Ilibft -Ilibft/src/printf -Ilibft/src/get_next_line
-# CFLAGS = -g
 CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -rf
 LIBFT = libft/libft.a
@@ -26,9 +25,7 @@ SOURCES = \
 	push_swap_subroutines_1.c \
 	core_algo.c \
 	set_costs.c \
-	rotate_and_push.c \
-	debug.c 
-	#! Delete debug.c
+	rotate_and_push.c
 
 BSOURCES = \
 	checker_bonus.c \
@@ -41,9 +38,7 @@ BSOURCES = \
 	actions_rotate_bonus.c \
 	actions_reverse_rotate_bonus.c \
 	extra_bonus.c \
-	debug.c \
 	instruction_handling.c
-	#! Delete debug.c
 
 OBJECTS = $(SOURCES:.c=.o)
 BOBJECTS = $(BSOURCES:.c=.o)
@@ -60,14 +55,11 @@ bonus: $(BNAME) $(LIBFT)
 
 $(NAME): $(OBJECTS) $(LIBFT)
 	@$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJECTS) $(LIBFT)
-	@echo $(CFLAGS)
 	@echo "Linked $(NAME)."
 
 $(BNAME): $(BOBJECTS) $(LIBFT)
 	@$(CC) $(CFLAGS) $(INCLUDES) -o $(BNAME) $(BOBJECTS) $(LIBFT)
 	@echo "Linked $(BNAME)."
-
-
 
 $(LIBFT):
 	@make -C libft all

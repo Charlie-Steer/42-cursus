@@ -6,13 +6,11 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:16:29 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/11 15:53:13 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 19:10:01 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap_bonus.h"
-#include <stdio.h>
-#include <unistd.h>
 
 t_node				*create_number_strings_and_stack_a(int argc, char *argv[]);
 t_number_strings	create_number_strings(int argc, char *argv[]);

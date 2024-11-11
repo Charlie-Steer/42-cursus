@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:38:34 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/11 15:48:23 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 19:07:27 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,11 @@ enum e_action
 	RRR
 };
 
-// debug.c //! DELETE
-void				test_number_strings(char **number_strings);
-void				print_stacks(char *title, t_node *stack_a, t_node *stack_b);
-void				print_stack_values(t_node *stack);
-
 // extra_bonus.c
 void				print_ok_or_ko(int condition);
 
 // instruction_handling.c
 int					*read_input_and_record_instructions(int *instructions);
-// int					*read_input_and_record_instructions(void);
 void				run_instructions(
 						int *instructions, t_node **stack_a, t_node **stack_b);
 void				handle_one_number(int *instructions);
@@ -95,7 +89,6 @@ t_node				*swap_nodes(t_node *list);
 t_stack_tuple		*push_node(t_node *to, t_node *from);
 t_node				*rotate_stack(t_node *stack);
 t_node				*reverse_rotate_stack(t_node *stack);
-
 // swap
 void				sa(t_node **stack_a);
 void				sb(t_node **stack_b);

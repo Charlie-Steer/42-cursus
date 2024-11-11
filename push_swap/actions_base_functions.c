@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:29:06 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/10 20:16:26 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 19:05:12 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ t_node	*swap_nodes(t_node *stack)
 	return (second);
 }
 
-// ! WIP: REVISING FUNCTION.
-// ! User warning: remember to set the start of the list to returned value.
-// ! TUPLE MUST BE FREED!
 t_stack_tuple	*push_node(t_node *to, t_node *from)
 {
 	t_stack_tuple	*stacks;

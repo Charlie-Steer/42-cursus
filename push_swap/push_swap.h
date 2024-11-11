@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 19:41:38 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/11 13:56:38 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 19:09:19 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # include "libft/libft.h"
 # include <limits.h>
 
-// ! REMOVE COMPETING STRUCT DEFINITION?
 typedef struct s_node
 {
 	struct s_node	*next_node;
@@ -54,11 +53,6 @@ enum e_stack
 	A,
 	B
 };
-
-// debug.c //! DELETE
-void				test_number_strings(char **number_strings);
-void				print_stacks(char *title, t_node *stack_a, t_node *stack_b);
-void				print_stack_values(t_node *stack);
 
 // rotate_and_push.c
 t_stack_tuple		*surface_nodes_and_push_a(
@@ -123,7 +117,6 @@ t_node				*swap_nodes(t_node *list);
 t_stack_tuple		*push_node(t_node *to, t_node *from);
 t_node				*rotate_stack(t_node *stack);
 t_node				*reverse_rotate_stack(t_node *stack);
-
 // swap
 t_node				*sa(t_node *stack_a);
 t_node				*sb(t_node *stack_b);

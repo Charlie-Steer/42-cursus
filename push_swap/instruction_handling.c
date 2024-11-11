@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 13:45:30 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/11 16:01:52 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/11 19:04:41 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	record_instruction(char *line, int *instructions, int index);
 void	run_instruction(
 			int *instructions, int i, t_node **stack_a, t_node **stack_b);
 
-//! SEEMINGLY MAIN PROBLEMATIC FUNCTION
 int	*read_input_and_record_instructions(int *instructions)
 {
 	char	*line;
