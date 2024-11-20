@@ -5,6 +5,7 @@
 *.test*
 *Tester*/
 test
+.DS_Store
 
 */get_next_line
 
