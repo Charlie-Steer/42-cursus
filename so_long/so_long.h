@@ -6,17 +6,16 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:11:39 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/20 15:03:28 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/21 13:19:33 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-#include "MLX42.h"
+#include "MLX42/include/MLX42/MLX42.h"
 #include "libft/libft.h"
-#include "fcntl.h"
-#include "stdio.h"
+#include <fcntl.h>
 #include <assert.h>
 #include <stdbool.h>
 
@@ -39,6 +38,7 @@ typedef struct s_map_data {
 void print_error(char *error_message);
 void print_error_and_exit(char *error_message);
 void print_error_free_map_and_exit(char *error_message, char **map, int height);
+void print_error_free_maps_and_exit(char *error_message, char **map1, char**map2, int height);
 
 int check_if_valid_arguments(int argc, char *argv[]);
 
@@ -48,5 +48,6 @@ t_two_ints get_map_len(char *map_file_path);
 char **save_map(char *map_file_path, int width, int height);
 
 void DEBUG_print_map(char **map, int width, int height);
+void DEBUG_print_maps(char **map1, char** map2, int width, int height);
 
 #endif

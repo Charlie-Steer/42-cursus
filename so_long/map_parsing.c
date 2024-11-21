@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 08:15:33 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/20 16:58:23 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/21 10:10:27 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void ensure_surrounded_by_walls(char **map, t_map_data map_data) {
 			}
 		}
 		else if (map[i][0] != '1' || map[i][map_data.width - 1] != '1') {
-			// DEBUG_print_map(map, map_data.width, map_data.height);
 			print_error_free_map_and_exit("Perimeter of map is not "
 			"surrounded by walls.", map, map_data.height);
 		}
@@ -81,6 +80,55 @@ void flood_fill(char **map, int x_pos, int y_pos) {
 	}
 }
 
+void check_if_valid_path(char **map, int width, int height, char **other_map) {
+	int i;
+	int j;
+
+	i = 0;
+	while (i < height) {
+		j = 0;
+		while (j < width) {
+			if (map[i][j] == 'C' || map[i][j] == 'E' || map[i][j] == 'P') {
+				print_error_free_maps_and_exit("There is no valid path "
+					"through the map.", other_map, map, height);
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+char **clone_map(char **map, int width, int height) {
+	char **new_map;
+	int i;
+	int j;
+
+	new_map = malloc(height * sizeof(char *));
+	if (!new_map) {
+		print_error_free_map_and_exit("Failed to allocate memory.",
+			map, height);
+	}
+	i = 0;
+	while (i < height) {
+		new_map[i] = malloc(width);
+		if (!new_map[i]) {
+			print_error_free_maps_and_exit("Failed to allocate memory.", map, new_map, height);
+		}
+		i++;
+	}
+
+	i = 0;
+	while (i < height) {
+		j = 0;
+		while (j < width) {
+			new_map[i][j] = map[i][j];
+			j++;
+		}
+		i++;
+	}
+	return (new_map);
+}
+
 t_map_data validate_map_and_store_map_data(char **map, int width, int height)
 {
 	int i;
@@ -103,18 +151,20 @@ t_map_data validate_map_and_store_map_data(char **map, int width, int height)
 		i++;
 	}
 	ensure_surrounded_by_walls(map, map_data);
-	#if DEBUG >= 1
-		printf("P: %d\nE: %d\nC: %d\n", map_data.player_amount, map_data.exit_amount, map_data.collectible_amount);
+	#if DEBUG >= 1 //! DELETE
+		printf("P: %d\nE: %d\nC: %d\n\n", map_data.player_amount, map_data.exit_amount, map_data.collectible_amount);
 	#endif
 	if (map_data.player_amount != 1 || map_data.exit_amount != 1
 		|| !(map_data.collectible_amount >= 1)) {
 		print_error_free_map_and_exit("Map doesn't meet the requirements of one player, "
 			"one exit and one or more collectibles.", map, height);
 	}
-	//! COPY MAP
-	flood_fill(map, map_data.player_x_pos, map_data.player_y_pos);
-	printf("\n");
-	DEBUG_print_map(map, width, height);
+	char **new_map = clone_map(map, width, height);
+	flood_fill(new_map, map_data.player_x_pos, map_data.player_y_pos);
+	#if DEBUG >= 1 //! DELETE
+		DEBUG_print_maps(map, new_map, width, height);
+	#endif
+	check_if_valid_path(new_map, width, height, map);
 	return (map_data);
 }
 
@@ -127,6 +177,9 @@ t_two_ints get_map_len(char *map_file_path) {
 	int height = 0;
 	int i;
 	char *line = get_next_line(map_fd);
+	if (!line) {
+		print_error_and_exit("File doesn't exist.");
+	}
 	while (line) {
 		height++;
 		i = 0;
@@ -139,6 +192,7 @@ t_two_ints get_map_len(char *map_file_path) {
 		else if (i != width) {
 			print_error_and_exit("Inconsistent map width. Map must be rectangular.");
 		}
+		free(line);
 		line = get_next_line(map_fd);
 	}
 	width_and_height.a = width;

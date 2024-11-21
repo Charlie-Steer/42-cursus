@@ -1,8 +1,7 @@
 # FLAGS
 CC = clang
 
-LIBMLX = ./MLX42/include/MLX42
-# LIBFT = ./libft
+LIBMLX = ./MLX42/build/libmlx42.a
 LIBFT = ./libft/libft.a
 INCLUDES = -I. -Ilibft -I./MLX42/include/MLX42/ -Ilibft/src/printf -Ilibft/src/get_next_line
 
@@ -14,9 +13,6 @@ CFLAGS_prod = -Wall -Wextra -Werror -Wunreachable-code -DNDEBUG $(CFLAGS_MLX)
 CFLAGS = $(CFLAGS_$(MODE))
 
 RM = rm -rf
-LIBS := \
-	$(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm \
-	$(lIBFT)/libft.a
 
 NAME = so_long
 BNAME =
@@ -42,17 +38,17 @@ $(info Compiling with DEBUG=$(DLVL))
 
 all: $(NAME) $(LIBFT)
 
-libmlx:
-	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4	@echo "Compiled $@."
+# libmlx:
+# 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4	@echo "Compiled $@."
 
 bonus: $(BNAME) $(LIBFT)
 
 $(NAME): $(OBJECTS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJECTS) $(LIBFT)
+	@$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJECTS) $(LIBFT) $(LIBMLX)
 	@echo "Linked $(NAME)."
 
 $(BNAME): $(BOBJECTS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(INCLUDES) -o $(BNAME) $(BOBJECTS)
+	@$(CC) $(CFLAGS) $(INCLUDES) -o $(BNAME) $(BOBJECTS) $(LIBFT) $(LIBMLX)
 	@echo "Linked $(BNAME)."
 
 $(LIBFT):
