@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:10:19 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/21 13:22:35 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:35:47 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,27 @@ int main(int argc, char *argv[])
 		validate_map_and_store_map_data(map, width_and_height.a, width_and_height.b);
 
 		// MLX
-		mlx_t *mlx = mlx_init(500, 350, "My project", 1);
+		mlx_t *mlx = mlx_init(1920, 1080, "My project", 1);
 		if (!mlx) {
 			print_error("Error on mlx_init");
 		}
+		ft_printf("w: %d, h: %d\n", mlx->width, mlx->height);
+		int width = mlx->width;
+		int height = mlx->height;
+		mlx_image_t* img = mlx_new_image(mlx, width, height);
+		// if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
+		// 	ft_error();
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				mlx_put_pixel(img, x, y, 0xFF00FFFF);
+			}
+		}
+		ft_printf("After writing to image.\n");
+		mlx_image_to_window(mlx, img, 0, 0);
+		ft_printf("After displaying on window.\n");
 		mlx_loop(mlx);
+		ft_printf("After loop.\n");
+		mlx_terminate(mlx);
+		ft_printf("After terminate.\n");
 	}
 }
