@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:10:19 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/27 14:44:26 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:25:18 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 #include "so_long.h"
 #include "MLX42/include/MLX42/MLX42.h"
+
+void move_player(void *player);
 
 int main(int argc, char *argv[])
 {
@@ -36,7 +38,7 @@ int main(int argc, char *argv[])
 
 		// MLX
 		//! MAKE SURE YOU HANDLE ERRORS EVERY TIME YOU GET A POINTER FROM MLX.
-		mlx_t *mlx = mlx_init(1920, 1080, "My project", 1);
+		mlx_t *mlx = mlx_init(TILE_WIDTH * map_data.width, TILE_WIDTH * map_data.height, "So Long", 0);
 		if (!mlx)
 			print_error_free_map_and_exit("mlx_init() error.", map, map_data.height);
 
@@ -83,6 +85,7 @@ int main(int argc, char *argv[])
 		if (!mlx_resize_image(exit_image, TILE_WIDTH, TILE_WIDTH))
 			print_error_free_map_and_exit(error_message, map, map_data.height);
 
+		// Draw tiles
 		int i = 0;
 		while (i < map_data.height) {
 			int j = 0;
@@ -110,7 +113,17 @@ int main(int argc, char *argv[])
 		// mlx_resize_image(terrain_image, window_width, window_height);
 
 		mlx_image_to_window(mlx, terrain_image, 0, 0);
+		mlx_set_instance_depth(player_image->instances, 100);
+
+		mlx_loop_hook(mlx, *move_player, (void *)(player_image->instances));
+
 		mlx_loop(mlx);
 		mlx_terminate(mlx);
 	}
+}
+
+void move_player(void *player_param) {
+	mlx_instance_t *player = (mlx_instance_t *)player_param;
+	sleep(1);
+	player->x += TILE_WIDTH;
 }
