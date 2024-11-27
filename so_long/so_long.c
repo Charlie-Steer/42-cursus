@@ -6,17 +6,23 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:10:19 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/25 12:35:47 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/27 14:44:26 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+# define TILE_WIDTH 64
+
 #include "so_long.h"
+#include "MLX42/include/MLX42/MLX42.h"
 
 int main(int argc, char *argv[])
 {
 	if (check_if_valid_arguments(argc, argv))
 	{
-		t_two_ints width_and_height = get_map_len(argv[1]);
+		t_two_ints width_and_height;
+		t_map_data map_data;
+
+		width_and_height = get_map_len(argv[1]);
 		#if DEBUG >= 1 //! DELETE
 			ft_printf("width: %d\nheight: %d\n\n", width_and_height.a, width_and_height.b);
 		#endif
@@ -26,30 +32,85 @@ int main(int argc, char *argv[])
 			DEBUG_print_map(map, width_and_height.a, width_and_height.b);
 		#endif
 
-		validate_map_and_store_map_data(map, width_and_height.a, width_and_height.b);
+		map_data = validate_map_and_store_map_data(map, width_and_height.a, width_and_height.b);
 
 		// MLX
+		//! MAKE SURE YOU HANDLE ERRORS EVERY TIME YOU GET A POINTER FROM MLX.
 		mlx_t *mlx = mlx_init(1920, 1080, "My project", 1);
-		if (!mlx) {
-			print_error("Error on mlx_init");
-		}
-		ft_printf("w: %d, h: %d\n", mlx->width, mlx->height);
-		int width = mlx->width;
-		int height = mlx->height;
-		mlx_image_t* img = mlx_new_image(mlx, width, height);
-		// if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
-		// 	ft_error();
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				mlx_put_pixel(img, x, y, 0xFF00FFFF);
+		if (!mlx)
+			print_error_free_map_and_exit("mlx_init() error.", map, map_data.height);
+
+		int window_width = mlx->width;
+		int window_height = mlx->height;
+
+		#if DEBUG >= 1 //! DELETE
+			ft_printf("Window w: %d, h: %d.\n", window_width, window_height);
+		#endif
+
+		mlx_image_t* background = mlx_new_image(mlx, mlx->width, mlx->height);
+		if (!background || (mlx_image_to_window(mlx, background, 0, 0) < 0))
+			print_error_free_map_and_exit("Background creation error.", map, window_height);
+		for (int x = 0; x < window_width; x++) {
+			for (int y = 0; y < window_height; y++) {
+				mlx_put_pixel(background, x, y, 0x000000FF);
 			}
 		}
-		ft_printf("After writing to image.\n");
-		mlx_image_to_window(mlx, img, 0, 0);
-		ft_printf("After displaying on window.\n");
+
+		mlx_texture_t *terrain_texture = mlx_load_png("textures/grass.png");
+		mlx_texture_t *wall_texture = mlx_load_png("textures/wall.png");
+		mlx_texture_t *player_texture = mlx_load_png("textures/blocky_right.png");
+		if (!player_texture) {
+			ft_printf("WUT?\n");
+		}
+		mlx_texture_t *collectible_texture = mlx_load_png("textures/chest.png");
+		mlx_texture_t *exit_texture = mlx_load_png("textures/door.png");
+
+		mlx_image_t *terrain_image = mlx_texture_to_image(mlx, terrain_texture);
+		mlx_image_t *wall_image = mlx_texture_to_image(mlx, wall_texture);
+		mlx_image_t *player_image = mlx_texture_to_image(mlx, player_texture);
+		mlx_image_t *collectible_image = mlx_texture_to_image(mlx, collectible_texture);
+		mlx_image_t *exit_image = mlx_texture_to_image(mlx, exit_texture);
+
+		char *error_message = "Couldn't resize image.";
+		if (!mlx_resize_image(terrain_image, TILE_WIDTH, TILE_WIDTH))
+			print_error_free_map_and_exit(error_message, map, map_data.height);
+		if (!mlx_resize_image(wall_image, TILE_WIDTH, TILE_WIDTH))
+			print_error_free_map_and_exit(error_message, map, map_data.height);
+		if (!mlx_resize_image(player_image, TILE_WIDTH, TILE_WIDTH))
+			print_error_free_map_and_exit(error_message, map, map_data.height);
+		if (!mlx_resize_image(collectible_image, TILE_WIDTH, TILE_WIDTH))
+			print_error_free_map_and_exit(error_message, map, map_data.height);
+		if (!mlx_resize_image(exit_image, TILE_WIDTH, TILE_WIDTH))
+			print_error_free_map_and_exit(error_message, map, map_data.height);
+
+		int i = 0;
+		while (i < map_data.height) {
+			int j = 0;
+			while (j < map_data.width) {
+				char tile_char = map[i][j];
+				if (tile_char == '0')
+					mlx_image_to_window(mlx, terrain_image, TILE_WIDTH * j, TILE_WIDTH * i);
+				else if (tile_char == '1')
+					mlx_image_to_window(mlx, wall_image, TILE_WIDTH * j, TILE_WIDTH * i);
+				else if (tile_char == 'E')
+					mlx_image_to_window(mlx, exit_image, TILE_WIDTH * j, TILE_WIDTH * i);
+				else if (tile_char == 'C') {
+					mlx_image_to_window(mlx, terrain_image, TILE_WIDTH * j, TILE_WIDTH * i);
+					mlx_image_to_window(mlx, collectible_image, TILE_WIDTH * j, TILE_WIDTH * i);
+				}
+				else if (tile_char == 'P') {
+					mlx_image_to_window(mlx, terrain_image, TILE_WIDTH * j, TILE_WIDTH * i);
+					mlx_image_to_window(mlx, player_image, TILE_WIDTH * j, TILE_WIDTH * i);
+				}
+				j++;
+			}
+			i++;
+		}
+		
+		// mlx_resize_image(terrain_image, window_width, window_height);
+
+		mlx_image_to_window(mlx, terrain_image, 0, 0);
 		mlx_loop(mlx);
-		ft_printf("After loop.\n");
 		mlx_terminate(mlx);
-		ft_printf("After terminate.\n");
 	}
 }
