@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:11:39 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/21 13:19:33 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/28 18:44:12 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@ typedef struct s_two_ints {
 	int b;
 } t_two_ints;
 
+typedef struct s_images {
+	mlx_image_t *terrain_image;
+	mlx_image_t *wall_image;
+	mlx_image_t *exit_image;
+	mlx_image_t *collectible_image;
+	mlx_image_t *player_image;
+} t_images;
+
 typedef struct s_map_data {
 	int width;
 	int height;
@@ -33,7 +41,14 @@ typedef struct s_map_data {
 	int player_amount;
 	int exit_amount;
 	int collectible_amount;
+
+	t_images *images;
 } t_map_data;
+
+typedef struct s_map_and_data {
+	char **map;
+	t_map_data data;
+} t_map_and_data;
 
 void print_error(char *error_message);
 void print_error_and_exit(char *error_message);

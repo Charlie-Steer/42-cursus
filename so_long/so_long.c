@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:10:19 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/27 18:25:18 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:09:19 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,14 @@
 
 #include "so_long.h"
 #include "MLX42/include/MLX42/MLX42.h"
+#include <limits.h>
 
 void move_player(void *player);
+void my_key_hook(mlx_key_data_t key_data, void *param);
+void pick_up_collectible(void *param);
+void check_and_pick_up_collectibles(void *param);
+void draw_player_and_collectible_tiles(mlx_t *mlx, t_images *images, char **map, t_map_data map_data);
+void draw_terrain_and_wall_tiles(mlx_t *mlx, t_images *images, char **map, t_map_data map_data);
 
 int main(int argc, char *argv[])
 {
@@ -85,40 +91,63 @@ int main(int argc, char *argv[])
 		if (!mlx_resize_image(exit_image, TILE_WIDTH, TILE_WIDTH))
 			print_error_free_map_and_exit(error_message, map, map_data.height);
 
-		// Draw tiles
-		int i = 0;
-		while (i < map_data.height) {
-			int j = 0;
-			while (j < map_data.width) {
-				char tile_char = map[i][j];
-				if (tile_char == '0')
-					mlx_image_to_window(mlx, terrain_image, TILE_WIDTH * j, TILE_WIDTH * i);
-				else if (tile_char == '1')
-					mlx_image_to_window(mlx, wall_image, TILE_WIDTH * j, TILE_WIDTH * i);
-				else if (tile_char == 'E')
-					mlx_image_to_window(mlx, exit_image, TILE_WIDTH * j, TILE_WIDTH * i);
-				else if (tile_char == 'C') {
-					mlx_image_to_window(mlx, terrain_image, TILE_WIDTH * j, TILE_WIDTH * i);
-					mlx_image_to_window(mlx, collectible_image, TILE_WIDTH * j, TILE_WIDTH * i);
-				}
-				else if (tile_char == 'P') {
-					mlx_image_to_window(mlx, terrain_image, TILE_WIDTH * j, TILE_WIDTH * i);
-					mlx_image_to_window(mlx, player_image, TILE_WIDTH * j, TILE_WIDTH * i);
-				}
-				j++;
-			}
-			i++;
-		}
+		t_images *images = malloc(sizeof(t_images));
+		images->terrain_image = terrain_image;
+		images->wall_image = wall_image;
+		images->player_image = player_image;
+		images->exit_image = exit_image;
+		images->collectible_image = collectible_image;
+		draw_terrain_and_wall_tiles(mlx, images, map, map_data);
+		draw_player_and_collectible_tiles(mlx, images, map, map_data);
+
 		
 		// mlx_resize_image(terrain_image, window_width, window_height);
 
-		mlx_image_to_window(mlx, terrain_image, 0, 0);
-		mlx_set_instance_depth(player_image->instances, 100);
+		// mlx_set_instance_depth(player_image->instances, 100);
 
-		mlx_loop_hook(mlx, *move_player, (void *)(player_image->instances));
+		// mlx_loop_hook(mlx, *move_player, (void *)(player_image->instances));
+		mlx_key_hook(mlx, *my_key_hook, (void *)(player_image->instances));
+
+		//! CANNOT COPY A STRUCT LIKE THIS APPARENTLY.
+		map_data.images = images;
+		t_map_data *heap_map_data = malloc(sizeof(t_images *)); //! MUST BE HANDLED
+		*heap_map_data = map_data;
+		ft_printf("omicron\n");
+		ft_printf("%d\n", heap_map_data->collectible_amount);
+		mlx_loop_hook(mlx, *check_and_pick_up_collectibles, (void *)(heap_map_data));
+		ft_printf("omega\n");
+		// collectible_image->instances[2].enabled = false;
 
 		mlx_loop(mlx);
 		mlx_terminate(mlx);
+		free(images); //? Does it work as intended?
+		//! Free_map and map_data.
+	}
+}
+
+void check_and_pick_up_collectibles(void *param) {
+	ft_printf("pi\n");
+	t_map_data *heap_map_data = (t_map_data *)param;
+	t_images *images = heap_map_data->images;
+
+	mlx_image_t *player_image = images->player_image;
+	mlx_image_t *collectible_image = images->collectible_image;
+	int	i;
+
+	i = 0;
+	// ft_printf("count: %d\n", collectible_image->count);
+	ft_printf("player: %d, %d\n", player_image->instances[0].x, player_image->instances[0].y);
+	while (i < collectible_image->count) {
+		ft_printf("collectible[%d]: %d, %d\n", i, collectible_image->instances[i].x, collectible_image->instances[i].y);
+		if (collectible_image->instances != NULL
+			&& collectible_image->instances[i].enabled
+			&& player_image->instances[0].x == collectible_image->instances[i].x
+			&& player_image->instances[0].y == collectible_image->instances[i].y) {
+			collectible_image->instances[i].enabled = false;
+			heap_map_data->collectible_amount -= 1;
+			ft_printf("collectibles remaining: %d\n", heap_map_data->collectible_amount);
+		}
+		i++;
 	}
 }
 
@@ -126,4 +155,78 @@ void move_player(void *player_param) {
 	mlx_instance_t *player = (mlx_instance_t *)player_param;
 	sleep(1);
 	player->x += TILE_WIDTH;
+}
+
+// void pick_up_collectible() {
+// 	mlx_image_t *collectible_image = param;
+// 	mlx_instance_t *collectibles = collectible_image->instances;
+
+// 	// collectible_image->instances[0].enabled = !(collectible_image->instances[0].enabled);
+// 	int i = 0;
+// 	// ft_printf("count: %d\n", collectible_image->count);
+// 	while (i < collectible_image->count) {
+// 		// ft_printf("%d\n", i);
+// 		// collectibles[i].enabled = false;
+// 		i++;
+// 	}
+// }
+
+void my_key_hook(mlx_key_data_t key_data, void *param) {
+	mlx_instance_t *player = (mlx_instance_t *)param;
+
+	if (key_data.key == MLX_KEY_W && key_data.action == MLX_PRESS) {
+		player->y -= TILE_WIDTH;
+	}
+	else if (key_data.key == MLX_KEY_A && key_data.action == MLX_PRESS) {
+		player->x -= TILE_WIDTH;
+	}
+	else if (key_data.key == MLX_KEY_S && key_data.action == MLX_PRESS) {
+		player->y += TILE_WIDTH;
+	}
+	else if (key_data.key == MLX_KEY_D && key_data.action == MLX_PRESS) {
+		player->x += TILE_WIDTH;
+	}
+}
+
+void draw_terrain_and_wall_tiles(mlx_t *mlx, t_images *images, char **map, t_map_data map_data) {
+	// char **map = map_and_data.map;
+	// t_map_data map_data = map_and_data.data;
+	// Draw tiles
+	int i = 0;
+	int player_x = 0;
+	int player_y = 0;
+	while (i < map_data.height) {
+		int j = 0;
+		while (j < map_data.width) {
+			char tile_char = map[i][j];
+			if (tile_char == '0' || tile_char == 'C' || tile_char == 'P')
+				mlx_image_to_window(mlx, images->terrain_image, TILE_WIDTH * j, TILE_WIDTH * i);
+			else if (tile_char == '1')
+				mlx_image_to_window(mlx, images->wall_image, TILE_WIDTH * j, TILE_WIDTH * i);
+			else if (tile_char == 'E')
+				mlx_image_to_window(mlx, images->exit_image, TILE_WIDTH * j, TILE_WIDTH * i);
+			j++;
+		}
+		i++;
+	}
+	// mlx_image_to_window(mlx, images.terrain_image, TILE_WIDTH * player_x, TILE_WIDTH * player_y);
+	// mlx_image_to_window(mlx, images.player_image, TILE_WIDTH * player_x, TILE_WIDTH * player_y);
+}
+
+void draw_player_and_collectible_tiles(mlx_t *mlx, t_images *images, char **map, t_map_data map_data) {
+	int i = 0;
+	int player_x = 0;
+	int player_y = 0;
+	while (i < map_data.height) {
+		int j = 0;
+		while (j < map_data.width) {
+			char tile_char = map[i][j];
+			if (tile_char == 'C')
+				mlx_image_to_window(mlx, images->collectible_image, TILE_WIDTH * j, TILE_WIDTH * i);
+			else if (tile_char == 'P')
+				mlx_image_to_window(mlx, images->player_image, TILE_WIDTH * j, TILE_WIDTH * i);
+			j++;
+		}
+		i++;
+	}
 }
