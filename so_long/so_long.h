@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:11:39 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/28 18:44:12 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/12/02 20:28:55 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ typedef struct s_map_data {
 	int player_amount;
 	int exit_amount;
 	int collectible_amount;
+
+	char **map;
 
 	t_images *images;
 } t_map_data;

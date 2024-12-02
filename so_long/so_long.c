@@ -6,17 +6,18 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:10:19 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/28 19:09:19 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/12/02 21:08:35 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/src/printf/ft_printf.h"
 # define TILE_WIDTH 64
 
 #include "so_long.h"
 #include "MLX42/include/MLX42/MLX42.h"
 #include <limits.h>
 
-void move_player(void *player);
+void move_player(void *param);
 void my_key_hook(mlx_key_data_t key_data, void *param);
 void pick_up_collectible(void *param);
 void check_and_pick_up_collectibles(void *param);
@@ -41,6 +42,7 @@ int main(int argc, char *argv[])
 		#endif
 
 		map_data = validate_map_and_store_map_data(map, width_and_height.a, width_and_height.b);
+		map_data.map = map;
 
 		// MLX
 		//! MAKE SURE YOU HANDLE ERRORS EVERY TIME YOU GET A POINTER FROM MLX.
@@ -106,17 +108,14 @@ int main(int argc, char *argv[])
 		// mlx_set_instance_depth(player_image->instances, 100);
 
 		// mlx_loop_hook(mlx, *move_player, (void *)(player_image->instances));
-		mlx_key_hook(mlx, *my_key_hook, (void *)(player_image->instances));
 
-		//! CANNOT COPY A STRUCT LIKE THIS APPARENTLY.
 		map_data.images = images;
-		t_map_data *heap_map_data = malloc(sizeof(t_images *)); //! MUST BE HANDLED
+		t_map_data *heap_map_data = malloc(sizeof(t_map_data)); //! MUST BE HANDLED
 		*heap_map_data = map_data;
-		ft_printf("omicron\n");
-		ft_printf("%d\n", heap_map_data->collectible_amount);
+		ft_printf("%p\n", map_data.images);
+		ft_printf("%p\n", heap_map_data->images);
 		mlx_loop_hook(mlx, *check_and_pick_up_collectibles, (void *)(heap_map_data));
-		ft_printf("omega\n");
-		// collectible_image->instances[2].enabled = false;
+		mlx_key_hook(mlx, *my_key_hook, (void *)(heap_map_data));
 
 		mlx_loop(mlx);
 		mlx_terminate(mlx);
@@ -126,8 +125,8 @@ int main(int argc, char *argv[])
 }
 
 void check_and_pick_up_collectibles(void *param) {
-	ft_printf("pi\n");
 	t_map_data *heap_map_data = (t_map_data *)param;
+	// ft_printf("x: %d, y: %d\n", heap_map_data->player_x_pos, heap_map_data->player_y_pos);
 	t_images *images = heap_map_data->images;
 
 	mlx_image_t *player_image = images->player_image;
@@ -136,9 +135,9 @@ void check_and_pick_up_collectibles(void *param) {
 
 	i = 0;
 	// ft_printf("count: %d\n", collectible_image->count);
-	ft_printf("player: %d, %d\n", player_image->instances[0].x, player_image->instances[0].y);
+	// ft_printf("player: %d, %d\n", player_image->instances[0].x, player_image->instances[0].y);
 	while (i < collectible_image->count) {
-		ft_printf("collectible[%d]: %d, %d\n", i, collectible_image->instances[i].x, collectible_image->instances[i].y);
+		// ft_printf("collectible[%d]: %d, %d\n", i, collectible_image->instances[i].x, collectible_image->instances[i].y);
 		if (collectible_image->instances != NULL
 			&& collectible_image->instances[i].enabled
 			&& player_image->instances[0].x == collectible_image->instances[i].x
@@ -149,12 +148,6 @@ void check_and_pick_up_collectibles(void *param) {
 		}
 		i++;
 	}
-}
-
-void move_player(void *player_param) {
-	mlx_instance_t *player = (mlx_instance_t *)player_param;
-	sleep(1);
-	player->x += TILE_WIDTH;
 }
 
 // void pick_up_collectible() {
@@ -172,19 +165,34 @@ void move_player(void *player_param) {
 // }
 
 void my_key_hook(mlx_key_data_t key_data, void *param) {
-	mlx_instance_t *player = (mlx_instance_t *)param;
+	t_map_data *heap_map_data = (t_map_data *)param;
+	mlx_instance_t *player = heap_map_data->images->player_image->instances;
 
-	if (key_data.key == MLX_KEY_W && key_data.action == MLX_PRESS) {
+	// ft_printf("x: %d, y: %d\n", heap_map_data->map[1][5], 0);
+	// ft_printf(" %c \n", heap_map_data->map[heap_map_data->player_y_pos-1][heap_map_data->player_x_pos]);
+	// ft_printf("%c %c\n", heap_map_data->map[heap_map_data->player_y_pos][heap_map_data->player_x_pos-1],
+	// 	heap_map_data->map[heap_map_data->player_y_pos][heap_map_data->player_x_pos+1]);
+	// ft_printf(" %c \n", heap_map_data->map[heap_map_data->player_y_pos+1][heap_map_data->player_x_pos]);
+	// ft_printf("%c\n", heap_map_data->map[heap_map_data->player_y_pos][heap_map_data->player_x_pos]);
+	if (key_data.key == MLX_KEY_W && key_data.action == MLX_PRESS
+		&& heap_map_data->map[heap_map_data->player_y_pos - 1][heap_map_data->player_x_pos] != '1') {
 		player->y -= TILE_WIDTH;
+		heap_map_data->player_y_pos -= 1;
 	}
-	else if (key_data.key == MLX_KEY_A && key_data.action == MLX_PRESS) {
+	else if (key_data.key == MLX_KEY_A && key_data.action == MLX_PRESS
+		&& heap_map_data->map[heap_map_data->player_y_pos][heap_map_data->player_x_pos - 1] != '1') {
 		player->x -= TILE_WIDTH;
+		heap_map_data->player_x_pos -= 1;
 	}
-	else if (key_data.key == MLX_KEY_S && key_data.action == MLX_PRESS) {
+	else if (key_data.key == MLX_KEY_S && key_data.action == MLX_PRESS
+		&& heap_map_data->map[heap_map_data->player_y_pos + 1][heap_map_data->player_x_pos] != '1') {
 		player->y += TILE_WIDTH;
+		heap_map_data->player_y_pos += 1;
 	}
-	else if (key_data.key == MLX_KEY_D && key_data.action == MLX_PRESS) {
+	else if (key_data.key == MLX_KEY_D && key_data.action == MLX_PRESS
+		&& heap_map_data->map[heap_map_data->player_y_pos][heap_map_data->player_x_pos + 1] != '1') {
 		player->x += TILE_WIDTH;
+		heap_map_data->player_x_pos += 1;
 	}
 }
 
