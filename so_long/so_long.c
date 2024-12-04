@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:10:19 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/12/04 13:25:51 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:43:21 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,41 +20,62 @@
 void my_key_hook(mlx_key_data_t key_data, void *param);
 void pick_up_collectible(void *param);
 void check_and_pick_up_collectibles(void *param);
-void draw_player_and_collectible_tiles(mlx_t *mlx, t_images *images, char **map, t_map_data map_data);
-void draw_terrain_and_wall_tiles(mlx_t *mlx, t_images *images, char **map, t_map_data map_data);
-void terminate_game(t_map_data *heap_map_data, char *termination_message);
+void draw_player_and_collectible_tiles(mlx_t *mlx, t_images *images, char **map, t_game_data map_data);
+void draw_terrain_and_wall_tiles(mlx_t *mlx, t_images *images, char **map, t_game_data map_data);
+void terminate_game(t_game_data *heap_map_data, char *termination_message);
+
+t_game_data create_game_data(char *map_path) {
+	t_two_ints width_and_height;
+	t_game_data game_data;
+
+	width_and_height = get_map_len(map_path);
+	char **map = save_map(map_path, width_and_height.a, width_and_height.b);
+
+	game_data = validate_map_and_store_map_data(map, width_and_height.a, width_and_height.b);
+	game_data.map = map;
+	return (game_data);
+}
+
+mlx_t *init_mlx(t_game_data game_data) {
+	//! MAKE SURE YOU HANDLE ERRORS EVERY TIME YOU GET A POINTER FROM MLX.
+	mlx_t *mlx = mlx_init(TILE_WIDTH * game_data.width, TILE_WIDTH * game_data.height, "So Long", 0);
+	if (!mlx)
+		print_error_free_map_and_exit("mlx_init() error.", game_data.map, game_data.height);
+	return (mlx);
+}
+
+void create_background(t_game_data game_data) {
+
+	mlx_t *mlx = game_data.mlx;
+	char **map = game_data.map;
+	int window_width = mlx->width;
+	int window_height = mlx->height;
+
+	mlx_image_t* background = mlx_new_image(mlx, window_width, window_height);
+	if (!background || (mlx_image_to_window(mlx, background, 0, 0) < 0))
+		print_error_free_map_and_exit("Background creation error.", map, window_height);
+	for (int x = 0; x < window_width; x++) {
+		for (int y = 0; y < window_height; y++) {
+			mlx_put_pixel(background, x, y, 0x000000FF);
+		}
+	}
+}
 
 int main(int argc, char *argv[])
 {
 	if (check_if_valid_arguments(argc, argv))
 	{
-		t_two_ints width_and_height;
-		t_map_data map_data;
-
-		width_and_height = get_map_len(argv[1]);
-		char **map = save_map(argv[1], width_and_height.a, width_and_height.b);
-
-		map_data = validate_map_and_store_map_data(map, width_and_height.a, width_and_height.b);
-		map_data.map = map;
+		t_game_data game_data = create_game_data(argv[1]);
 
 		// MLX
 		//! MAKE SURE YOU HANDLE ERRORS EVERY TIME YOU GET A POINTER FROM MLX.
-		mlx_t *mlx = mlx_init(TILE_WIDTH * map_data.width, TILE_WIDTH * map_data.height, "So Long", 0);
-		if (!mlx)
-			print_error_free_map_and_exit("mlx_init() error.", map, map_data.height);
 
-		int window_width = mlx->width;
-		int window_height = mlx->height;
+		mlx_t *mlx = init_mlx(game_data);
+		game_data.mlx = mlx;
+		char **map = game_data.map;
 
+		create_background(game_data);
 
-		mlx_image_t* background = mlx_new_image(mlx, mlx->width, mlx->height);
-		if (!background || (mlx_image_to_window(mlx, background, 0, 0) < 0))
-			print_error_free_map_and_exit("Background creation error.", map, window_height);
-		for (int x = 0; x < window_width; x++) {
-			for (int y = 0; y < window_height; y++) {
-				mlx_put_pixel(background, x, y, 0x000000FF);
-			}
-		}
 
 		mlx_texture_t *terrain_texture = mlx_load_png("textures/grass.png");
 		mlx_texture_t *wall_texture = mlx_load_png("textures/wall.png");
@@ -73,15 +94,15 @@ int main(int argc, char *argv[])
 
 		char *error_message = "Couldn't resize image.";
 		if (!mlx_resize_image(terrain_image, TILE_WIDTH, TILE_WIDTH))
-			print_error_free_map_and_exit(error_message, map, map_data.height);
+			print_error_free_map_and_exit(error_message, map, game_data.height);
 		if (!mlx_resize_image(wall_image, TILE_WIDTH, TILE_WIDTH))
-			print_error_free_map_and_exit(error_message, map, map_data.height);
+			print_error_free_map_and_exit(error_message, map, game_data.height);
 		if (!mlx_resize_image(player_image, TILE_WIDTH, TILE_WIDTH))
-			print_error_free_map_and_exit(error_message, map, map_data.height);
+			print_error_free_map_and_exit(error_message, map, game_data.height);
 		if (!mlx_resize_image(collectible_image, TILE_WIDTH, TILE_WIDTH))
-			print_error_free_map_and_exit(error_message, map, map_data.height);
+			print_error_free_map_and_exit(error_message, map, game_data.height);
 		if (!mlx_resize_image(exit_image, TILE_WIDTH, TILE_WIDTH))
-			print_error_free_map_and_exit(error_message, map, map_data.height);
+			print_error_free_map_and_exit(error_message, map, game_data.height);
 
 		t_images *images = malloc(sizeof(t_images));
 		images->terrain_image = terrain_image;
@@ -89,14 +110,14 @@ int main(int argc, char *argv[])
 		images->player_image = player_image;
 		images->exit_image = exit_image;
 		images->collectible_image = collectible_image;
-		draw_terrain_and_wall_tiles(mlx, images, map, map_data);
-		draw_player_and_collectible_tiles(mlx, images, map, map_data);
+		draw_terrain_and_wall_tiles(mlx, images, map, game_data);
+		draw_player_and_collectible_tiles(mlx, images, map, game_data);
 
 		
-		map_data.images = images;
-		map_data.mlx = mlx;
-		t_map_data *heap_map_data = malloc(sizeof(t_map_data)); //! MUST BE HANDLED
-		*heap_map_data = map_data;
+		game_data.images = images;
+		game_data.mlx = mlx;
+		t_game_data *heap_map_data = malloc(sizeof(t_game_data)); //! MUST BE HANDLED
+		*heap_map_data = game_data;
 		mlx_loop_hook(mlx, *check_and_pick_up_collectibles, (void *)(heap_map_data));
 		mlx_key_hook(mlx, *my_key_hook, (void *)(heap_map_data));
 
@@ -109,13 +130,13 @@ int main(int argc, char *argv[])
 
 void check_and_pick_up_collectibles(void *param)
 {
-	t_map_data	*heap_map_data;
+	t_game_data	*heap_map_data;
 	t_images	*images;
 	mlx_image_t	*player_image;
 	mlx_image_t	*collectible_image;
 	int			i;
 
-	heap_map_data = (t_map_data *)param;
+	heap_map_data = (t_game_data *)param;
 	images = heap_map_data->images;
 	player_image = images->player_image;
 	collectible_image = images->collectible_image;
@@ -135,7 +156,7 @@ void check_and_pick_up_collectibles(void *param)
 	}
 }
 
-void move_player(t_map_data *heap_map_data, enum direction direction)
+void move_player(t_game_data *heap_map_data, enum direction direction)
 {
 	mlx_instance_t	*player;
 
@@ -164,10 +185,10 @@ void move_player(t_map_data *heap_map_data, enum direction direction)
 
 void my_key_hook(mlx_key_data_t key_data, void *param)
 {
-	t_map_data		*heap_map_data;
+	t_game_data		*heap_map_data;
 	mlx_instance_t	*player;
 
-	heap_map_data = (t_map_data *)param;
+	heap_map_data = (t_game_data *)param;
 	player = heap_map_data->images->player_image->instances;
 	if (key_data.key == MLX_KEY_W && key_data.action == MLX_PRESS
 		&& heap_map_data->map[heap_map_data->player_y_pos - 1][heap_map_data->player_x_pos] != '1')
@@ -189,7 +210,7 @@ void my_key_hook(mlx_key_data_t key_data, void *param)
 		terminate_game(heap_map_data, "Exiting...");
 }
 
-void draw_terrain_and_wall_tiles(mlx_t *mlx, t_images *images, char **map, t_map_data map_data)
+void draw_terrain_and_wall_tiles(mlx_t *mlx, t_images *images, char **map, t_game_data map_data)
 {
 	int	player_x;
 	int	player_y;
@@ -217,7 +238,7 @@ void draw_terrain_and_wall_tiles(mlx_t *mlx, t_images *images, char **map, t_map
 	}
 }
 
-void draw_player_and_collectible_tiles(mlx_t *mlx, t_images *images, char **map, t_map_data map_data)
+void draw_player_and_collectible_tiles(mlx_t *mlx, t_images *images, char **map, t_game_data map_data)
 {
 	int	player_x;
 	int	player_y;
@@ -243,7 +264,7 @@ void draw_player_and_collectible_tiles(mlx_t *mlx, t_images *images, char **map,
 	}
 }
 
-void terminate_game(t_map_data *heap_map_data, char *termination_message)
+void terminate_game(t_game_data *heap_map_data, char *termination_message)
 {
 	ft_printf("%s\n", termination_message);
 	mlx_terminate(heap_map_data->mlx);

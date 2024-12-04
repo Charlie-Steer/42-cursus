@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:11:39 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/12/04 13:11:44 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:37:34 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_images {
 	mlx_image_t *player_image;
 } t_images;
 
-typedef struct s_map_data {
+typedef struct s_game_data {
 	int width;
 	int height;
 
@@ -46,11 +46,11 @@ typedef struct s_map_data {
 
 	t_images *images;
 	mlx_t *mlx;
-} t_map_data;
+} t_game_data;
 
 typedef struct s_map_and_data {
 	char **map;
-	t_map_data data;
+	t_game_data data;
 } t_map_and_data;
 
 enum direction {
@@ -68,8 +68,8 @@ void free_map(char **map, int height);
 
 int check_if_valid_arguments(int argc, char *argv[]);
 
-t_map_data record_map_character(char c, t_map_data map_data, char **map, t_two_ints coords);
-t_map_data validate_map_and_store_map_data(char **map, int width, int height);
+t_game_data record_map_character(char c, t_game_data map_data, char **map, t_two_ints coords);
+t_game_data validate_map_and_store_map_data(char **map, int width, int height);
 t_two_ints get_map_len(char *map_file_path);
 char **save_map(char *map_file_path, int width, int height);
 
