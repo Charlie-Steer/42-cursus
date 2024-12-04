@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:10:19 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/12/02 21:08:35 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:25:51 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 #include "MLX42/include/MLX42/MLX42.h"
 #include <limits.h>
 
-void move_player(void *param);
 void my_key_hook(mlx_key_data_t key_data, void *param);
 void pick_up_collectible(void *param);
 void check_and_pick_up_collectibles(void *param);
 void draw_player_and_collectible_tiles(mlx_t *mlx, t_images *images, char **map, t_map_data map_data);
 void draw_terrain_and_wall_tiles(mlx_t *mlx, t_images *images, char **map, t_map_data map_data);
+void terminate_game(t_map_data *heap_map_data, char *termination_message);
 
 int main(int argc, char *argv[])
 {
@@ -32,14 +32,7 @@ int main(int argc, char *argv[])
 		t_map_data map_data;
 
 		width_and_height = get_map_len(argv[1]);
-		#if DEBUG >= 1 //! DELETE
-			ft_printf("width: %d\nheight: %d\n\n", width_and_height.a, width_and_height.b);
-		#endif
 		char **map = save_map(argv[1], width_and_height.a, width_and_height.b);
-
-		#if DEBUG >= 1 //! DELETE
-			DEBUG_print_map(map, width_and_height.a, width_and_height.b);
-		#endif
 
 		map_data = validate_map_and_store_map_data(map, width_and_height.a, width_and_height.b);
 		map_data.map = map;
@@ -53,9 +46,6 @@ int main(int argc, char *argv[])
 		int window_width = mlx->width;
 		int window_height = mlx->height;
 
-		#if DEBUG >= 1 //! DELETE
-			ft_printf("Window w: %d, h: %d.\n", window_width, window_height);
-		#endif
 
 		mlx_image_t* background = mlx_new_image(mlx, mlx->width, mlx->height);
 		if (!background || (mlx_image_to_window(mlx, background, 0, 0) < 0))
@@ -103,17 +93,10 @@ int main(int argc, char *argv[])
 		draw_player_and_collectible_tiles(mlx, images, map, map_data);
 
 		
-		// mlx_resize_image(terrain_image, window_width, window_height);
-
-		// mlx_set_instance_depth(player_image->instances, 100);
-
-		// mlx_loop_hook(mlx, *move_player, (void *)(player_image->instances));
-
 		map_data.images = images;
+		map_data.mlx = mlx;
 		t_map_data *heap_map_data = malloc(sizeof(t_map_data)); //! MUST BE HANDLED
 		*heap_map_data = map_data;
-		ft_printf("%p\n", map_data.images);
-		ft_printf("%p\n", heap_map_data->images);
 		mlx_loop_hook(mlx, *check_and_pick_up_collectibles, (void *)(heap_map_data));
 		mlx_key_hook(mlx, *my_key_hook, (void *)(heap_map_data));
 
@@ -124,24 +107,26 @@ int main(int argc, char *argv[])
 	}
 }
 
-void check_and_pick_up_collectibles(void *param) {
-	t_map_data *heap_map_data = (t_map_data *)param;
-	// ft_printf("x: %d, y: %d\n", heap_map_data->player_x_pos, heap_map_data->player_y_pos);
-	t_images *images = heap_map_data->images;
+void check_and_pick_up_collectibles(void *param)
+{
+	t_map_data	*heap_map_data;
+	t_images	*images;
+	mlx_image_t	*player_image;
+	mlx_image_t	*collectible_image;
+	int			i;
 
-	mlx_image_t *player_image = images->player_image;
-	mlx_image_t *collectible_image = images->collectible_image;
-	int	i;
-
+	heap_map_data = (t_map_data *)param;
+	images = heap_map_data->images;
+	player_image = images->player_image;
+	collectible_image = images->collectible_image;
 	i = 0;
-	// ft_printf("count: %d\n", collectible_image->count);
-	// ft_printf("player: %d, %d\n", player_image->instances[0].x, player_image->instances[0].y);
-	while (i < collectible_image->count) {
-		// ft_printf("collectible[%d]: %d, %d\n", i, collectible_image->instances[i].x, collectible_image->instances[i].y);
+	while (i < collectible_image->count)
+	{
 		if (collectible_image->instances != NULL
 			&& collectible_image->instances[i].enabled
 			&& player_image->instances[0].x == collectible_image->instances[i].x
-			&& player_image->instances[0].y == collectible_image->instances[i].y) {
+			&& player_image->instances[0].y == collectible_image->instances[i].y)
+		{
 			collectible_image->instances[i].enabled = false;
 			heap_map_data->collectible_amount -= 1;
 			ft_printf("collectibles remaining: %d\n", heap_map_data->collectible_amount);
@@ -150,62 +135,75 @@ void check_and_pick_up_collectibles(void *param) {
 	}
 }
 
-// void pick_up_collectible() {
-// 	mlx_image_t *collectible_image = param;
-// 	mlx_instance_t *collectibles = collectible_image->instances;
+void move_player(t_map_data *heap_map_data, enum direction direction)
+{
+	mlx_instance_t	*player;
 
-// 	// collectible_image->instances[0].enabled = !(collectible_image->instances[0].enabled);
-// 	int i = 0;
-// 	// ft_printf("count: %d\n", collectible_image->count);
-// 	while (i < collectible_image->count) {
-// 		// ft_printf("%d\n", i);
-// 		// collectibles[i].enabled = false;
-// 		i++;
-// 	}
-// }
-
-void my_key_hook(mlx_key_data_t key_data, void *param) {
-	t_map_data *heap_map_data = (t_map_data *)param;
-	mlx_instance_t *player = heap_map_data->images->player_image->instances;
-
-	// ft_printf("x: %d, y: %d\n", heap_map_data->map[1][5], 0);
-	// ft_printf(" %c \n", heap_map_data->map[heap_map_data->player_y_pos-1][heap_map_data->player_x_pos]);
-	// ft_printf("%c %c\n", heap_map_data->map[heap_map_data->player_y_pos][heap_map_data->player_x_pos-1],
-	// 	heap_map_data->map[heap_map_data->player_y_pos][heap_map_data->player_x_pos+1]);
-	// ft_printf(" %c \n", heap_map_data->map[heap_map_data->player_y_pos+1][heap_map_data->player_x_pos]);
-	// ft_printf("%c\n", heap_map_data->map[heap_map_data->player_y_pos][heap_map_data->player_x_pos]);
-	if (key_data.key == MLX_KEY_W && key_data.action == MLX_PRESS
-		&& heap_map_data->map[heap_map_data->player_y_pos - 1][heap_map_data->player_x_pos] != '1') {
+	player = heap_map_data->images->player_image->instances;
+	if (direction == UP)
+	{
 		player->y -= TILE_WIDTH;
 		heap_map_data->player_y_pos -= 1;
 	}
-	else if (key_data.key == MLX_KEY_A && key_data.action == MLX_PRESS
-		&& heap_map_data->map[heap_map_data->player_y_pos][heap_map_data->player_x_pos - 1] != '1') {
-		player->x -= TILE_WIDTH;
-		heap_map_data->player_x_pos -= 1;
-	}
-	else if (key_data.key == MLX_KEY_S && key_data.action == MLX_PRESS
-		&& heap_map_data->map[heap_map_data->player_y_pos + 1][heap_map_data->player_x_pos] != '1') {
+	else if (direction == DOWN)
+	{
 		player->y += TILE_WIDTH;
 		heap_map_data->player_y_pos += 1;
 	}
-	else if (key_data.key == MLX_KEY_D && key_data.action == MLX_PRESS
-		&& heap_map_data->map[heap_map_data->player_y_pos][heap_map_data->player_x_pos + 1] != '1') {
+	else if (direction == LEFT)
+	{
+		player->x -= TILE_WIDTH;
+		heap_map_data->player_x_pos -= 1;
+	}
+	else if (direction == RIGHT)
+	{
 		player->x += TILE_WIDTH;
 		heap_map_data->player_x_pos += 1;
 	}
 }
 
-void draw_terrain_and_wall_tiles(mlx_t *mlx, t_images *images, char **map, t_map_data map_data) {
-	// char **map = map_and_data.map;
-	// t_map_data map_data = map_and_data.data;
-	// Draw tiles
-	int i = 0;
-	int player_x = 0;
-	int player_y = 0;
-	while (i < map_data.height) {
-		int j = 0;
-		while (j < map_data.width) {
+void my_key_hook(mlx_key_data_t key_data, void *param)
+{
+	t_map_data		*heap_map_data;
+	mlx_instance_t	*player;
+
+	heap_map_data = (t_map_data *)param;
+	player = heap_map_data->images->player_image->instances;
+	if (key_data.key == MLX_KEY_W && key_data.action == MLX_PRESS
+		&& heap_map_data->map[heap_map_data->player_y_pos - 1][heap_map_data->player_x_pos] != '1')
+		move_player(heap_map_data, UP);
+	else if (key_data.key == MLX_KEY_A && key_data.action == MLX_PRESS
+		&& heap_map_data->map[heap_map_data->player_y_pos][heap_map_data->player_x_pos - 1] != '1')
+		move_player(heap_map_data, LEFT);
+	else if (key_data.key == MLX_KEY_S && key_data.action == MLX_PRESS
+		&& heap_map_data->map[heap_map_data->player_y_pos + 1][heap_map_data->player_x_pos] != '1')
+		move_player(heap_map_data, DOWN);
+	else if (key_data.key == MLX_KEY_D && key_data.action == MLX_PRESS
+		&& heap_map_data->map[heap_map_data->player_y_pos][heap_map_data->player_x_pos + 1] != '1')
+		move_player(heap_map_data, RIGHT);
+
+	if ((heap_map_data->map[heap_map_data->player_y_pos][heap_map_data->player_x_pos] == 'E'
+	&& heap_map_data->collectible_amount == 0))
+		terminate_game(heap_map_data, "YOU WIN!!!");
+	if (key_data.key == MLX_KEY_ESCAPE && key_data.action == MLX_PRESS)
+		terminate_game(heap_map_data, "Exiting...");
+}
+
+void draw_terrain_and_wall_tiles(mlx_t *mlx, t_images *images, char **map, t_map_data map_data)
+{
+	int	player_x;
+	int	player_y;
+	int	i;
+	int	j;
+
+	player_x = 0;
+	player_y = 0;
+	i = 0;
+	while (i < map_data.height)
+	{
+		j = 0;
+		while (j < map_data.width)
+		{
 			char tile_char = map[i][j];
 			if (tile_char == '0' || tile_char == 'C' || tile_char == 'P')
 				mlx_image_to_window(mlx, images->terrain_image, TILE_WIDTH * j, TILE_WIDTH * i);
@@ -217,17 +215,23 @@ void draw_terrain_and_wall_tiles(mlx_t *mlx, t_images *images, char **map, t_map
 		}
 		i++;
 	}
-	// mlx_image_to_window(mlx, images.terrain_image, TILE_WIDTH * player_x, TILE_WIDTH * player_y);
-	// mlx_image_to_window(mlx, images.player_image, TILE_WIDTH * player_x, TILE_WIDTH * player_y);
 }
 
-void draw_player_and_collectible_tiles(mlx_t *mlx, t_images *images, char **map, t_map_data map_data) {
-	int i = 0;
-	int player_x = 0;
-	int player_y = 0;
-	while (i < map_data.height) {
-		int j = 0;
-		while (j < map_data.width) {
+void draw_player_and_collectible_tiles(mlx_t *mlx, t_images *images, char **map, t_map_data map_data)
+{
+	int	player_x;
+	int	player_y;
+	int	i;
+	int	j;
+
+	player_x = 0;
+	player_y = 0;
+	i = 0;
+	while (i < map_data.height)
+	{
+		j = 0;
+		while (j < map_data.width)
+		{
 			char tile_char = map[i][j];
 			if (tile_char == 'C')
 				mlx_image_to_window(mlx, images->collectible_image, TILE_WIDTH * j, TILE_WIDTH * i);
@@ -237,4 +241,14 @@ void draw_player_and_collectible_tiles(mlx_t *mlx, t_images *images, char **map,
 		}
 		i++;
 	}
+}
+
+void terminate_game(t_map_data *heap_map_data, char *termination_message)
+{
+	ft_printf("%s\n", termination_message);
+	mlx_terminate(heap_map_data->mlx);
+	//! KEY POINT TO HANDLE FREES.
+	free_map(heap_map_data->map, heap_map_data->height);
+	free(heap_map_data);
+	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:11:39 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/12/02 20:28:55 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:11:44 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_map_data {
 	char **map;
 
 	t_images *images;
+	mlx_t *mlx;
 } t_map_data;
 
 typedef struct s_map_and_data {
@@ -52,10 +53,18 @@ typedef struct s_map_and_data {
 	t_map_data data;
 } t_map_and_data;
 
+enum direction {
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
+};
+
 void print_error(char *error_message);
 void print_error_and_exit(char *error_message);
 void print_error_free_map_and_exit(char *error_message, char **map, int height);
 void print_error_free_maps_and_exit(char *error_message, char **map1, char**map2, int height);
+void free_map(char **map, int height);
 
 int check_if_valid_arguments(int argc, char *argv[]);
 
