@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:10:19 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/12/04 17:43:21 by cargonz2         ###   ########.fr       */
+/*   Updated: 2024/12/04 18:20:59 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,49 @@ void create_background(t_game_data game_data) {
 	}
 }
 
+void create_images(t_game_data game_data) {
+	//! PROBABLY NEED TO HANDLE ERRORS.
+	mlx_texture_t *terrain_texture = mlx_load_png("textures/grass.png");
+	mlx_texture_t *wall_texture = mlx_load_png("textures/wall.png");
+	mlx_texture_t *player_texture = mlx_load_png("textures/blocky_right.png");
+	if (!player_texture) {
+		ft_printf("WUT?\n");
+	}
+	mlx_texture_t *collectible_texture = mlx_load_png("textures/chest.png");
+	mlx_texture_t *exit_texture = mlx_load_png("textures/door.png");
+
+	game_data.images = malloc(sizeof(t_images));
+
+	game_data.images->terrain_image = mlx_texture_to_image(game_data.mlx, terrain_texture);
+	game_data.images->wall_image = mlx_texture_to_image(game_data.mlx, wall_texture);
+	game_data.images->player_image = mlx_texture_to_image(game_data.mlx, player_texture);
+	game_data.images->collectible_image = mlx_texture_to_image(game_data.mlx, collectible_texture);
+	game_data.images->exit_image = mlx_texture_to_image(game_data.mlx, exit_texture);
+	ft_printf("height: %d\n", game_data.images->terrain_image->height);
+}
+
+void resize_images(t_game_data game_data) {
+	char **map = game_data.map;
+	t_images *images = game_data.images;
+
+	char *error_message = "Couldn't resize image.";
+	ft_printf("TEST ALPHA\n");
+	ft_printf("height: %d\n", game_data.images->terrain_image->height);
+	if (!mlx_resize_image(images->terrain_image, TILE_WIDTH, TILE_WIDTH)) {
+		ft_printf("wut?\n");
+		print_error_free_map_and_exit(error_message, map, game_data.height);
+	}
+	ft_printf("TEST BETA\n");
+	if (!mlx_resize_image(images->wall_image, TILE_WIDTH, TILE_WIDTH))
+		print_error_free_map_and_exit(error_message, map, game_data.height);
+	if (!mlx_resize_image(images->player_image, TILE_WIDTH, TILE_WIDTH))
+		print_error_free_map_and_exit(error_message, map, game_data.height);
+	if (!mlx_resize_image(images->collectible_image, TILE_WIDTH, TILE_WIDTH))
+		print_error_free_map_and_exit(error_message, map, game_data.height);
+	if (!mlx_resize_image(images->exit_image, TILE_WIDTH, TILE_WIDTH))
+		print_error_free_map_and_exit(error_message, map, game_data.height);
+}
+
 int main(int argc, char *argv[])
 {
 	if (check_if_valid_arguments(argc, argv))
@@ -74,42 +117,21 @@ int main(int argc, char *argv[])
 		game_data.mlx = mlx;
 		char **map = game_data.map;
 
+		ft_printf("test alpha\n");
+
 		create_background(game_data);
+		ft_printf("test beta\n");
+
+		create_images(game_data);
+		ft_printf("test gamma\n");
+
+		resize_images(game_data);
+		ft_printf("test delta\n");
+
+		t_images *images = game_data.images;
 
 
-		mlx_texture_t *terrain_texture = mlx_load_png("textures/grass.png");
-		mlx_texture_t *wall_texture = mlx_load_png("textures/wall.png");
-		mlx_texture_t *player_texture = mlx_load_png("textures/blocky_right.png");
-		if (!player_texture) {
-			ft_printf("WUT?\n");
-		}
-		mlx_texture_t *collectible_texture = mlx_load_png("textures/chest.png");
-		mlx_texture_t *exit_texture = mlx_load_png("textures/door.png");
 
-		mlx_image_t *terrain_image = mlx_texture_to_image(mlx, terrain_texture);
-		mlx_image_t *wall_image = mlx_texture_to_image(mlx, wall_texture);
-		mlx_image_t *player_image = mlx_texture_to_image(mlx, player_texture);
-		mlx_image_t *collectible_image = mlx_texture_to_image(mlx, collectible_texture);
-		mlx_image_t *exit_image = mlx_texture_to_image(mlx, exit_texture);
-
-		char *error_message = "Couldn't resize image.";
-		if (!mlx_resize_image(terrain_image, TILE_WIDTH, TILE_WIDTH))
-			print_error_free_map_and_exit(error_message, map, game_data.height);
-		if (!mlx_resize_image(wall_image, TILE_WIDTH, TILE_WIDTH))
-			print_error_free_map_and_exit(error_message, map, game_data.height);
-		if (!mlx_resize_image(player_image, TILE_WIDTH, TILE_WIDTH))
-			print_error_free_map_and_exit(error_message, map, game_data.height);
-		if (!mlx_resize_image(collectible_image, TILE_WIDTH, TILE_WIDTH))
-			print_error_free_map_and_exit(error_message, map, game_data.height);
-		if (!mlx_resize_image(exit_image, TILE_WIDTH, TILE_WIDTH))
-			print_error_free_map_and_exit(error_message, map, game_data.height);
-
-		t_images *images = malloc(sizeof(t_images));
-		images->terrain_image = terrain_image;
-		images->wall_image = wall_image;
-		images->player_image = player_image;
-		images->exit_image = exit_image;
-		images->collectible_image = collectible_image;
 		draw_terrain_and_wall_tiles(mlx, images, map, game_data);
 		draw_player_and_collectible_tiles(mlx, images, map, game_data);
 
