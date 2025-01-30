@@ -7,20 +7,18 @@
 test
 .DS_Store
 
-*/get_next_line
+/get_next_line
 
 .cache/
 
-so_long/MLX42/
+MLX42/
 
 # Projects
 libft.a
 client
 server
-push_swap
-!*/
-so_long
-!*/
+/push_swap
+/so_long
 *test*
 
 # -----
