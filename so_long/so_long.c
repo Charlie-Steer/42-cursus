@@ -43,7 +43,10 @@ int	main(int argc, char *argv[])
 		ft_printf("test alpha\n");
 		create_background(game_data);
 		ft_printf("test beta\n");
-		create_images(game_data);
+		game_data = create_images(game_data);
+		// ISSUE: cannot access terrain image once outside of create_images().
+		ft_printf("terrain_image %d\n",
+			game_data.images->terrain_image->enabled);
 		ft_printf("test gamma\n");
 		resize_images(game_data);
 		ft_printf("test delta\n");

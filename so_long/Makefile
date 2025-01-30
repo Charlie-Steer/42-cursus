@@ -20,6 +20,7 @@ BNAME =
 SOURCES = \
 	so_long.c \
 	input_validation.c \
+	setup.c \
 	map_parsing.c \
 	error_handling.c \
 	debug.c #! DELETE

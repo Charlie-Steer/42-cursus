@@ -30,7 +30,7 @@ mlx_t	*init_mlx(t_game_data game_data)
 {
 	mlx_t	*mlx;
 
-	//! MAKE SURE YOU HANDLE ERRORS EVERY TIME YOU GET A POINTER FROM MLX.
+	// WARNING: MAKE SURE YOU HANDLE ERRORS EVERY TIME YOU GET A POINTER FROM MLX.
 	mlx = mlx_init(TILE_WIDTH * game_data.width, TILE_WIDTH * game_data.height,
 			"So Long", 0);
 	if (!mlx)
@@ -64,7 +64,7 @@ void	create_background(t_game_data game_data)
 	}
 }
 
-void	create_images(t_game_data game_data)
+t_game_data	create_images(t_game_data game_data)
 {
 	mlx_texture_t	*terrain_texture;
 	mlx_texture_t	*wall_texture;
@@ -72,7 +72,7 @@ void	create_images(t_game_data game_data)
 	mlx_texture_t	*collectible_texture;
 	mlx_texture_t	*exit_texture;
 
-	//! PROBABLY NEED TO HANDLE ERRORS.
+	// WARNING: PROBABLY NEED TO HANDLE ERRORS.
 	terrain_texture = mlx_load_png("textures/grass.png");
 	wall_texture = mlx_load_png("textures/wall.png");
 	player_texture = mlx_load_png("textures/blocky_right.png");
@@ -94,6 +94,7 @@ void	create_images(t_game_data game_data)
 	game_data.images->exit_image = mlx_texture_to_image(game_data.mlx,
 			exit_texture);
 	ft_printf("height: %d\n", game_data.images->terrain_image->height);
+	return (game_data);
 }
 
 void	resize_images(t_game_data game_data)

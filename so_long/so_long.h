@@ -12,7 +12,7 @@
 
 // TODO: Add include protection.
 
-#define TILE_WIDTH 64
+#define TILE_WIDTH 32
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
@@ -72,8 +72,9 @@ enum			direction
 t_game_data		create_game_data(char *map_path);
 mlx_t			*init_mlx(t_game_data game_data);
 void			create_background(t_game_data game_data);
-void			create_images(t_game_data game_data);
+t_game_data		create_images(t_game_data game_data);
 void			resize_images(t_game_data game_data);
+
 void			print_error(char *error_message);
 void			print_error_and_exit(char *error_message);
 void			print_error_free_map_and_exit(char *error_message, char **map,
