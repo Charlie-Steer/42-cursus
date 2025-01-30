@@ -11,7 +11,7 @@ test
 
 .cache/
 
-**/MLX42/
+so_long/MLX42/
 
 # Projects
 libft.a
