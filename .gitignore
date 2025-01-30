@@ -11,6 +11,8 @@ test
 
 .cache/
 
+**/MLX42/
+
 # Projects
 libft.a
 client
