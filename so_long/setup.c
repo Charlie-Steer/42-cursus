@@ -6,36 +6,22 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:15:08 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/01/30 12:21:19 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:24:02 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-t_game_data	create_game_data(char *map_path)
-{
-	t_two_ints	width_and_height;
-	t_game_data	game_data;
-	char		**map;
-
-	width_and_height = get_map_len(map_path);
-	map = save_map(map_path, width_and_height.a, width_and_height.b);
-	game_data = validate_map_and_store_map_data(map, width_and_height.a,
-			width_and_height.b);
-	game_data.map = map;
-	return (game_data);
-}
 
 mlx_t	*init_mlx(t_game_data game_data)
 {
 	mlx_t	*mlx;
 
 	// WARNING: MAKE SURE YOU HANDLE ERRORS EVERY TIME YOU GET A POINTER FROM MLX.
-	mlx = mlx_init(TILE_WIDTH * game_data.width, TILE_WIDTH * game_data.height,
+	mlx = mlx_init(TILE_WIDTH * game_data.cols, TILE_WIDTH * game_data.rows,
 			"So Long", 0);
 	if (!mlx)
 		print_error_free_map_and_exit("mlx_init() error.", game_data.map,
-			game_data.height);
+			game_data.rows);
 	return (mlx);
 }
 
@@ -111,15 +97,15 @@ void	resize_images(t_game_data game_data)
 	if (!mlx_resize_image(images->terrain_image, TILE_WIDTH, TILE_WIDTH))
 	{
 		ft_printf("wut?\n");
-		print_error_free_map_and_exit(error_message, map, game_data.height);
+		print_error_free_map_and_exit(error_message, map, game_data.rows);
 	}
 	ft_printf("TEST BETA\n");
 	if (!mlx_resize_image(images->wall_image, TILE_WIDTH, TILE_WIDTH))
-		print_error_free_map_and_exit(error_message, map, game_data.height);
+		print_error_free_map_and_exit(error_message, map, game_data.rows);
 	if (!mlx_resize_image(images->player_image, TILE_WIDTH, TILE_WIDTH))
-		print_error_free_map_and_exit(error_message, map, game_data.height);
+		print_error_free_map_and_exit(error_message, map, game_data.rows);
 	if (!mlx_resize_image(images->collectible_image, TILE_WIDTH, TILE_WIDTH))
-		print_error_free_map_and_exit(error_message, map, game_data.height);
+		print_error_free_map_and_exit(error_message, map, game_data.rows);
 	if (!mlx_resize_image(images->exit_image, TILE_WIDTH, TILE_WIDTH))
-		print_error_free_map_and_exit(error_message, map, game_data.height);
+		print_error_free_map_and_exit(error_message, map, game_data.rows);
 }

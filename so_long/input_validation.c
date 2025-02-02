@@ -12,18 +12,22 @@
 
 #include "so_long.h"
 
-int check_if_valid_arguments(int argc, char *argv[])
+int	check_if_valid_arguments(int argc, char *argv[])
 {
 	if (argc == 2)
 	{
+		// TODO: Technically it shouldn't be valid if ".ber" in the middle of the filename.
+		// Maybe I should make a custom function to only check the tail.
 		if (ft_strnstr(argv[1], ".ber", ft_strlen(argv[1])))
 			return (1);
 		else
-		 	ft_putstr_fd("Error\nInvalid map file extension. Please provide a \".ber\" file.\n", STDERR_FILENO);
+			ft_putstr_fd("Error\nInvalid map file extension. Please provide a \".ber\" file.\n",
+				STDERR_FILENO);
 	}
 	else if (argc < 2)
 	{
-		ft_putstr_fd("Error\nPlease provide a valid path for a map file as an argument.\n", STDERR_FILENO);
+		ft_putstr_fd("Error\nPlease provide a valid path for a map file as an argument.\n",
+			STDERR_FILENO);
 		exit(1);
 	}
 	else if (argc > 2)

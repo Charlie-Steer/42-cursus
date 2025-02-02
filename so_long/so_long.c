@@ -6,14 +6,15 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:10:19 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/01/30 12:19:40 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:08:39 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/include/MLX42/MLX42.h"
 #include "libft/src/printf/ft_printf.h"
-#include "so_long.h"
 #include <limits.h>
+#include "so_long.h"
+#include "create_game_data.h"
 
 void	my_key_hook(mlx_key_data_t key_data, void *param);
 void	pick_up_collectible(void *param);
@@ -36,7 +37,7 @@ int	main(int argc, char *argv[])
 	{
 		game_data = create_game_data(argv[1]);
 		// MLX
-		//! MAKE SURE YOU HANDLE ERRORS EVERY TIME YOU GET A POINTER FROM MLX.
+		// WARNING: MAKE SURE YOU HANDLE ERRORS EVERY TIME YOU GET A POINTER FROM MLX.
 		mlx = init_mlx(game_data);
 		game_data.mlx = mlx;
 		map = game_data.map;
@@ -51,18 +52,19 @@ int	main(int argc, char *argv[])
 		resize_images(game_data);
 		ft_printf("test delta\n");
 		images = game_data.images;
-		draw_terrain_and_wall_tiles(mlx, images, map, game_data);
-		draw_player_and_collectible_tiles(mlx, images, map, game_data);
+		draw_terrain_and_wall_tiles(game_data.mlx, images, map, game_data);
+		draw_player_and_collectible_tiles(game_data.mlx, images, map,
+			game_data);
 		game_data.images = images;
 		game_data.mlx = mlx;
 		heap_map_data = malloc(sizeof(t_game_data));
 		//! MUST BE HANDLED
 		*heap_map_data = game_data;
-		mlx_loop_hook(mlx, *check_and_pick_up_collectibles,
+		mlx_loop_hook(game_data.mlx, *check_and_pick_up_collectibles,
 			(void *)(heap_map_data));
-		mlx_key_hook(mlx, *my_key_hook, (void *)(heap_map_data));
-		mlx_loop(mlx);
-		mlx_terminate(mlx);
+		mlx_key_hook(game_data.mlx, *my_key_hook, (void *)(heap_map_data));
+		mlx_loop(game_data.mlx);
+		mlx_terminate(game_data.mlx);
 		free(images); //? Does it work as intended?
 						//! Free_map and map_data.
 	}
@@ -155,7 +157,7 @@ void	my_key_hook(mlx_key_data_t key_data, void *param)
 }
 
 void	draw_terrain_and_wall_tiles(mlx_t *mlx, t_images *images, char **map,
-		t_game_data map_data)
+		t_game_data gd)
 {
 	int		player_x;
 	int		player_y;
@@ -166,20 +168,20 @@ void	draw_terrain_and_wall_tiles(mlx_t *mlx, t_images *images, char **map,
 	player_x = 0;
 	player_y = 0;
 	i = 0;
-	while (i < map_data.height)
+	while (i < gd.rows)
 	{
 		j = 0;
-		while (j < map_data.width)
+		while (j < gd.cols)
 		{
 			tile_char = map[i][j];
 			if (tile_char == '0' || tile_char == 'C' || tile_char == 'P')
-				mlx_image_to_window(mlx, images->terrain_image, TILE_WIDTH * j,
-					TILE_WIDTH * i);
+				mlx_image_to_window(gd.mlx, images->terrain_image, TILE_WIDTH
+					* j, TILE_WIDTH * i);
 			else if (tile_char == '1')
-				mlx_image_to_window(mlx, images->wall_image, TILE_WIDTH * j,
+				mlx_image_to_window(gd.mlx, images->wall_image, TILE_WIDTH * j,
 					TILE_WIDTH * i);
 			else if (tile_char == 'E')
-				mlx_image_to_window(mlx, images->exit_image, TILE_WIDTH * j,
+				mlx_image_to_window(gd.mlx, images->exit_image, TILE_WIDTH * j,
 					TILE_WIDTH * i);
 			j++;
 		}
@@ -199,10 +201,10 @@ void	draw_player_and_collectible_tiles(mlx_t *mlx, t_images *images,
 	player_x = 0;
 	player_y = 0;
 	i = 0;
-	while (i < map_data.height)
+	while (i < map_data.rows)
 	{
 		j = 0;
-		while (j < map_data.width)
+		while (j < map_data.cols)
 		{
 			tile_char = map[i][j];
 			if (tile_char == 'C')
@@ -222,7 +224,7 @@ void	terminate_game(t_game_data *heap_map_data, char *termination_message)
 	ft_printf("%s\n", termination_message);
 	mlx_terminate(heap_map_data->mlx);
 	//! KEY POINT TO HANDLE FREES.
-	free_map(heap_map_data->map, heap_map_data->height);
+	free_map(heap_map_data->map, heap_map_data->rows);
 	free(heap_map_data);
 	exit(0);
 }

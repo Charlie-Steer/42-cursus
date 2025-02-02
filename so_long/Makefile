@@ -17,15 +17,18 @@ RM = rm -rf
 NAME = so_long
 BNAME =
 
+# WARNING: REMOVE debug.c
 SOURCES = \
-	so_long.c \
-	input_validation.c \
-	setup.c \
-	map_parsing.c \
+	create_game_data.c \
+	debug.c \
 	error_handling.c \
-	debug.c #! DELETE
+	input_validation.c \
+	map_parsing.c \
+	read_map.c \
+	setup.c \
+	so_long.c
 
-BSOURCES = \
+BSOURCES = 
 
 OBJECTS = $(SOURCES:.c=.o)
 BOBJECTS = $(BSOURCES:.c=.o)
@@ -69,5 +72,8 @@ re: fclean all
 
 test: all
 	@./$(NAME)
+
+bear: fclean
+	@bear -- make
 
 PHONY: all bonus clean fclean re test
