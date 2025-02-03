@@ -50,37 +50,34 @@ void	create_background(t_game_data game_data)
 	}
 }
 
-t_game_data	create_images(t_game_data game_data)
+t_images	create_images(mlx_t *mlx)
 {
 	mlx_texture_t	*terrain_texture;
 	mlx_texture_t	*wall_texture;
 	mlx_texture_t	*player_texture;
 	mlx_texture_t	*collectible_texture;
 	mlx_texture_t	*exit_texture;
+	t_images		images;
 
 	// WARNING: PROBABLY NEED TO HANDLE ERRORS.
 	terrain_texture = mlx_load_png("textures/grass.png");
 	wall_texture = mlx_load_png("textures/wall.png");
 	player_texture = mlx_load_png("textures/blocky_right.png");
-	if (!player_texture)
-	{
-		ft_printf("WUT?\n");
-	}
 	collectible_texture = mlx_load_png("textures/chest.png");
 	exit_texture = mlx_load_png("textures/door.png");
-	game_data.images = malloc(sizeof(t_images));
-	game_data.images->terrain_image = mlx_texture_to_image(game_data.mlx,
-			terrain_texture);
-	game_data.images->wall_image = mlx_texture_to_image(game_data.mlx,
-			wall_texture);
-	game_data.images->player_image = mlx_texture_to_image(game_data.mlx,
-			player_texture);
-	game_data.images->collectible_image = mlx_texture_to_image(game_data.mlx,
-			collectible_texture);
-	game_data.images->exit_image = mlx_texture_to_image(game_data.mlx,
-			exit_texture);
-	ft_printf("height: %d\n", game_data.images->terrain_image->height);
-	return (game_data);
+	// WARNING: This is not handled properly.
+	if (!(terrain_texture && wall_texture && player_texture
+			&& collectible_texture && exit_texture))
+		ft_printf("WUT?\n");
+	// WARNING: Does this really have to be a pointer?
+	// t_images *images = malloc(sizeof(t_images));
+	images.terrain_image = mlx_texture_to_image(mlx, terrain_texture);
+	images.wall_image = mlx_texture_to_image(mlx, wall_texture);
+	images.player_image = mlx_texture_to_image(mlx, player_texture);
+	images.collectible_image = mlx_texture_to_image(mlx, collectible_texture);
+	images.exit_image = mlx_texture_to_image(mlx, exit_texture);
+	ft_printf("height: %d\n", images.terrain_image->height);
+	return (images);
 }
 
 void	resize_images(t_game_data game_data)

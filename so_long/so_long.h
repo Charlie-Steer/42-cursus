@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:11:39 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/01/31 14:30:28 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:47:31 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct
 	int			cols;
 }				t_rows_and_cols;
 
-typedef struct s_images
+typedef struct
 {
 	mlx_image_t	*terrain_image;
 	mlx_image_t	*wall_image;
@@ -50,7 +50,7 @@ typedef struct s_images
 	mlx_image_t	*player_image;
 }				t_images;
 
-typedef struct s_game_data
+typedef struct
 {
 	int			rows;
 	int			cols;
@@ -63,11 +63,12 @@ typedef struct s_game_data
 
 	char		**map;
 
-	t_images	*images;
+	// WARN: Has been changed to non-pointer type.
+	t_images	images;
 	mlx_t		*mlx;
 }				t_game_data;
 
-typedef struct s_map_and_data
+typedef struct
 {
 	char		**map;
 	t_game_data	data;
@@ -80,11 +81,6 @@ enum			direction
 	LEFT,
 	RIGHT
 };
-
-mlx_t			*init_mlx(t_game_data game_data);
-void			create_background(t_game_data game_data);
-t_game_data		create_images(t_game_data game_data);
-void			resize_images(t_game_data game_data);
 
 void			print_error(char *error_message);
 void			print_error_and_exit(char *error_message);

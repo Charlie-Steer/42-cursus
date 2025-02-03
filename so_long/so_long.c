@@ -6,15 +6,16 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:10:19 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/01/31 16:08:39 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:48:48 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/include/MLX42/MLX42.h"
-#include "libft/src/printf/ft_printf.h"
-#include <limits.h>
-#include "so_long.h"
 #include "create_game_data.h"
+#include "libft/src/printf/ft_printf.h"
+#include "setup.h"
+#include "so_long.h"
+#include <limits.h>
 
 void	my_key_hook(mlx_key_data_t key_data, void *param);
 void	pick_up_collectible(void *param);
@@ -27,7 +28,7 @@ void	terminate_game(t_game_data *heap_map_data, char *termination_message);
 
 int	main(int argc, char *argv[])
 {
-	t_game_data	game_data;
+	t_game_data	gd;
 	mlx_t		*mlx;
 	char		**map;
 	t_images	*images;
@@ -35,36 +36,26 @@ int	main(int argc, char *argv[])
 
 	if (check_if_valid_arguments(argc, argv))
 	{
-		game_data = create_game_data(argv[1]);
+		gd = create_game_data(argv[1]);
 		// MLX
 		// WARNING: MAKE SURE YOU HANDLE ERRORS EVERY TIME YOU GET A POINTER FROM MLX.
-		mlx = init_mlx(game_data);
-		game_data.mlx = mlx;
-		map = game_data.map;
-		ft_printf("test alpha\n");
-		create_background(game_data);
-		ft_printf("test beta\n");
-		game_data = create_images(game_data);
-		// ISSUE: cannot access terrain image once outside of create_images().
-		ft_printf("terrain_image %d\n",
-			game_data.images->terrain_image->enabled);
-		ft_printf("test gamma\n");
-		resize_images(game_data);
-		ft_printf("test delta\n");
-		images = game_data.images;
-		draw_terrain_and_wall_tiles(game_data.mlx, images, map, game_data);
-		draw_player_and_collectible_tiles(game_data.mlx, images, map,
-			game_data);
-		game_data.images = images;
-		game_data.mlx = mlx;
+		gd.mlx = init_mlx(gd);
+		create_background(gd);
+		gd.images = create_images(gd.mlx);
+		resize_images(gd);
+		images = gd.images;
+		draw_terrain_and_wall_tiles(gd.mlx, images, map, gd);
+		draw_player_and_collectible_tiles(gd.mlx, images, map, gd);
+		gd.images = images;
+		gd.mlx = mlx;
 		heap_map_data = malloc(sizeof(t_game_data));
 		//! MUST BE HANDLED
-		*heap_map_data = game_data;
-		mlx_loop_hook(game_data.mlx, *check_and_pick_up_collectibles,
+		*heap_map_data = gd;
+		mlx_loop_hook(gd.mlx, *check_and_pick_up_collectibles,
 			(void *)(heap_map_data));
-		mlx_key_hook(game_data.mlx, *my_key_hook, (void *)(heap_map_data));
-		mlx_loop(game_data.mlx);
-		mlx_terminate(game_data.mlx);
+		mlx_key_hook(gd.mlx, *my_key_hook, (void *)(heap_map_data));
+		mlx_loop(gd.mlx);
+		mlx_terminate(gd.mlx);
 		free(images); //? Does it work as intended?
 						//! Free_map and map_data.
 	}
