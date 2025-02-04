@@ -6,9 +6,6 @@
 *Tester*/
 test
 .DS_Store
-
-/get_next_line
-
 .cache/
 
 MLX42/
@@ -17,8 +14,9 @@ MLX42/
 libft.a
 client
 server
-/push_swap
-/so_long
+/push_swap/push_swap
+/so_long/so_long
+/get_next_line/get_next_line
 *test*
 
 # -----

@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:15:08 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/01/31 16:24:02 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/02/04 21:08:15 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,17 @@ mlx_t	*init_mlx(t_game_data game_data)
 	return (mlx);
 }
 
-void	create_background(t_game_data game_data)
+void	create_background(t_game_data gd)
 {
-	mlx_t		*mlx;
-	char		**map;
 	int			window_width;
 	int			window_height;
 	mlx_image_t	*background;
 
-	mlx = game_data.mlx;
-	map = game_data.map;
-	window_width = mlx->width;
-	window_height = mlx->height;
-	background = mlx_new_image(mlx, window_width, window_height);
-	if (!background || (mlx_image_to_window(mlx, background, 0, 0) < 0))
-		print_error_free_map_and_exit("Background creation error.", map,
+	window_width = gd.mlx->width;
+	window_height = gd.mlx->height;
+	background = mlx_new_image(gd.mlx, window_width, window_height);
+	if (!background || (mlx_image_to_window(gd.mlx, background, 0, 0) < 0))
+		print_error_free_map_and_exit("Background creation error.", gd.map,
 			window_height);
 	for (int x = 0; x < window_width; x++)
 	{
@@ -69,40 +65,31 @@ t_images	create_images(mlx_t *mlx)
 	if (!(terrain_texture && wall_texture && player_texture
 			&& collectible_texture && exit_texture))
 		ft_printf("WUT?\n");
-	// WARNING: Does this really have to be a pointer?
-	// t_images *images = malloc(sizeof(t_images));
 	images.terrain_image = mlx_texture_to_image(mlx, terrain_texture);
 	images.wall_image = mlx_texture_to_image(mlx, wall_texture);
 	images.player_image = mlx_texture_to_image(mlx, player_texture);
 	images.collectible_image = mlx_texture_to_image(mlx, collectible_texture);
 	images.exit_image = mlx_texture_to_image(mlx, exit_texture);
-	ft_printf("height: %d\n", images.terrain_image->height);
 	return (images);
 }
 
 void	resize_images(t_game_data game_data)
 {
 	char		**map;
-	t_images	*images;
 	char		*error_message;
+	t_images	images;
 
 	map = game_data.map;
 	images = game_data.images;
 	error_message = "Couldn't resize image.";
-	ft_printf("TEST ALPHA\n");
-	ft_printf("height: %d\n", game_data.images->terrain_image->height);
-	if (!mlx_resize_image(images->terrain_image, TILE_WIDTH, TILE_WIDTH))
-	{
-		ft_printf("wut?\n");
+	if (!mlx_resize_image(images.terrain_image, TILE_WIDTH, TILE_WIDTH))
 		print_error_free_map_and_exit(error_message, map, game_data.rows);
-	}
-	ft_printf("TEST BETA\n");
-	if (!mlx_resize_image(images->wall_image, TILE_WIDTH, TILE_WIDTH))
+	if (!mlx_resize_image(images.wall_image, TILE_WIDTH, TILE_WIDTH))
 		print_error_free_map_and_exit(error_message, map, game_data.rows);
-	if (!mlx_resize_image(images->player_image, TILE_WIDTH, TILE_WIDTH))
+	if (!mlx_resize_image(images.player_image, TILE_WIDTH, TILE_WIDTH))
 		print_error_free_map_and_exit(error_message, map, game_data.rows);
-	if (!mlx_resize_image(images->collectible_image, TILE_WIDTH, TILE_WIDTH))
+	if (!mlx_resize_image(images.collectible_image, TILE_WIDTH, TILE_WIDTH))
 		print_error_free_map_and_exit(error_message, map, game_data.rows);
-	if (!mlx_resize_image(images->exit_image, TILE_WIDTH, TILE_WIDTH))
+	if (!mlx_resize_image(images.exit_image, TILE_WIDTH, TILE_WIDTH))
 		print_error_free_map_and_exit(error_message, map, game_data.rows);
 }

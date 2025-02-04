@@ -26,6 +26,8 @@ SOURCES = \
 	map_parsing.c \
 	read_map.c \
 	setup.c \
+	drawing.c \
+	hooks.c \
 	so_long.c
 
 BSOURCES = 
