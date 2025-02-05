@@ -6,10 +6,12 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 20:36:32 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/02/04 20:53:12 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/02/05 16:46:35 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "error_handling_1.h"
+#include "error_handling_2.h"
 #include "so_long.h"
 
 void	check_and_pick_up_collectibles(void *param)
@@ -22,8 +24,8 @@ void	check_and_pick_up_collectibles(void *param)
 
 	p_gd = (t_game_data *)param;
 	images = p_gd->images;
-	player_image = images.player_image;
-	collectible_image = images.collectible_image;
+	player_image = images.player;
+	collectible_image = images.collectible;
 	i = 0;
 	while (i < collectible_image->count)
 	{
@@ -46,11 +48,12 @@ static void	terminate_game(t_game_data *heap_map_data,
 
 void	my_key_hook(mlx_key_data_t key_data, void *param)
 {
-	t_game_data		*p_gd;
-	mlx_instance_t	*player;
+	t_game_data	*p_gd;
 
 	p_gd = (t_game_data *)param;
-	player = p_gd->images.player_image->instances;
+	// WARN: player not useful?
+	// mlx_instance_t	*player;
+	// player = p_gd->images.player_image->instances;
 	if (key_data.key == MLX_KEY_W && key_data.action == MLX_PRESS
 		&& p_gd->map[p_gd->player_y_pos - 1][p_gd->player_x_pos] != '1')
 		move_player(p_gd, UP);
@@ -65,16 +68,22 @@ void	my_key_hook(mlx_key_data_t key_data, void *param)
 		move_player(p_gd, RIGHT);
 	if ((p_gd->map[p_gd->player_y_pos][p_gd->player_x_pos] == 'E'
 			&& p_gd->collectible_amount == 0))
-		terminate_game(p_gd, "YOU WIN!!!");
+	{
+		ft_printf("WIN!");
+		terminate_program_no_heap_gd(*p_gd, NULL);
+		// terminate_game(p_gd, "YOU WIN!!!"); // ISSUE:
+	}
 	if (key_data.key == MLX_KEY_ESCAPE && key_data.action == MLX_PRESS)
-		terminate_game(p_gd, "Exiting...");
+	{
+		// terminate_game(p_gd, "Exiting..."); // ISSUE:
+	}
 }
 
 static void	move_player(t_game_data *gd, enum direction direction)
 {
 	mlx_instance_t	*player;
 
-	player = gd->images.player_image->instances;
+	player = gd->images.player->instances;
 	if (direction == UP)
 	{
 		player->y -= TILE_WIDTH;
@@ -97,6 +106,7 @@ static void	move_player(t_game_data *gd, enum direction direction)
 	}
 }
 
+// WARN: What is this doing here?
 static void	terminate_game(t_game_data *heap_map_data,
 		char *termination_message)
 {

@@ -6,13 +6,14 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 19:32:46 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/01/31 14:50:45 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:13:39 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "error_handling_1.h"
 #include "map_parsing.h"
 #include "read_map.h"
+#include "so_long.h"
 
 static t_game_data	validate_map_and_store_map_data(t_game_data gd);
 static t_game_data	tally_special_tiles(t_game_data gd, char **map, int rows,
@@ -36,8 +37,8 @@ static t_game_data	validate_map_and_store_map_data(t_game_data gd)
 	// Check if valid amount of special elements.
 	gd = tally_special_tiles(gd, gd.map, gd.rows, gd.cols);
 #if DEBUG >= 1 //! DELETE
-	ft_printf("P: %d\nE: %d\nC: %d\n\n", gd.player_amount,
-		gd.exit_amount, gd.collectible_amount);
+	ft_printf("P: %d\nE: %d\nC: %d\n\n", gd.player_amount, gd.exit_amount,
+		gd.collectible_amount);
 #endif
 	if (gd.player_amount != 1 || gd.exit_amount != 1
 		|| !(gd.collectible_amount >= 1))
@@ -54,6 +55,7 @@ static t_game_data	validate_map_and_store_map_data(t_game_data gd)
 	DEBUG_print_maps(gd.map, floodfill_map, gd.cols, gd.rows);
 #endif
 	check_if_valid_path(floodfill_map, gd.cols, gd.rows, gd.map);
+	free_map(floodfill_map, gd.rows);
 	return (gd);
 }
 
