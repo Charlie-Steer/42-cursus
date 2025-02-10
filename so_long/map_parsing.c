@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "error_handling_1.h"
 #include "so_long.h"
 
 t_game_data	record_map_character(char c, t_game_data game_data, char **map,

@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "error_handling_1.h"
 #include "so_long.h"
 
 static t_rows_and_cols	get_map_dimensions(int map_fd);

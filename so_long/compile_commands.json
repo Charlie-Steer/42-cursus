@@ -61,12 +61,35 @@
       "-Ilibft/src/get_next_line",
       "-c",
       "-o",
-      "error_handling.o",
-      "error_handling.c"
+      "error_handling_1.o",
+      "error_handling_1.c"
     ],
     "directory": "/home/charlie/projects/42-cursus/so_long",
-    "file": "/home/charlie/projects/42-cursus/so_long/error_handling.c",
-    "output": "/home/charlie/projects/42-cursus/so_long/error_handling.o"
+    "file": "/home/charlie/projects/42-cursus/so_long/error_handling_1.c",
+    "output": "/home/charlie/projects/42-cursus/so_long/error_handling_1.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Wunreachable-code",
+      "-g",
+      "-DDEBUG=0",
+      "-pthread",
+      "-I.",
+      "-Ilibft",
+      "-I./MLX42/include/MLX42/",
+      "-Ilibft/src/printf",
+      "-Ilibft/src/get_next_line",
+      "-c",
+      "-o",
+      "error_handling_2.o",
+      "error_handling_2.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/so_long",
+    "file": "/home/charlie/projects/42-cursus/so_long/error_handling_2.c",
+    "output": "/home/charlie/projects/42-cursus/so_long/error_handling_2.o"
   },
   {
     "arguments": [
@@ -159,6 +182,52 @@
     "directory": "/home/charlie/projects/42-cursus/so_long",
     "file": "/home/charlie/projects/42-cursus/so_long/setup.c",
     "output": "/home/charlie/projects/42-cursus/so_long/setup.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Wunreachable-code",
+      "-g",
+      "-DDEBUG=0",
+      "-pthread",
+      "-I.",
+      "-Ilibft",
+      "-I./MLX42/include/MLX42/",
+      "-Ilibft/src/printf",
+      "-Ilibft/src/get_next_line",
+      "-c",
+      "-o",
+      "drawing.o",
+      "drawing.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/so_long",
+    "file": "/home/charlie/projects/42-cursus/so_long/drawing.c",
+    "output": "/home/charlie/projects/42-cursus/so_long/drawing.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-Wunreachable-code",
+      "-g",
+      "-DDEBUG=0",
+      "-pthread",
+      "-I.",
+      "-Ilibft",
+      "-I./MLX42/include/MLX42/",
+      "-Ilibft/src/printf",
+      "-Ilibft/src/get_next_line",
+      "-c",
+      "-o",
+      "hooks.o",
+      "hooks.c"
+    ],
+    "directory": "/home/charlie/projects/42-cursus/so_long",
+    "file": "/home/charlie/projects/42-cursus/so_long/hooks.c",
+    "output": "/home/charlie/projects/42-cursus/so_long/hooks.o"
   },
   {
     "arguments": [

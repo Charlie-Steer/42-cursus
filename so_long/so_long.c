@@ -49,9 +49,10 @@ int	main(int argc, char *argv[])
 		draw_terrain_and_wall_tiles(gd.images, gd);
 		draw_player_and_collectible_tiles(gd.images, gd);
 		heap_gd = allocate_game_data(gd);
-		mlx_loop_hook(gd.mlx, *check_and_pick_up_collectibles, (void *)(&gd));
-		mlx_key_hook(gd.mlx, *my_key_hook, (void *)(&gd));
-		mlx_loop(gd.mlx);
-		// terminate_program_heap_gd(heap_gd, NULL);
+		mlx_loop_hook(heap_gd->mlx, *check_and_pick_up_collectibles,
+			(void *)(heap_gd));
+		mlx_key_hook(heap_gd->mlx, *my_key_hook, (void *)(heap_gd));
+		mlx_loop(heap_gd->mlx);
+		terminate_program_heap_gd(heap_gd, NULL);
 	}
 }

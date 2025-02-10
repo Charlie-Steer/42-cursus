@@ -43,39 +43,56 @@ void	check_and_pick_up_collectibles(void *param)
 }
 
 static void	move_player(t_game_data *gd, enum direction direction);
-static void	terminate_game(t_game_data *heap_map_data,
-				char *termination_message);
+
+bool	is_direction_wall(enum direction direction, t_game_data *p_gd)
+{
+	char	tile;
+
+	if (direction == UP)
+		tile = p_gd->map[p_gd->player_y_pos - 1][p_gd->player_x_pos];
+	else if (direction == RIGHT)
+		tile = p_gd->map[p_gd->player_y_pos][p_gd->player_x_pos + 1];
+	else if (direction == DOWN)
+		tile = p_gd->map[p_gd->player_y_pos + 1][p_gd->player_x_pos];
+	else
+		tile = p_gd->map[p_gd->player_y_pos][p_gd->player_x_pos - 1];
+	return (tile == '1' || (tile == 'E' && p_gd->collectible_amount != 0));
+}
+
+bool	is_in_exit(t_game_data *p_gd)
+{
+	char	tile;
+
+	tile = p_gd->map[p_gd->player_y_pos][p_gd->player_x_pos];
+	return (tile == 'E' && p_gd->collectible_amount == 0);
+}
 
 void	my_key_hook(mlx_key_data_t key_data, void *param)
 {
 	t_game_data	*p_gd;
 
 	p_gd = (t_game_data *)param;
-	// WARN: player not useful?
-	// mlx_instance_t	*player;
-	// player = p_gd->images.player_image->instances;
 	if (key_data.key == MLX_KEY_W && key_data.action == MLX_PRESS
-		&& p_gd->map[p_gd->player_y_pos - 1][p_gd->player_x_pos] != '1')
+		&& !is_direction_wall(UP, p_gd))
 		move_player(p_gd, UP);
 	else if (key_data.key == MLX_KEY_A && key_data.action == MLX_PRESS
-		&& p_gd->map[p_gd->player_y_pos][p_gd->player_x_pos - 1] != '1')
+		&& !is_direction_wall(LEFT, p_gd))
 		move_player(p_gd, LEFT);
 	else if (key_data.key == MLX_KEY_S && key_data.action == MLX_PRESS
-		&& p_gd->map[p_gd->player_y_pos + 1][p_gd->player_x_pos] != '1')
+		&& !is_direction_wall(DOWN, p_gd))
 		move_player(p_gd, DOWN);
 	else if (key_data.key == MLX_KEY_D && key_data.action == MLX_PRESS
-		&& p_gd->map[p_gd->player_y_pos][p_gd->player_x_pos + 1] != '1')
+		&& !is_direction_wall(RIGHT, p_gd))
 		move_player(p_gd, RIGHT);
-	if ((p_gd->map[p_gd->player_y_pos][p_gd->player_x_pos] == 'E'
-			&& p_gd->collectible_amount == 0))
+	if (is_in_exit(p_gd))
 	{
-		ft_printf("WIN!");
-		terminate_program_no_heap_gd(*p_gd, NULL);
-		// terminate_game(p_gd, "YOU WIN!!!"); // ISSUE:
+		ft_printf("YOU WIN!!!");
+		terminate_program_heap_gd(p_gd, NULL);
 	}
 	if (key_data.key == MLX_KEY_ESCAPE && key_data.action == MLX_PRESS)
 	{
-		// terminate_game(p_gd, "Exiting..."); // ISSUE:
+		ft_printf("Exiting...");
+		terminate_program_heap_gd(p_gd, NULL);
 	}
 }
 
@@ -104,16 +121,4 @@ static void	move_player(t_game_data *gd, enum direction direction)
 		player->x += TILE_WIDTH;
 		gd->player_x_pos += 1;
 	}
-}
-
-// WARN: What is this doing here?
-static void	terminate_game(t_game_data *heap_map_data,
-		char *termination_message)
-{
-	ft_printf("%s\n", termination_message);
-	mlx_terminate(heap_map_data->mlx);
-	// WARNING: KEY POINT TO HANDLE FREES.
-	free_map(heap_map_data->map, heap_map_data->rows);
-	free(heap_map_data);
-	exit(0);
 }
