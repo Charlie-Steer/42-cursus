@@ -9,18 +9,19 @@
       "-DDEBUG=0",
       "-pthread",
       "-I.",
+      "-Iheaders",
       "-Ilibft",
       "-I./MLX42/include/MLX42/",
       "-Ilibft/src/printf",
       "-Ilibft/src/get_next_line",
       "-c",
       "-o",
-      "create_game_data.o",
-      "create_game_data.c"
+      "build/create_game_data.o",
+      "src/create_game_data.c"
     ],
     "directory": "/home/charlie/projects/42-cursus/so_long",
-    "file": "/home/charlie/projects/42-cursus/so_long/create_game_data.c",
-    "output": "/home/charlie/projects/42-cursus/so_long/create_game_data.o"
+    "file": "/home/charlie/projects/42-cursus/so_long/src/create_game_data.c",
+    "output": "/home/charlie/projects/42-cursus/so_long/build/create_game_data.o"
   },
   {
     "arguments": [
@@ -32,18 +33,19 @@
       "-DDEBUG=0",
       "-pthread",
       "-I.",
+      "-Iheaders",
       "-Ilibft",
       "-I./MLX42/include/MLX42/",
       "-Ilibft/src/printf",
       "-Ilibft/src/get_next_line",
       "-c",
       "-o",
-      "debug.o",
-      "debug.c"
+      "build/debug.o",
+      "src/debug.c"
     ],
     "directory": "/home/charlie/projects/42-cursus/so_long",
-    "file": "/home/charlie/projects/42-cursus/so_long/debug.c",
-    "output": "/home/charlie/projects/42-cursus/so_long/debug.o"
+    "file": "/home/charlie/projects/42-cursus/so_long/src/debug.c",
+    "output": "/home/charlie/projects/42-cursus/so_long/build/debug.o"
   },
   {
     "arguments": [
@@ -55,18 +57,19 @@
       "-DDEBUG=0",
       "-pthread",
       "-I.",
+      "-Iheaders",
       "-Ilibft",
       "-I./MLX42/include/MLX42/",
       "-Ilibft/src/printf",
       "-Ilibft/src/get_next_line",
       "-c",
       "-o",
-      "error_handling_1.o",
-      "error_handling_1.c"
+      "build/error_handling_1.o",
+      "src/error_handling_1.c"
     ],
     "directory": "/home/charlie/projects/42-cursus/so_long",
-    "file": "/home/charlie/projects/42-cursus/so_long/error_handling_1.c",
-    "output": "/home/charlie/projects/42-cursus/so_long/error_handling_1.o"
+    "file": "/home/charlie/projects/42-cursus/so_long/src/error_handling_1.c",
+    "output": "/home/charlie/projects/42-cursus/so_long/build/error_handling_1.o"
   },
   {
     "arguments": [
@@ -78,18 +81,19 @@
       "-DDEBUG=0",
       "-pthread",
       "-I.",
+      "-Iheaders",
       "-Ilibft",
       "-I./MLX42/include/MLX42/",
       "-Ilibft/src/printf",
       "-Ilibft/src/get_next_line",
       "-c",
       "-o",
-      "error_handling_2.o",
-      "error_handling_2.c"
+      "build/error_handling_2.o",
+      "src/error_handling_2.c"
     ],
     "directory": "/home/charlie/projects/42-cursus/so_long",
-    "file": "/home/charlie/projects/42-cursus/so_long/error_handling_2.c",
-    "output": "/home/charlie/projects/42-cursus/so_long/error_handling_2.o"
+    "file": "/home/charlie/projects/42-cursus/so_long/src/error_handling_2.c",
+    "output": "/home/charlie/projects/42-cursus/so_long/build/error_handling_2.o"
   },
   {
     "arguments": [
@@ -101,18 +105,19 @@
       "-DDEBUG=0",
       "-pthread",
       "-I.",
+      "-Iheaders",
       "-Ilibft",
       "-I./MLX42/include/MLX42/",
       "-Ilibft/src/printf",
       "-Ilibft/src/get_next_line",
       "-c",
       "-o",
-      "input_validation.o",
-      "input_validation.c"
+      "build/input_validation.o",
+      "src/input_validation.c"
     ],
     "directory": "/home/charlie/projects/42-cursus/so_long",
-    "file": "/home/charlie/projects/42-cursus/so_long/input_validation.c",
-    "output": "/home/charlie/projects/42-cursus/so_long/input_validation.o"
+    "file": "/home/charlie/projects/42-cursus/so_long/src/input_validation.c",
+    "output": "/home/charlie/projects/42-cursus/so_long/build/input_validation.o"
   },
   {
     "arguments": [
@@ -124,18 +129,19 @@
       "-DDEBUG=0",
       "-pthread",
       "-I.",
+      "-Iheaders",
       "-Ilibft",
       "-I./MLX42/include/MLX42/",
       "-Ilibft/src/printf",
       "-Ilibft/src/get_next_line",
       "-c",
       "-o",
-      "map_parsing.o",
-      "map_parsing.c"
+      "build/map_parsing.o",
+      "src/map_parsing.c"
     ],
     "directory": "/home/charlie/projects/42-cursus/so_long",
-    "file": "/home/charlie/projects/42-cursus/so_long/map_parsing.c",
-    "output": "/home/charlie/projects/42-cursus/so_long/map_parsing.o"
+    "file": "/home/charlie/projects/42-cursus/so_long/src/map_parsing.c",
+    "output": "/home/charlie/projects/42-cursus/so_long/build/map_parsing.o"
   },
   {
     "arguments": [
@@ -147,18 +153,19 @@
       "-DDEBUG=0",
       "-pthread",
       "-I.",
+      "-Iheaders",
       "-Ilibft",
       "-I./MLX42/include/MLX42/",
       "-Ilibft/src/printf",
       "-Ilibft/src/get_next_line",
       "-c",
       "-o",
-      "read_map.o",
-      "read_map.c"
+      "build/read_map.o",
+      "src/read_map.c"
     ],
     "directory": "/home/charlie/projects/42-cursus/so_long",
-    "file": "/home/charlie/projects/42-cursus/so_long/read_map.c",
-    "output": "/home/charlie/projects/42-cursus/so_long/read_map.o"
+    "file": "/home/charlie/projects/42-cursus/so_long/src/read_map.c",
+    "output": "/home/charlie/projects/42-cursus/so_long/build/read_map.o"
   },
   {
     "arguments": [
@@ -170,18 +177,19 @@
       "-DDEBUG=0",
       "-pthread",
       "-I.",
+      "-Iheaders",
       "-Ilibft",
       "-I./MLX42/include/MLX42/",
       "-Ilibft/src/printf",
       "-Ilibft/src/get_next_line",
       "-c",
       "-o",
-      "setup.o",
-      "setup.c"
+      "build/setup.o",
+      "src/setup.c"
     ],
     "directory": "/home/charlie/projects/42-cursus/so_long",
-    "file": "/home/charlie/projects/42-cursus/so_long/setup.c",
-    "output": "/home/charlie/projects/42-cursus/so_long/setup.o"
+    "file": "/home/charlie/projects/42-cursus/so_long/src/setup.c",
+    "output": "/home/charlie/projects/42-cursus/so_long/build/setup.o"
   },
   {
     "arguments": [
@@ -193,18 +201,19 @@
       "-DDEBUG=0",
       "-pthread",
       "-I.",
+      "-Iheaders",
       "-Ilibft",
       "-I./MLX42/include/MLX42/",
       "-Ilibft/src/printf",
       "-Ilibft/src/get_next_line",
       "-c",
       "-o",
-      "drawing.o",
-      "drawing.c"
+      "build/drawing.o",
+      "src/drawing.c"
     ],
     "directory": "/home/charlie/projects/42-cursus/so_long",
-    "file": "/home/charlie/projects/42-cursus/so_long/drawing.c",
-    "output": "/home/charlie/projects/42-cursus/so_long/drawing.o"
+    "file": "/home/charlie/projects/42-cursus/so_long/src/drawing.c",
+    "output": "/home/charlie/projects/42-cursus/so_long/build/drawing.o"
   },
   {
     "arguments": [
@@ -216,18 +225,19 @@
       "-DDEBUG=0",
       "-pthread",
       "-I.",
+      "-Iheaders",
       "-Ilibft",
       "-I./MLX42/include/MLX42/",
       "-Ilibft/src/printf",
       "-Ilibft/src/get_next_line",
       "-c",
       "-o",
-      "hooks.o",
-      "hooks.c"
+      "build/hooks.o",
+      "src/hooks.c"
     ],
     "directory": "/home/charlie/projects/42-cursus/so_long",
-    "file": "/home/charlie/projects/42-cursus/so_long/hooks.c",
-    "output": "/home/charlie/projects/42-cursus/so_long/hooks.o"
+    "file": "/home/charlie/projects/42-cursus/so_long/src/hooks.c",
+    "output": "/home/charlie/projects/42-cursus/so_long/build/hooks.o"
   },
   {
     "arguments": [
@@ -239,18 +249,19 @@
       "-DDEBUG=0",
       "-pthread",
       "-I.",
+      "-Iheaders",
       "-Ilibft",
       "-I./MLX42/include/MLX42/",
       "-Ilibft/src/printf",
       "-Ilibft/src/get_next_line",
       "-c",
       "-o",
-      "so_long.o",
-      "so_long.c"
+      "build/so_long.o",
+      "src/so_long.c"
     ],
     "directory": "/home/charlie/projects/42-cursus/so_long",
-    "file": "/home/charlie/projects/42-cursus/so_long/so_long.c",
-    "output": "/home/charlie/projects/42-cursus/so_long/so_long.o"
+    "file": "/home/charlie/projects/42-cursus/so_long/src/so_long.c",
+    "output": "/home/charlie/projects/42-cursus/so_long/build/so_long.o"
   },
   {
     "arguments": [

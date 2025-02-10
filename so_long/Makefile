@@ -1,12 +1,17 @@
 CC = clang
 RM = rm -rf
 
+# DIRS
+SRC_DIR = src
+BUILD_DIR = build
+
+
 # LIBS
 LIBMLX = ./MLX42/build/libmlx42.a
 LIBFT = ./libft/libft.a
 
 # FLAGS
-HEADERS = -I. -Ilibft -I./MLX42/include/MLX42/ -Ilibft/src/printf -Ilibft/src/get_next_line
+HEADERS = -I. -Iheaders -Ilibft -I./MLX42/include/MLX42/ -Ilibft/src/printf -Ilibft/src/get_next_line
 
 MODE ?= dev
 DLVL ?= 0
@@ -34,11 +39,11 @@ SOURCES = \
 
 BSOURCES = 
 
-OBJECTS = $(SOURCES:.c=.o)
-BOBJECTS = $(BSOURCES:.c=.o)
+OBJECTS = $(addprefix $(BUILD_DIR)/, $(SOURCES:.c=.o))
+BOBJECTS = $(addprefix $(BUILD_DIR)/, $(BSOURCES:.c=.o))
 
 # RULES
-%.o: %.c
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) $(HEADERS) -o $@ -c $<
 
 all: info $(NAME) $(LIBFT)

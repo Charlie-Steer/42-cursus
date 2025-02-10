@@ -10,13 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MLX42/include/MLX42/MLX42.h"
+#include "MLX42.h"
 #include "create_game_data.h"
 #include "drawing.h"
 #include "error_handling_2.h"
 #include "hooks.h"
 #include "input_validation.h"
-#include "libft/src/printf/ft_printf.h" // WARNING: DELETE?
 #include "setup.h"
 #include "so_long.h"
 #include <limits.h>
@@ -41,7 +40,6 @@ int	main(int argc, char *argv[])
 	if (check_if_valid_arguments(argc, argv))
 	{
 		gd = create_game_data(argv[1]);
-		// WARNING: MAKE SURE YOU HANDLE ERRORS EVERY TIME YOU GET A POINTER FROM MLX.
 		gd.mlx = init_mlx(gd);
 		create_background(gd);
 		gd.images = create_images(gd.mlx);
