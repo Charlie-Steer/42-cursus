@@ -5,19 +5,19 @@ RM = rm -rf
 SRC_DIR = src
 BUILD_DIR = build
 
-
 # LIBS
 LIBMLX = ./MLX42/build/libmlx42.a
 LIBFT = ./libft/libft.a
+LIBS = $(LIBFT) $(LIBMLX)
 
 # FLAGS
 HEADERS = -I. -Iheaders -Ilibft -I./MLX42/include/MLX42/ -Ilibft/src/printf -Ilibft/src/get_next_line
 
 MODE ?= dev
 DLVL ?= 0
-CFLAGS_MLX = -ldl -lglfw -pthread -lm
-CFLAGS_dev = -Wall -Wextra -Wunreachable-code -g -DDEBUG=$(DLVL) $(CFLAGS_MLX)
-CFLAGS_prod = -Wall -Wextra -Werror -Wunreachable-code -DNDEBUG $(CFLAGS_MLX)
+LDFLAGS = -ldl -lglfw -pthread -lm
+CFLAGS_dev = -Wall -Wextra -Wunreachable-code -g -DDEBUG=$(DLVL)
+CFLAGS_prod = -Wall -Wextra -Werror -Wunreachable-code -DNDEBUG
 CFLAGS = $(CFLAGS_$(MODE))
 
 NAME = so_long
@@ -44,31 +44,32 @@ BOBJECTS = $(addprefix $(BUILD_DIR)/, $(BSOURCES:.c=.o))
 
 # RULES
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(BUILD_DIR)
 	@$(CC) $(CFLAGS) $(HEADERS) -o $@ -c $<
+	@echo "$@ compiled."
 
-all: info $(NAME) $(LIBFT)
+all: info $(NAME)
 
-bonus: $(BNAME) $(LIBFT)
+bonus: info $(BNAME)
 
 $(NAME): $(OBJECTS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(HEADERS) -o $(NAME) $(OBJECTS) $(LIBFT) $(LIBMLX)
+	@$(CC) $(LDFLAGS) -o $(NAME) $(OBJECTS) $(LIBS)
 	@echo "Linked $(NAME)."
 
 $(BNAME): $(BOBJECTS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(HEADERS) -o $(BNAME) $(BOBJECTS) $(LIBFT) $(LIBMLX)
+	@$(CC) $(LDFLAGS) -o $(BNAME) $(BOBJECTS) $(LIBS)
 	@echo "Linked $(BNAME)."
 
 $(LIBFT):
-	@make -C libft all
+	@$(MAKE) -C libft all
 
 clean:
 	@$(RM) $(OBJECTS) $(BOBJECTS)
-	@make -C libft clean
 	@echo "Cleaned: OBJECT files."
 
-fclean: clean
-	@$(RM) $(NAME) $(BNAME)
-	@make -C libft fclean
+fclean:
+	@$(RM) $(NAME) $(BNAME) $(OBJECTS) $(BOBJECTS)
+	@$(MAKE) -C libft fclean
 	@echo "Cleaned: OBJECT and ELF files."
 
 re: fclean all
@@ -84,6 +85,7 @@ info:
 	@echo MODE=$(MODE)
 	@echo DEBUG=$(DLVL)
 	@echo CFLAGS= $(CFLAGS)
+	@echo LDFLAGS= $(LDFLAGS)
 	@echo ------------------------
 
 .PHONY: all bonus clean fclean re test bear info
