@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// TODO: Add include protection.
-
 #define TILE_WIDTH 32
 
 #ifndef SO_LONG_H
@@ -22,12 +20,6 @@
 # include <assert.h>
 # include <fcntl.h>
 # include <stdbool.h>
-
-/* typedef struct s_two_ints
-{
-	int			a;
-	int			b;
-}				t_two_ints; */
 
 typedef struct
 {
@@ -70,17 +62,13 @@ typedef struct
 	int				exit_amount;
 	int				collectible_amount;
 
+	int				n_moves;
+
 	char			**map;
 
 	t_images		images;
 	mlx_t			*mlx;
 }					t_game_data;
-
-/* typedef struct
-{
-	char		**map;
-	t_game_data	data;
-}				t_map_and_data; */
 
 enum				direction
 {

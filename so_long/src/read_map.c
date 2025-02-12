@@ -28,7 +28,6 @@ t_game_data	get_map_dimensions_and_map(t_game_data game_data, char *map_path)
 	game_data.rows = rows_and_cols.rows;
 	game_data.cols = rows_and_cols.cols;
 	close(map_fd);
-	////
 	map_fd = open(map_path, O_RDONLY);
 	if (map_fd == -1)
 		print_error_and_exit("Couldn't open file");
@@ -97,7 +96,6 @@ static char	**malloc_map(int rows, int cols)
 	char	**map;
 	int		i;
 
-	// allocate map array.
 	map = malloc(rows * sizeof(char *));
 	if (!map)
 		print_error_and_exit("Failed to allocate memory.");

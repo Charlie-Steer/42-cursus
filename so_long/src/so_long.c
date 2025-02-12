@@ -18,7 +18,6 @@
 #include "input_validation.h"
 #include "setup.h"
 #include "so_long.h"
-#include <limits.h>
 
 static t_game_data	*allocate_game_data(t_game_data gd)
 {
@@ -50,7 +49,11 @@ int	main(int argc, char *argv[])
 		mlx_loop_hook(heap_gd->mlx, *check_and_pick_up_collectibles,
 			(void *)(heap_gd));
 		mlx_key_hook(heap_gd->mlx, *my_key_hook, (void *)(heap_gd));
+		ft_printf("Collectibles Remaining: %d\n", heap_gd->collectible_amount);
+		ft_printf("Number of moves: 0\n");
 		mlx_loop(heap_gd->mlx);
 		terminate_program_heap_gd(heap_gd, NULL);
 	}
+	else
+		exit(1);
 }

@@ -13,8 +13,6 @@
 #ifndef DRAWING_H
 # define DRAWING_H
 # include "so_long.h"
-
 void	draw_terrain_and_wall_tiles(t_images images, t_game_data gd);
 void	draw_player_and_collectible_tiles(t_images images, t_game_data gd);
-
 #endif

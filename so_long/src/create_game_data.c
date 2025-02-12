@@ -34,7 +34,6 @@ static t_game_data	validate_map_and_store_map_data(t_game_data gd)
 	char	**floodfill_map;
 
 	ensure_surrounded_by_walls(gd);
-	// Check if valid amount of special elements.
 	gd = tally_special_tiles(gd, gd.map, gd.rows, gd.cols);
 #if DEBUG >= 1 //! DELETE
 	ft_printf("P: %d\nE: %d\nC: %d\n\n", gd.player_amount, gd.exit_amount,

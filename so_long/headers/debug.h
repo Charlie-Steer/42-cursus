@@ -16,5 +16,4 @@
 # include "so_long.h"
 void	DEBUG_print_map(char **map, int cols, int rows);
 void	DEBUG_print_maps(char **map1, char **map2, int cols, int rows);
-
 #endif

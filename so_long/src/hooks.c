@@ -36,7 +36,7 @@ void	check_and_pick_up_collectibles(void *param)
 		{
 			collectible_image->instances[i].enabled = false;
 			p_gd->collectible_amount -= 1;
-			ft_printf("collectibles remaining: %d\n", p_gd->collectible_amount);
+			ft_printf("Collectibles Remaining: %d\n", p_gd->collectible_amount);
 		}
 		i++;
 	}
@@ -121,4 +121,6 @@ static void	move_player(t_game_data *gd, enum direction direction)
 		player->x += TILE_WIDTH;
 		gd->player_x_pos += 1;
 	}
+	gd->n_moves += 1;
+	ft_printf("Number of moves: %d\n", gd->n_moves);
 }

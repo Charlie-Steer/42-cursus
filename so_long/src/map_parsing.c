@@ -83,22 +83,18 @@ void	ensure_surrounded_by_walls(t_game_data game_data)
 void	flood_fill(char **map, int x_pos, int y_pos)
 {
 	map[y_pos][x_pos] = '1';
-	// LEFT
 	if (map[y_pos][x_pos - 1] != '1')
 	{
 		flood_fill(map, x_pos - 1, y_pos);
 	}
-	// RIGHT
 	if (map[y_pos][x_pos + 1] != '1')
 	{
 		flood_fill(map, x_pos + 1, y_pos);
 	}
-	// UP
 	if (map[y_pos - 1][x_pos] != '1')
 	{
 		flood_fill(map, x_pos, y_pos - 1);
 	}
-	// DOWN
 	if (map[y_pos + 1][x_pos] != '1')
 	{
 		flood_fill(map, x_pos, y_pos + 1);
