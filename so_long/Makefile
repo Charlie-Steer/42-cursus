@@ -23,10 +23,8 @@ CFLAGS = $(CFLAGS_$(MODE))
 NAME = so_long
 BNAME =
 
-# WARNING: REMOVE debug.c
 SOURCES = \
 	create_game_data.c \
-	debug.c \
 	error_handling_1.c \
 	error_handling_2.c \
 	input_validation.c \
@@ -35,6 +33,7 @@ SOURCES = \
 	setup.c \
 	drawing.c \
 	hooks.c \
+	check_map_bounds.c \
 	so_long.c
 
 BSOURCES = 
@@ -77,7 +76,7 @@ re: fclean all
 test: all
 	@./$(NAME)
 
-bear: fclean
+bear: clean
 	@bear -- make
 
 info:

@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   check_map_bounds.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/05 14:08:51 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/02/05 14:11:36 by cargonz2         ###   ########.fr       */
+/*   Created: 2025/02/12 15:35:58 by cargonz2          #+#    #+#             */
+/*   Updated: 2025/02/12 16:07:48 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEBUG_H
-# define DEBUG_H
+#ifndef CHECK_MAP_BOUNDS_H
+# define CHECK_MAP_BOUNDS_H
 
 # include "so_long.h"
-void	DEBUG_print_map(char **map, int cols, int rows);
-void	DEBUG_print_maps(char **map1, char **map2, int cols, int rows);
+
+void		ensure_surrounded_by_walls(t_game_data game_data);
+
 #endif

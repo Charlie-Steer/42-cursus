@@ -31,18 +31,24 @@ void	create_background(t_game_data gd)
 	int			window_width;
 	int			window_height;
 	mlx_image_t	*background;
+	int			x;
+	int			y;
 
 	window_width = gd.mlx->width;
 	window_height = gd.mlx->height;
 	background = mlx_new_image(gd.mlx, window_width, window_height);
 	if (!background || (mlx_image_to_window(gd.mlx, background, 0, 0) < 0))
 		terminate_program_no_heap_gd(gd, "Background creation error.");
-	for (int x = 0; x < window_width; x++)
+	x = 0;
+	while (x < window_width)
 	{
-		for (int y = 0; y < window_height; y++)
+		y = 0;
+		while (y < window_height)
 		{
 			mlx_put_pixel(background, x, y, 0x000000FF);
+			y++;
 		}
+		x++;
 	}
 }
 

@@ -35,24 +35,17 @@ static t_game_data	validate_map_and_store_map_data(t_game_data gd)
 
 	ensure_surrounded_by_walls(gd);
 	gd = tally_special_tiles(gd, gd.map, gd.rows, gd.cols);
-#if DEBUG >= 1 //! DELETE
-	ft_printf("P: %d\nE: %d\nC: %d\n\n", gd.player_amount, gd.exit_amount,
-		gd.collectible_amount);
-#endif
 	if (gd.player_amount != 1 || gd.exit_amount != 1
 		|| !(gd.collectible_amount >= 1))
-		print_error_free_map_and_exit("Map doesn't meet the requirements"
-										"of one player,"
-										"one exit"
-										"and one or more collectibles.",
-										gd.map,
-										gd.rows);
-	// Check if valid path.
+		print_error_free_map_and_exit(
+			"Map doesn't meet the requirements"
+			"of one player,"
+			"one exit"
+			"and one or more collectibles.",
+			gd.map,
+			gd.rows);
 	floodfill_map = clone_map(gd.map, gd.cols, gd.rows);
 	flood_fill(floodfill_map, gd.player_x_pos, gd.player_y_pos);
-#if DEBUG >= 1 //! DELETE
-	DEBUG_print_maps(gd.map, floodfill_map, gd.cols, gd.rows);
-#endif
 	check_if_valid_path(floodfill_map, gd.cols, gd.rows, gd.map);
 	free_map(floodfill_map, gd.rows);
 	return (gd);

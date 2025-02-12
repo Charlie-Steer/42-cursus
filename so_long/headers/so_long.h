@@ -6,14 +6,14 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:11:39 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/02/05 16:27:09 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:05:36 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define TILE_WIDTH 32
-
 #ifndef SO_LONG_H
 # define SO_LONG_H
+
+# define TILE_WIDTH 32
 
 # include "MLX42/include/MLX42/MLX42.h"
 # include "libft/libft.h"
@@ -21,19 +21,19 @@
 # include <fcntl.h>
 # include <stdbool.h>
 
-typedef struct
+typedef struct s_position
 {
 	int				x;
 	int				y;
 }					t_position;
 
-typedef struct
+typedef struct s_rows_and_cols
 {
 	int				rows;
 	int				cols;
 }					t_rows_and_cols;
 
-typedef struct
+typedef struct s_textures
 {
 	mlx_texture_t	*terrain;
 	mlx_texture_t	*wall;
@@ -42,7 +42,7 @@ typedef struct
 	mlx_texture_t	*exit;
 }					t_textures;
 
-typedef struct
+typedef struct s_images
 {
 	mlx_image_t		*terrain;
 	mlx_image_t		*wall;
@@ -51,7 +51,7 @@ typedef struct
 	mlx_image_t		*player;
 }					t_images;
 
-typedef struct
+typedef struct s_game_data
 {
 	int				rows;
 	int				cols;
@@ -70,7 +70,7 @@ typedef struct
 	mlx_t			*mlx;
 }					t_game_data;
 
-enum				direction
+enum				e_direction
 {
 	UP,
 	DOWN,

@@ -57,7 +57,8 @@ static t_rows_and_cols	get_map_dimensions(int map_fd)
 		if (rows == 1)
 			cols = i;
 		else if (i != cols)
-			print_error_and_exit("Inconsistent map cols. Map must be rectangular.");
+			print_error_and_exit(
+				"Inconsistent map cols. Map must be rectangular.");
 		free(line);
 		line = get_next_line(map_fd);
 	}

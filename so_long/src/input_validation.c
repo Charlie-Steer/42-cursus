@@ -34,11 +34,13 @@ int	check_if_valid_arguments(int argc, char *argv[])
 		if (has_valid_extension(argv[1]))
 			return (1);
 		else
-			ft_putstr_fd("Error\nInvalid map file extension. Please provide a \".ber\" file.\n",
+			ft_putstr_fd("Error\nInvalid map file extension."
+				"Please provide a \".ber\" file.\n",
 				STDERR_FILENO);
 	}
 	else if (argc < 2)
-		ft_putstr_fd("Error\nPlease provide a valid path for a map file as an argument.\n",
+		ft_putstr_fd("Error\n"
+			"Please provide a valid path for a map file as an argument.\n",
 			STDERR_FILENO);
 	else if (argc > 2)
 		ft_putstr_fd("Error\nToo many arguments!\n", STDERR_FILENO);
