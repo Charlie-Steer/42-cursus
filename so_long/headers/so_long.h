@@ -6,14 +6,14 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:11:39 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/02/12 16:05:36 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/02/13 16:55:31 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# define TILE_WIDTH 32
+# define TILE_WIDTH 64
 
 # include "MLX42.h"
 # include "libft.h"
