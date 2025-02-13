@@ -14,6 +14,7 @@
 #include "map_parsing.h"
 #include "read_map.h"
 #include "so_long.h"
+#include "check_map_bounds.h"
 
 static t_game_data	validate_map_and_store_map_data(t_game_data gd);
 static t_game_data	tally_special_tiles(t_game_data gd, char **map, int rows,
@@ -38,9 +39,9 @@ static t_game_data	validate_map_and_store_map_data(t_game_data gd)
 	if (gd.player_amount != 1 || gd.exit_amount != 1
 		|| !(gd.collectible_amount >= 1))
 		print_error_free_map_and_exit(
-			"Map doesn't meet the requirements"
-			"of one player,"
-			"one exit"
+			"Map doesn't meet the requirements "
+			"of one player, "
+			"one exit "
 			"and one or more collectibles.",
 			gd.map,
 			gd.rows);

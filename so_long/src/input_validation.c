@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "so_long.h"
 
 bool	has_valid_extension(char *path)
@@ -34,7 +33,7 @@ int	check_if_valid_arguments(int argc, char *argv[])
 		if (has_valid_extension(argv[1]))
 			return (1);
 		else
-			ft_putstr_fd("Error\nInvalid map file extension."
+			ft_putstr_fd("Error\nInvalid map file extension. "
 				"Please provide a \".ber\" file.\n",
 				STDERR_FILENO);
 	}

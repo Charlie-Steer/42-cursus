@@ -15,8 +15,8 @@
 
 # define TILE_WIDTH 32
 
-# include "MLX42/include/MLX42/MLX42.h"
-# include "libft/libft.h"
+# include "MLX42.h"
+# include "libft.h"
 # include <assert.h>
 # include <fcntl.h>
 # include <stdbool.h>

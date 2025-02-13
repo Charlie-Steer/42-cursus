@@ -23,14 +23,14 @@ t_game_data	get_map_dimensions_and_map(t_game_data game_data, char *map_path)
 
 	map_fd = open(map_path, O_RDONLY);
 	if (map_fd == -1)
-		print_error_and_exit("Couldn't open file");
+		print_error_and_exit("Couldn't open file.");
 	rows_and_cols = get_map_dimensions(map_fd);
 	game_data.rows = rows_and_cols.rows;
 	game_data.cols = rows_and_cols.cols;
 	close(map_fd);
 	map_fd = open(map_path, O_RDONLY);
 	if (map_fd == -1)
-		print_error_and_exit("Couldn't open file");
+		print_error_and_exit("Couldn't open file.");
 	game_data.map = get_map(map_fd, rows_and_cols.rows, rows_and_cols.cols);
 	close(map_fd);
 	return (game_data);
