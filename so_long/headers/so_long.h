@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:11:39 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/02/13 16:55:31 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:28:30 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_game_data
 
 	char			**map;
 
+	t_textures		textures;
 	t_images		images;
 	mlx_t			*mlx;
 }					t_game_data;

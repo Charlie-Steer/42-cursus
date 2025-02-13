@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:49:32 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/02/12 16:08:32 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:17:25 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "so_long.h"
 
+void	free_textures(t_textures textures);
 void	terminate_program_heap_gd(t_game_data *gd, char *error_msg);
 void	terminate_program_no_heap_gd(t_game_data gd, char *error_msg);
 

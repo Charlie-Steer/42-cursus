@@ -16,7 +16,7 @@ HEADERS = -I. -Iheaders -Ilibft -I./MLX42/include/MLX42/ -Ilibft/src/printf -Ili
 MODE ?= dev
 DLVL ?= 0
 LDFLAGS = -ldl -lglfw -pthread -lm
-CFLAGS_dev = -Wall -Wextra -Wunreachable-code -g -DDEBUG=$(DLVL)
+CFLAGS_dev = -Wall -Wextra -Wunreachable-code -g -DDEBUG=$(DLVL) #-fsanitize=address
 CFLAGS_prod = -Wall -Wextra -Werror -Wunreachable-code -DNDEBUG
 CFLAGS = $(CFLAGS_$(MODE))
 

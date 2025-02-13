@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:15:08 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/02/05 16:30:29 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:46:51 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ mlx_t	*init_mlx(t_game_data game_data)
 {
 	mlx_t	*mlx;
 
+	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	mlx = mlx_init(TILE_WIDTH * game_data.cols, TILE_WIDTH * game_data.rows,
-			"So Long", 0);
+			"So Long", true);
 	if (!mlx)
 		print_error_free_map_and_exit("mlx_init() error.", game_data.map,
 			game_data.rows);
@@ -52,26 +53,7 @@ void	create_background(t_game_data gd)
 	}
 }
 
-static t_textures	create_textures(t_game_data gd);
-
-t_images	create_images(t_game_data gd)
-{
-	t_images	images;
-	t_textures	textures;
-
-	textures = create_textures(gd);
-	images.terrain = mlx_texture_to_image(gd.mlx, textures.terrain);
-	images.wall = mlx_texture_to_image(gd.mlx, textures.wall);
-	images.player = mlx_texture_to_image(gd.mlx, textures.player);
-	images.collectible = mlx_texture_to_image(gd.mlx, textures.collectible);
-	images.exit = mlx_texture_to_image(gd.mlx, textures.exit);
-	if (!(images.terrain && images.wall && images.player && images.collectible
-			&& images.exit))
-		terminate_program_no_heap_gd(gd, "Couldn't create images.");
-	return (images);
-}
-
-static t_textures	create_textures(t_game_data gd)
+t_textures	create_textures(t_game_data gd)
 {
 	t_textures	textures;
 
@@ -84,6 +66,23 @@ static t_textures	create_textures(t_game_data gd)
 			&& textures.collectible && textures.exit))
 		terminate_program_no_heap_gd(gd, "Couldn't create textures.");
 	return (textures);
+}
+
+t_images	create_images(t_game_data gd)
+{
+	t_images	images;
+	t_textures	textures;
+
+	textures = gd.textures;
+	images.terrain = mlx_texture_to_image(gd.mlx, textures.terrain);
+	images.wall = mlx_texture_to_image(gd.mlx, textures.wall);
+	images.player = mlx_texture_to_image(gd.mlx, textures.player);
+	images.collectible = mlx_texture_to_image(gd.mlx, textures.collectible);
+	images.exit = mlx_texture_to_image(gd.mlx, textures.exit);
+	if (!(images.terrain && images.wall && images.player && images.collectible
+			&& images.exit))
+		terminate_program_no_heap_gd(gd, "Couldn't create images.");
+	return (images);
 }
 
 void	resize_images(t_game_data game_data)

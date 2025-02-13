@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 20:36:32 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/02/12 16:20:08 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:48:56 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ void	my_key_hook(mlx_key_data_t key_data, void *param)
 		move_player(p_gd, RIGHT);
 	if (is_in_exit(p_gd))
 	{
-		ft_printf("YOU WIN!!!");
+		ft_printf("YOU WIN!!!\n");
 		terminate_program_heap_gd(p_gd, NULL);
 	}
 	if (key_data.key == MLX_KEY_ESCAPE && key_data.action == MLX_PRESS)
 	{
-		ft_printf("Exiting...");
+		ft_printf("Exiting...\n");
 		terminate_program_heap_gd(p_gd, NULL);
 	}
 }

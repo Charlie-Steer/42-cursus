@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:10:19 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/02/05 16:40:07 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:27:51 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	main(int argc, char *argv[])
 		gd = create_game_data(argv[1]);
 		gd.mlx = init_mlx(gd);
 		create_background(gd);
-		gd.images = create_images(gd.mlx);
+		gd.textures = create_textures(gd);
+		gd.images = create_images(gd);
 		resize_images(gd);
 		draw_terrain_and_wall_tiles(gd.images, gd);
 		draw_player_and_collectible_tiles(gd.images, gd);
