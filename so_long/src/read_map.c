@@ -6,11 +6,12 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 19:50:57 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/01/31 14:12:28 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:52:58 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error_handling_1.h"
+#include "error_handling_2.h"
 #include "so_long.h"
 
 static t_rows_and_cols	get_map_dimensions(int map_fd);
@@ -36,6 +37,17 @@ t_game_data	get_map_dimensions_and_map(t_game_data game_data, char *map_path)
 	return (game_data);
 }
 
+static void	exit_with_line_frees(char *line, int map_fd)
+{
+	while (line)
+	{
+		free(line);
+		line = get_next_line(map_fd);
+	}
+	close_file_print_error_and_exit(map_fd,
+		"Inconsistent map cols. Map must be rectangular.");
+}
+
 static t_rows_and_cols	get_map_dimensions(int map_fd)
 {
 	int		rows;
@@ -47,7 +59,7 @@ static t_rows_and_cols	get_map_dimensions(int map_fd)
 	rows = 0;
 	line = get_next_line(map_fd);
 	if (!line)
-		print_error_and_exit("File doesn't exist.");
+		close_file_print_error_and_exit(map_fd, "File doesn't exist.");
 	while (line)
 	{
 		rows++;
@@ -57,8 +69,7 @@ static t_rows_and_cols	get_map_dimensions(int map_fd)
 		if (rows == 1)
 			cols = i;
 		else if (i != cols)
-			print_error_and_exit(
-				"Inconsistent map cols. Map must be rectangular.");
+			exit_with_line_frees(line, map_fd);
 		free(line);
 		line = get_next_line(map_fd);
 	}

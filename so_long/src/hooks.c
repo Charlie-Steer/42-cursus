@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 20:36:32 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/02/13 17:48:56 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:48:24 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ bool	is_direction_wall(enum e_direction direction, t_game_data *p_gd)
 		tile = p_gd->map[p_gd->player_y_pos + 1][p_gd->player_x_pos];
 	else
 		tile = p_gd->map[p_gd->player_y_pos][p_gd->player_x_pos - 1];
-	return (tile == '1' || (tile == 'E' && p_gd->collectible_amount != 0));
+	return (tile == '1');
 }
 
 bool	is_in_exit(t_game_data *p_gd)

@@ -6,14 +6,14 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 18:00:38 by cargonz2          #+#    #+#             */
-/*   Updated: 2024/11/10 09:23:56 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:24:16 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 11
+#  define BUFFER_SIZE 4096
 # endif
 
 # ifndef FOPEN_MAX
