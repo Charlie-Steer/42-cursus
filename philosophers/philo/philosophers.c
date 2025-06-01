@@ -127,14 +127,44 @@ enum					e_fork_state
 	UNAVAILABLE,
 };
 
-// TODO: Pass this to philos as argument.
-// TODO: Pass this to philos as argument.
-// TODO: Pass this to philos as argument.
 typedef struct s_sim_data
 {
-	struct timeval		start_time;
+	long				simulation_start_time;
+	long				simulation_time;
 	enum e_fork_state	*forks;
+	long				sleep_time;
+	long				death_time;
+	long				min_number_of_meals;
 }						t_sim_data;
+
+enum					e_philo_state
+{
+	IDLE,
+	EATING,
+	SLEEPING,
+	THINKING,
+	DEAD,
+};
+
+typedef struct s_philo_data
+{
+	int					id;
+	enum e_philo_state	state;
+	bool				has_fork;
+	enum e_fork_state	*left_fork;
+	enum e_fork_state	*right_fork;
+	long				time_till_death;
+	long				time_till_awake;
+}						t_philo_data;
+
+// TODO: Pass this to philos as argument.
+// TODO: Pass this to philos as argument.
+// TODO: Pass this to philos as argument.
+typedef struct s_data
+{
+	t_sim_data			sim;
+	t_philo_data		philo;
+}						t_data;
 
 int	main(int argc, char *argv[])
 {
