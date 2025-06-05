@@ -179,16 +179,48 @@ void	*simulate_philo(void *args)
 	printf("%ld %d is thinking\n", get_timestamp(sim), philo.id);
 	while (!(sim->some_philo_is_dead))
 	{
-		pthread_mutex_lock(philo.left_fork);
-		pthread_mutex_lock(philo.right_fork);
+		if (philo.id % 2 == 0)
+		{
+			pthread_mutex_lock(philo.left_fork);
+			printf("%ld %d has taken a fork\n", get_timestamp(sim), philo.id);
+			pthread_mutex_lock(philo.right_fork);
+			printf("%ld %d has taken a fork\n", get_timestamp(sim), philo.id);
+		}
+		else
+		{
+			pthread_mutex_lock(philo.right_fork);
+			printf("%ld %d has taken a fork\n", get_timestamp(sim), philo.id);
+			pthread_mutex_lock(philo.left_fork);
+			printf("%ld %d has taken a fork\n", get_timestamp(sim), philo.id);
+		}
+		// for (int i = 0; i < config->n_philo; i++)
+		// {
+		// 	if (&(sim->forks[i]) == philo.left_fork)
+		// 		printf("philo %d TOOK fork %d (LEFT)\n", philo.id, i);
+		// }
+		// for (int i = 0; i < config->n_philo; i++)
+		// {
+		// 	if (&(sim->forks[i]) == philo.right_fork)
+		// 		printf("philo %d TOOK fork %d (RIGHT)\n", philo.id, i);
+		// }
 		philo.state = EATING;
 		printf("%ld %d is eating\n", get_timestamp(sim), philo.id);
 		philo.time_till_death = config->death_time;
 		usleep(config->eat_time * 1000);
-		pthread_mutex_unlock(philo.left_fork);
-		pthread_mutex_unlock(philo.right_fork);
 		philo.state = SLEEPING;
 		printf("%ld %d is sleeping\n", get_timestamp(sim), philo.id);
+		pthread_mutex_unlock(philo.left_fork);
+		// for (int i = 0; i < config->n_philo; i++)
+		// {
+		// 	if (&(sim->forks[i]) == philo.left_fork)
+		// 		printf("philo %d RELEASED fork %d (LEFT)\n", philo.id, i);
+		// }
+		pthread_mutex_unlock(philo.right_fork);
+		// for (int i = 0; i < config->n_philo; i++)
+		// {
+		// 	if (&(sim->forks[i]) == philo.right_fork)
+		// 		printf("philo %d RELEASED fork %d (RIGHT)\n", philo.id, i);
+		// }
 		usleep(config->sleep_time * 1000);
 		printf("%ld %d is thinking\n", get_timestamp(sim), philo.id);
 		philo.state = THINKING;
@@ -210,11 +242,11 @@ t_config	*get_config(int argc, char *argv[])
 	config->sleep_time = str_to_int(argv[4]);
 	if (argc == 6)
 		config->n_meals = str_to_int(argv[5]);
-	printf("%d\n", config->n_philo);
-	printf("%d\n", config->death_time);
-	printf("%d\n", config->eat_time);
-	printf("%d\n", config->sleep_time);
-	printf("%d\n", config->n_meals);
+	// printf("%d\n", config->n_philo);
+	// printf("%d\n", config->death_time);
+	// printf("%d\n", config->eat_time);
+	// printf("%d\n", config->sleep_time);
+	// printf("%d\n", config->n_meals);
 	return (config);
 }
 
@@ -271,23 +303,23 @@ pthread_t	*create_philos(t_config *config, t_sim_data *sim_data)
 	if (data == NULL)
 		return (NULL);
 	i = 0;
+	// printf("n_philo: %d\n", config->n_philo);
 	while (i < config->n_philo)
 	{
-		data->config = config;
-		data->sim = sim_data;
-		data->philo = (t_philo_data){0};
-		data->philo.id = i + 1;
-		data->philo.state = THINKING;
-		data->philo.left_fork = &(sim_data->forks[i]);
-		if (i + 1 > config->n_philo)
-			data->philo.right_fork = &(sim_data->forks[0]);
-		else
-			data->philo.right_fork = &(sim_data->forks[i + 1]);
-		data->philo.time_till_death = config->death_time;
+		data[i].config = config;
+		data[i].sim = sim_data;
+		data[i].philo = (t_philo_data){0};
+		data[i].philo.id = i + 1;
+		data[i].philo.state = THINKING;
+		data[i].philo.left_fork = &(sim_data->forks[i]);
+		data[i].philo.right_fork = &(sim_data->forks[(i + 1)
+				% config->n_philo]);
+		data[i].philo.time_till_death = config->death_time;
 		// NOTE: TIME_TILL_FINISH_EATING missing?
-		data->philo.time_till_awake = config->sleep_time;
+		data[i].philo.time_till_awake = config->sleep_time;
+		// printf("id: %d\n", data[i].philo.id);
 		if (pthread_create(&(philo_threads[i]), NULL, simulate_philo,
-				data) != 0)
+				&data[i]) != 0)
 			return (NULL);
 		i++;
 	}
@@ -312,6 +344,8 @@ int	main(int argc, char *argv[])
 	if (!philo_threads)
 		return (EXIT_FAILURE);
 	// TODO: Join threads on death or meal goal met.
+	while (true)
+		;
 	// TODO: Clean up threads and mutexes.
 	return (EXIT_SUCCESS);
 }
