@@ -21,7 +21,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-enum					e_time_unit
+enum				e_time_unit
 {
 	USEC,
 	MSEC,
@@ -106,50 +106,41 @@ void	*allocate(int bytes)
 
 typedef struct s_sim_data
 {
-	struct timeval		simulation_start_timeval;
-	long				simulation_time;
-	pthread_mutex_t		*forks;
-	bool				some_philo_is_dead;
-	bool				quota_has_been_met;
-	pthread_mutex_t		death_mutex;
-	pthread_mutex_t		quota_mutex;
-	int					*meals_had;
-	pthread_mutex_t		*meals_had_mutexes;
-}						t_sim_data;
-
-enum					e_philo_state
-{
-	THINKING,
-	EATING,
-	SLEEPING,
-	DEAD,
-};
+	struct timeval	simulation_start_timeval;
+	long			simulation_time;
+	pthread_mutex_t	*forks;
+	bool			some_philo_is_dead;
+	bool			quota_has_been_met;
+	pthread_mutex_t	death_mutex;
+	pthread_mutex_t	quota_mutex;
+	int				*meals_had;
+	pthread_mutex_t	*meals_had_mutexes;
+}					t_sim_data;
 
 typedef struct s_philo_data
 {
-	int					id;
-	enum e_philo_state	state;
-	pthread_mutex_t		*left_fork;
-	pthread_mutex_t		*right_fork;
-	long				last_meal_time_us;
-	pthread_mutex_t		*last_meal_time_mutex;
-}						t_philo_data;
+	int				id;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
+	long			last_meal_time_us;
+	pthread_mutex_t	*last_meal_time_mutex;
+}					t_philo_data;
 
 typedef struct s_config
 {
-	int					n_philo;
-	int					death_time_us;
-	int					eat_time_us;
-	int					sleep_time_us;
-	int					n_meals;
-}						t_config;
+	int				n_philo;
+	int				death_time_us;
+	int				eat_time_us;
+	int				sleep_time_us;
+	int				n_meals;
+}					t_config;
 
 typedef struct s_data
 {
-	t_config			*config;
-	t_sim_data			*sim;
-	t_philo_data		*philo;
-}						t_data;
+	t_config		*config;
+	t_sim_data		*sim;
+	t_philo_data	*philo;
+}					t_data;
 
 long	get_time_ms(t_sim_data *sim_data)
 {
@@ -397,41 +388,11 @@ t_philo_data	*create_philo_data_array(t_config *config, t_sim_data *sim_data)
 
 typedef struct s_threads_and_data
 {
-	pthread_t			*philo_threads;
-	t_data				*data;
-}						t_threads_and_data;
+	pthread_t		*philo_threads;
+	t_data			*data;
+}					t_threads_and_data;
 
-pthread_t	*create_philo_threads(t_config *config, t_sim_data *sim_data,
-		t_philo_data *philo_data_array)
-{
-	pthread_t	*philo_threads;
-	int			i;
-	t_data		*data;
-
-	// t_threads_and_data	threads_and_data;
-	philo_threads = allocate(config->n_philo * sizeof(pthread_t));
-	if (philo_threads == NULL)
-		return (NULL);
-	i = 0;
-	while (i < config->n_philo)
-	{
-		data[i].config = config;
-		data[i].sim = sim_data;
-		data[i].philo = &philo_data_array[i];
-		if (pthread_create(&philo_threads[i], NULL, simulate_philo,
-				&data[i]) != 0)
-			return (NULL);
-		// pthread_detach(philo_threads[i]);
-		i++;
-	}
-	// threads_and_data = (t_threads_and_data){
-	// 	.philo_threads = philo_threads,
-	// 	.data = data,
-	// };
-	return (philo_threads);
-}
-
-t_data	*create_data_struct(t_config *config, t_sim_data *sim_data,
+t_data	*create_data_array(t_config *config, t_sim_data *sim_data,
 		t_philo_data *philo_data_array)
 {
 	t_data	*data_array;
@@ -451,6 +412,26 @@ t_data	*create_data_struct(t_config *config, t_sim_data *sim_data,
 		i++;
 	}
 	return (data_array);
+}
+
+pthread_t	*create_philo_threads(t_data *data_array, t_config *config)
+{
+	pthread_t	*philo_threads;
+	int			i;
+
+	philo_threads = allocate(config->n_philo * sizeof(pthread_t));
+	if (philo_threads == NULL)
+		return (NULL);
+	i = 0;
+	while (i < config->n_philo)
+	{
+		if (pthread_create(&philo_threads[i], NULL, simulate_philo,
+				&data_array[i]) != 0)
+			return (NULL);
+		// pthread_detach(philo_threads[i]);
+		i++;
+	}
+	return (philo_threads);
 }
 
 void	infinite_check_for_death(t_sim_data *sim_data, t_config *config,
@@ -520,7 +501,7 @@ void	join_threads(t_config *config, pthread_t *philo_threads)
 }
 
 void	cleanup(t_sim_data *sim_data, t_philo_data *philo_data_array,
-		t_config *config, pthread_t *philo_threads)
+		t_config *config)
 {
 	int	i;
 
@@ -536,12 +517,26 @@ void	cleanup(t_sim_data *sim_data, t_philo_data *philo_data_array,
 	pthread_mutex_destroy(&sim_data->quota_mutex);
 }
 
+void	free_stuff(t_data *data_array, pthread_t *philo_threads)
+{
+	free(data_array->config);
+	free(data_array->sim->forks);
+	free(data_array->sim->meals_had);
+	free(data_array->sim->meals_had_mutexes);
+	free(data_array->sim);
+	free(data_array->philo->last_meal_time_mutex);
+	free(data_array->philo);
+	free(data_array);
+	free(philo_threads);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_config		*config;
 	t_sim_data		*sim_data;
 	pthread_t		*philo_threads;
 	t_philo_data	*philo_data_array;
+	t_data			*data_array;
 
 	if (!are_arguments_valid(argc, argv))
 		return (EXIT_FAILURE);
@@ -554,12 +549,15 @@ int	main(int argc, char *argv[])
 	philo_data_array = create_philo_data_array(config, sim_data);
 	if (philo_data_array == NULL)
 		return (EXIT_FAILURE);
-	philo_threads = create_philo_threads(config, sim_data, philo_data_array);
+	data_array = create_data_array(config, sim_data, philo_data_array);
+	if (data_array == NULL)
+		return (EXIT_FAILURE);
+	philo_threads = create_philo_threads(data_array, config);
 	if (!philo_threads)
 		return (EXIT_FAILURE);
 	infinite_check_for_death(sim_data, config, philo_data_array);
-	// usleep(10000000);
 	join_threads(config, philo_threads);
-	cleanup(sim_data, philo_data_array, config, philo_threads);
+	cleanup(sim_data, philo_data_array, config);
+	free_stuff(data_array, philo_threads);
 	return (EXIT_SUCCESS);
 }
