@@ -104,21 +104,15 @@ void	*allocate(int bytes)
 	return (block);
 }
 
-// enum					e_fork_state
-// {
-// 	AVAILABLE,
-// 	UNAVAILABLE,
-// };
-
 typedef struct s_sim_data
 {
 	struct timeval		simulation_start_timeval;
-	// long simulation_start_time_us; // NOTE: UNUSED.
 	long				simulation_time;
-	// enum e_fork_state	*forks;
 	pthread_mutex_t		*forks;
 	bool				some_philo_is_dead;
-	pthread_mutex_t		*death_mutexes;
+	bool				quota_has_been_met;
+	pthread_mutex_t		death_mutex;
+	pthread_mutex_t		quota_mutex;
 	int					*meals_had;
 	pthread_mutex_t		*meals_had_mutexes;
 }						t_sim_data;
@@ -135,21 +129,11 @@ typedef struct s_philo_data
 {
 	int					id;
 	enum e_philo_state	state;
-	// bool				has_fork;
-	// enum e_fork_state	*left_fork;
-	// enum e_fork_state	*right_fork;
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*right_fork;
 	long				last_meal_time_us;
 	pthread_mutex_t		*last_meal_time_mutex;
 }						t_philo_data;
-
-// enum					e_state
-// {
-// 	STATE_EATING,
-// 	STATE_THINKING,
-// 	STATE_SLEEPING,
-// };
 
 typedef struct s_config
 {
@@ -160,9 +144,6 @@ typedef struct s_config
 	int					n_meals;
 }						t_config;
 
-// TODO: Pass this to philos as argument.
-// TODO: Pass this to philos as argument.
-// TODO: Pass this to philos as argument.
 typedef struct s_data
 {
 	t_config			*config;
@@ -212,10 +193,10 @@ long	get_time_us(t_sim_data *sim_data)
 bool	is_some_philo_dead(t_sim_data *sim_data, t_philo_data *philo,
 		bool is_during_meal)
 {
-	pthread_mutex_lock(&sim_data->death_mutexes[philo->id - 1]);
+	pthread_mutex_lock(&sim_data->death_mutex);
 	if (sim_data->some_philo_is_dead)
 	{
-		pthread_mutex_unlock(&sim_data->death_mutexes[philo->id - 1]);
+		pthread_mutex_unlock(&sim_data->death_mutex);
 		if (is_during_meal)
 		{
 			pthread_mutex_unlock(philo->left_fork);
@@ -225,7 +206,30 @@ bool	is_some_philo_dead(t_sim_data *sim_data, t_philo_data *philo,
 	}
 	else
 	{
-		pthread_mutex_unlock(&sim_data->death_mutexes[philo->id - 1]);
+		pthread_mutex_unlock(&sim_data->death_mutex);
+		return (false);
+	}
+}
+
+bool	has_quota_been_met(t_sim_data *sim_data, t_philo_data *philo,
+		bool is_during_meal)
+{
+	bool	quota_has_been_met;
+
+	pthread_mutex_lock(&sim_data->quota_mutex);
+	quota_has_been_met = sim_data->quota_has_been_met;
+	pthread_mutex_unlock(&sim_data->quota_mutex);
+	if (quota_has_been_met)
+	{
+		if (is_during_meal)
+		{
+			pthread_mutex_unlock(philo->left_fork);
+			pthread_mutex_unlock(philo->right_fork);
+		}
+		return (true);
+	}
+	else
+	{
 		return (false);
 	}
 }
@@ -242,7 +246,8 @@ void	*simulate_philo(void *args)
 	printf("%05ld %d is thinking\n", get_time_ms(sim), philo->id);
 	while (true)
 	{
-		if (is_some_philo_dead(sim, philo, false))
+		if (is_some_philo_dead(sim, philo, false) || has_quota_been_met(sim,
+				philo, false))
 			return (NULL);
 		if (philo->id % 2 == 0)
 		{
@@ -258,26 +263,25 @@ void	*simulate_philo(void *args)
 			pthread_mutex_lock(philo->left_fork);
 			printf("%05ld %d has taken a fork\n", get_time_ms(sim), philo->id);
 		}
-		philo->state = EATING;
-		pthread_mutex_lock(&(philo->last_meal_time_mutex[philo->id - 1]));
+		pthread_mutex_lock(&(philo->last_meal_time_mutex[0]));
 		philo->last_meal_time_us = get_time_us(sim);
-		pthread_mutex_unlock(&(philo->last_meal_time_mutex[philo->id - 1]));
+		pthread_mutex_unlock(&(philo->last_meal_time_mutex[0]));
 		pthread_mutex_lock(&(sim->meals_had_mutexes[philo->id - 1]));
 		sim->meals_had[philo->id - 1] += 1;
 		pthread_mutex_unlock(&(sim->meals_had_mutexes[philo->id - 1]));
 		printf("%05ld %d is eating\n", get_time_ms(sim), philo->id);
 		usleep(config->eat_time_us);
-		philo->state = SLEEPING;
-		if (is_some_philo_dead(sim, philo, true))
+		if (is_some_philo_dead(sim, philo, true) || has_quota_been_met(sim,
+				philo, true))
 			return (NULL);
 		printf("%05ld %d is sleeping\n", get_time_ms(sim), philo->id);
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
 		usleep(config->sleep_time_us);
-		if (is_some_philo_dead(sim, philo, false))
+		if (is_some_philo_dead(sim, philo, false) || has_quota_been_met(sim,
+				philo, false))
 			return (NULL);
 		printf("%05ld %d is thinking\n", get_time_ms(sim), philo->id);
-		philo->state = THINKING;
 	}
 	return (NULL);
 }
@@ -332,9 +336,8 @@ struct timeval	get_timeval(void)
 
 t_sim_data	*get_sim_data(t_config *config)
 {
-	t_sim_data		*sim_data;
-	int				i;
-	pthread_mutex_t	fork_mutex;
+	t_sim_data	*sim_data;
+	int			i;
 
 	sim_data = allocate(sizeof(t_sim_data));
 	if (sim_data == NULL)
@@ -347,17 +350,18 @@ t_sim_data	*get_sim_data(t_config *config)
 		.meals_had = allocate(config->n_philo * sizeof(int)),
 		.meals_had_mutexes = allocate(config->n_philo
 				* sizeof(pthread_mutex_t)),
-		.death_mutexes = allocate(config->n_philo * sizeof(pthread_mutex_t)),
+		// .death_mutex = allocate(config->n_philo * sizeof(pthread_mutex_t)),
 	};
 	if (sim_data->forks == NULL || sim_data->meals_had_mutexes == NULL
-		|| sim_data->meals_had == NULL || sim_data->death_mutexes == NULL)
+		|| sim_data->meals_had == NULL)
 		return (NULL);
 	i = 0;
 	while (i < config->n_philo)
 	{
 		pthread_mutex_init(&(sim_data->forks[i]), NULL);
 		pthread_mutex_init(&(sim_data->meals_had_mutexes[i]), NULL);
-		pthread_mutex_init(&(sim_data->death_mutexes[i]), NULL);
+		pthread_mutex_init(&(sim_data->death_mutex), NULL);
+		pthread_mutex_init(&(sim_data->quota_mutex), NULL);
 		i++;
 	}
 	return (sim_data);
@@ -381,7 +385,6 @@ t_philo_data	*create_philo_data_array(t_config *config, t_sim_data *sim_data)
 		pthread_mutex_init(&mutexes[i], NULL);
 		philo_data_array[i] = (t_philo_data){
 			.id = i + 1,
-			.state = THINKING,
 			.left_fork = &(sim_data->forks[i]),
 			.right_fork = &(sim_data->forks[(i + 1) % config->n_philo]),
 			.last_meal_time_us = get_time_us(sim_data),
@@ -392,6 +395,12 @@ t_philo_data	*create_philo_data_array(t_config *config, t_sim_data *sim_data)
 	return (philo_data_array);
 }
 
+typedef struct s_threads_and_data
+{
+	pthread_t			*philo_threads;
+	t_data				*data;
+}						t_threads_and_data;
+
 pthread_t	*create_philo_threads(t_config *config, t_sim_data *sim_data,
 		t_philo_data *philo_data_array)
 {
@@ -399,11 +408,9 @@ pthread_t	*create_philo_threads(t_config *config, t_sim_data *sim_data,
 	int			i;
 	t_data		*data;
 
+	// t_threads_and_data	threads_and_data;
 	philo_threads = allocate(config->n_philo * sizeof(pthread_t));
 	if (philo_threads == NULL)
-		return (NULL);
-	data = allocate(config->n_philo * sizeof(t_data));
-	if (data == NULL)
 		return (NULL);
 	i = 0;
 	while (i < config->n_philo)
@@ -414,10 +421,36 @@ pthread_t	*create_philo_threads(t_config *config, t_sim_data *sim_data,
 		if (pthread_create(&philo_threads[i], NULL, simulate_philo,
 				&data[i]) != 0)
 			return (NULL);
-		pthread_detach(philo_threads[i]);
+		// pthread_detach(philo_threads[i]);
 		i++;
 	}
+	// threads_and_data = (t_threads_and_data){
+	// 	.philo_threads = philo_threads,
+	// 	.data = data,
+	// };
 	return (philo_threads);
+}
+
+t_data	*create_data_struct(t_config *config, t_sim_data *sim_data,
+		t_philo_data *philo_data_array)
+{
+	t_data	*data_array;
+	int		i;
+
+	data_array = allocate(config->n_philo * sizeof(t_data));
+	if (data_array == NULL)
+		return (NULL);
+	i = 0;
+	while (i < config->n_philo)
+	{
+		data_array[i] = (t_data){
+			.config = config,
+			.sim = sim_data,
+			.philo = &philo_data_array[i],
+		};
+		i++;
+	}
+	return (data_array);
 }
 
 void	infinite_check_for_death(t_sim_data *sim_data, t_config *config,
@@ -441,9 +474,9 @@ void	infinite_check_for_death(t_sim_data *sim_data, t_config *config,
 			{
 				pthread_mutex_unlock(&(philo_data_array->last_meal_time_mutex[i]));
 				printf("%05ld %d died\n", get_time_ms(sim_data), i + 1);
-				pthread_mutex_lock(&sim_data->death_mutexes[i]);
+				pthread_mutex_lock(&sim_data->death_mutex);
 				sim_data->some_philo_is_dead = true;
-				pthread_mutex_unlock(&sim_data->death_mutexes[i]);
+				pthread_mutex_unlock(&sim_data->death_mutex);
 				return ;
 			}
 			pthread_mutex_unlock(&(philo_data_array->last_meal_time_mutex[i]));
@@ -455,18 +488,39 @@ void	infinite_check_for_death(t_sim_data *sim_data, t_config *config,
 				break ;
 			}
 			else
-				printf("%d IS SATED\n", i + 1);
-			pthread_mutex_unlock(&(sim_data->meals_had_mutexes[i]));
+			{
+				pthread_mutex_unlock(&(sim_data->meals_had_mutexes[i]));
+				// printf("%d IS SATED\n", i + 1);
+			}
 			i++;
 		}
-		if (all_philos_met_the_quota)
+		if (config->n_meals > 0 && all_philos_met_the_quota)
+		{
+			printf("ALL PHILOS MET THE QUOTA!!!\n");
+			pthread_mutex_lock(&sim_data->quota_mutex);
+			sim_data->quota_has_been_met = true;
+			pthread_mutex_unlock(&sim_data->quota_mutex);
 			return ;
+		}
 		usleep(1000);
 	}
 }
 
+void	join_threads(t_config *config, pthread_t *philo_threads)
+{
+	int	i;
+
+	i = 0;
+	while (i < config->n_philo)
+	{
+		pthread_join(philo_threads[i], NULL);
+		printf("THREAD %d joined\n", i + 1);
+		i++;
+	}
+}
+
 void	cleanup(t_sim_data *sim_data, t_philo_data *philo_data_array,
-		t_config *config)
+		t_config *config, pthread_t *philo_threads)
 {
 	int	i;
 
@@ -475,10 +529,11 @@ void	cleanup(t_sim_data *sim_data, t_philo_data *philo_data_array,
 	{
 		pthread_mutex_destroy(&sim_data->meals_had_mutexes[i]);
 		pthread_mutex_destroy(&sim_data->forks[i]);
-		pthread_mutex_destroy(&sim_data->death_mutexes[i]);
-		pthread_mutex_destroy(&philo_data_array[i].last_meal_time_mutex[i]);
+		pthread_mutex_destroy(philo_data_array[i].last_meal_time_mutex);
 		i++;
 	}
+	pthread_mutex_destroy(&sim_data->death_mutex);
+	pthread_mutex_destroy(&sim_data->quota_mutex);
 }
 
 int	main(int argc, char *argv[])
@@ -503,6 +558,8 @@ int	main(int argc, char *argv[])
 	if (!philo_threads)
 		return (EXIT_FAILURE);
 	infinite_check_for_death(sim_data, config, philo_data_array);
-	cleanup(sim_data, philo_data_array, config);
+	// usleep(10000000);
+	join_threads(config, philo_threads);
+	cleanup(sim_data, philo_data_array, config, philo_threads);
 	return (EXIT_SUCCESS);
 }
