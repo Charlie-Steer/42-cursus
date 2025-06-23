@@ -507,7 +507,7 @@ void	join_threads(t_config *config, pthread_t *philo_threads)
 	while (i < config->n_philo)
 	{
 		pthread_join(philo_threads[i], NULL);
-		printf("THREAD %d joined\n", i + 1);
+		// printf("THREAD %d joined\n", i + 1);
 		i++;
 	}
 }
