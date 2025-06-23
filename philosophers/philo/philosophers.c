@@ -66,13 +66,13 @@ int	str_to_int(char *str)
 	return (num);
 }
 
-bool	check_if_number(char *str)
+bool	check_if_positive_number(char *str)
 {
 	int	i;
 
 	i = 0;
-	if (str[0] == '-' || str[1] == '+')
-		i += 1;
+	// if (str[0] == '-' || str[1] == '+')
+	// 	i += 1;
 	while (str[i] != '\0' && (str[i] >= '0' && str[i] <= '9'))
 		i++;
 	if (str[i] == '\0')
@@ -88,7 +88,7 @@ bool	check_if_arguments_are_valid(int argc, char *argv[])
 	i = 1;
 	while (i < argc)
 	{
-		if (!check_if_number(argv[i]))
+		if (!check_if_positive_number(argv[i]))
 			return (false);
 		i++;
 	}
@@ -240,13 +240,24 @@ void	*simulate_philo(void *args)
 		if (is_some_philo_dead(sim, philo, false) || has_quota_been_met(sim,
 				philo, false))
 			return (NULL);
-		if (philo->id % 2 == 0)
+		if (philo->id % 2 == 0 || config->n_philo == 1)
 		{
 			pthread_mutex_lock(philo->left_fork);
 			if (is_some_philo_dead(sim, philo, true) || has_quota_been_met(sim,
 					philo, true))
 				return (NULL);
 			printf("%05ld %d has taken a fork\n", get_time_ms(sim), philo->id);
+			// single philo logic.
+			if (philo->right_fork == NULL)
+			{
+				while (1)
+				{
+					if (is_some_philo_dead(sim, philo, false)
+						|| has_quota_been_met(sim, philo, false))
+						return (NULL);
+					usleep(1000);
+				}
+			}
 			pthread_mutex_lock(philo->right_fork);
 			if (is_some_philo_dead(sim, philo, true) || has_quota_been_met(sim,
 					philo, true))
@@ -322,7 +333,7 @@ bool	are_arguments_valid(int argc, char *argv[])
 	}
 	else if (!check_if_arguments_are_valid(argc, argv))
 	{
-		printf("ERROR: All arguments must be numbers.\n");
+		printf("ERROR: All arguments must be positive numbers.\n");
 		return (false);
 	}
 	else
@@ -395,6 +406,8 @@ t_philo_data	*create_philo_data_array(t_config *config, t_sim_data *sim_data)
 		};
 		i++;
 	}
+	if (config->n_philo == 1)
+		philo_data_array[0].right_fork = NULL;
 	return (philo_data_array);
 }
 
@@ -489,7 +502,7 @@ void	infinite_check_for_death(t_sim_data *sim_data, t_config *config,
 		}
 		if (config->n_meals > 0 && all_philos_met_the_quota)
 		{
-			printf("ALL PHILOS MET THE QUOTA!!!\n");
+			// printf("ALL PHILOS MET THE QUOTA!!!\n");
 			pthread_mutex_lock(&sim_data->quota_mutex);
 			sim_data->quota_has_been_met = true;
 			pthread_mutex_unlock(&sim_data->quota_mutex);
@@ -504,8 +517,10 @@ void	join_threads(t_config *config, pthread_t *philo_threads)
 	int	i;
 
 	i = 0;
+	// printf("n_philo: %d\n", config->n_philo);
 	while (i < config->n_philo)
 	{
+		// printf("i: %d\n", i);
 		pthread_join(philo_threads[i], NULL);
 		// printf("THREAD %d joined\n", i + 1);
 		i++;
