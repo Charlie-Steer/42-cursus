@@ -243,15 +243,27 @@ void	*simulate_philo(void *args)
 		if (philo->id % 2 == 0)
 		{
 			pthread_mutex_lock(philo->left_fork);
+			if (is_some_philo_dead(sim, philo, true) || has_quota_been_met(sim,
+					philo, true))
+				return (NULL);
 			printf("%05ld %d has taken a fork\n", get_time_ms(sim), philo->id);
 			pthread_mutex_lock(philo->right_fork);
+			if (is_some_philo_dead(sim, philo, true) || has_quota_been_met(sim,
+					philo, true))
+				return (NULL);
 			printf("%05ld %d has taken a fork\n", get_time_ms(sim), philo->id);
 		}
 		else
 		{
 			pthread_mutex_lock(philo->right_fork);
+			if (is_some_philo_dead(sim, philo, true) || has_quota_been_met(sim,
+					philo, true))
+				return (NULL);
 			printf("%05ld %d has taken a fork\n", get_time_ms(sim), philo->id);
 			pthread_mutex_lock(philo->left_fork);
+			if (is_some_philo_dead(sim, philo, true) || has_quota_been_met(sim,
+					philo, true))
+				return (NULL);
 			printf("%05ld %d has taken a fork\n", get_time_ms(sim), philo->id);
 		}
 		pthread_mutex_lock(&(philo->last_meal_time_mutex[0]));
