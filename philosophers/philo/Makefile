@@ -4,7 +4,13 @@ LDFLAGS =
 
 NAME = philosophers
 
-SOURCES = philosophers.c
+SOURCES = \
+	philosophers.c \
+	cleanup.c \
+	parsing.c \
+	setup.c \
+	time_management.c \
+	utils.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
