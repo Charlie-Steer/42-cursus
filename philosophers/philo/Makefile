@@ -10,7 +10,9 @@ SOURCES = \
 	parsing.c \
 	setup.c \
 	time_management.c \
-	utils.c
+	utils.c \
+	simulation.c \
+	termination_checks.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

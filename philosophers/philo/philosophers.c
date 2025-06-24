@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 12:22:20 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/06/24 19:16:39 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/06/24 19:36:57 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "parsing.h"
 #include "philosophers.h"
 #include "setup.h"
+#include "simulation.h"
 #include "time_management.h"
 #include "utils.h"
 #include <pthread.h>
@@ -22,148 +23,6 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include <unistd.h>
-
-bool	is_philo_dead(t_sim_data *sim_data, t_philo_data *philo,
-		bool is_during_meal)
-{
-	pthread_mutex_lock(&sim_data->death_mutex);
-	if (sim_data->some_philo_is_dead)
-	{
-		pthread_mutex_unlock(&sim_data->death_mutex);
-		if (is_during_meal)
-		{
-			pthread_mutex_unlock(philo->left_fork);
-			pthread_mutex_unlock(philo->right_fork);
-		}
-		return (true);
-	}
-	else
-	{
-		pthread_mutex_unlock(&sim_data->death_mutex);
-		return (false);
-	}
-}
-
-bool	is_quota_met(t_sim_data *sim_data, t_philo_data *philo,
-		bool is_during_meal)
-{
-	bool	quota_has_been_met;
-
-	pthread_mutex_lock(&sim_data->quota_mutex);
-	quota_has_been_met = sim_data->quota_has_been_met;
-	pthread_mutex_unlock(&sim_data->quota_mutex);
-	if (quota_has_been_met)
-	{
-		if (is_during_meal)
-		{
-			pthread_mutex_unlock(philo->left_fork);
-			pthread_mutex_unlock(philo->right_fork);
-		}
-		return (true);
-	}
-	else
-	{
-		return (false);
-	}
-}
-
-int	manage_single_philo(t_philo_data *philo, t_sim_data *sim)
-{
-	pthread_mutex_lock(philo->left_fork);
-	if (is_philo_dead(sim, philo, true) || is_quota_met(sim, philo, true))
-		return (-1);
-	printf("%05ld %d has taken a fork\n", get_time_ms(sim), philo->id);
-	while (true)
-	{
-		if (is_philo_dead(sim, philo, false))
-			return (-1);
-		usleep(1000);
-	}
-}
-
-int	grab_forks(t_philo_data *philo, t_config *config, t_sim_data *sim)
-{
-	if (config->n_philo == 1)
-		return (manage_single_philo(philo, sim));
-	else if (philo->id % 2 == 0)
-	{
-		pthread_mutex_lock(philo->left_fork);
-		if (is_philo_dead(sim, philo, true) || is_quota_met(sim, philo, true))
-			return (-1);
-		printf("%05ld %d has taken a fork\n", get_time_ms(sim), philo->id);
-		pthread_mutex_lock(philo->right_fork);
-		if (is_philo_dead(sim, philo, true) || is_quota_met(sim, philo, true))
-			return (-1);
-		printf("%05ld %d has taken a fork\n", get_time_ms(sim), philo->id);
-	}
-	else
-	{
-		pthread_mutex_lock(philo->right_fork);
-		if (is_philo_dead(sim, philo, true) || is_quota_met(sim, philo, true))
-			return (-1);
-		printf("%05ld %d has taken a fork\n", get_time_ms(sim), philo->id);
-		pthread_mutex_lock(philo->left_fork);
-		if (is_philo_dead(sim, philo, true) || is_quota_met(sim, philo, true))
-			return (-1);
-		printf("%05ld %d has taken a fork\n", get_time_ms(sim), philo->id);
-	}
-	return (0);
-}
-
-int	eat(t_philo_data *philo, t_sim_data *sim, t_config *config)
-{
-	pthread_mutex_lock(&(philo->last_meal_time_mutex[0]));
-	philo->last_meal_time_us = get_time_us(sim);
-	pthread_mutex_unlock(&(philo->last_meal_time_mutex[0]));
-	pthread_mutex_lock(&(sim->meals_had_mutexes[philo->id - 1]));
-	sim->meals_had[philo->id - 1] += 1;
-	pthread_mutex_unlock(&(sim->meals_had_mutexes[philo->id - 1]));
-	printf("%05ld %d is eating\n", get_time_ms(sim), philo->id);
-	usleep(config->eat_time_us);
-	if (is_philo_dead(sim, philo, true) || is_quota_met(sim, philo, true))
-		return (-1);
-	else
-		return (0);
-}
-
-int	go_sleep(t_philo_data *philo, t_sim_data *sim, t_config *config)
-{
-	printf("%05ld %d is sleeping\n", get_time_ms(sim), philo->id);
-	pthread_mutex_unlock(philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
-	usleep(config->sleep_time_us);
-	if (is_philo_dead(sim, philo, false) || is_quota_met(sim, philo, false))
-		return (-1);
-	else
-		return (0);
-}
-
-void	*simulate_philo(void *args)
-{
-	t_config		*config;
-	t_sim_data		*sim;
-	t_philo_data	*philo;
-
-	config = ((t_data *)args)->config;
-	sim = ((t_data *)args)->sim;
-	philo = ((t_data *)args)->philo;
-	printf("%05ld %d is thinking\n", get_time_ms(sim), philo->id);
-	while (true)
-	{
-		if (is_philo_dead(sim, philo, false) || is_quota_met(sim, philo, false))
-			return (NULL);
-		if (grab_forks(philo, config, sim) == -1)
-			return (NULL);
-		if (eat(philo, sim, config) == -1)
-			return (NULL);
-		if (go_sleep(philo, sim, config) == -1)
-			return (NULL);
-		printf("%05ld %d is thinking\n", get_time_ms(sim), philo->id);
-		if (philo->id % 2 != 0)
-			usleep(1000);
-	}
-	return (NULL);
-}
 
 pthread_t	*create_philo_threads(t_data *data_array, t_config *config)
 {
@@ -184,7 +43,11 @@ pthread_t	*create_philo_threads(t_data *data_array, t_config *config)
 	return (philo_threads);
 }
 
-void	infinite_check_for_death(t_sim_data *sim_data, t_config *config,
+// bool check_for_death() {
+//
+// }
+
+void	monitor_threads(t_sim_data *sim_data, t_config *config,
 		t_philo_data *philo_data_array)
 {
 	int		i;
@@ -217,9 +80,7 @@ void	infinite_check_for_death(t_sim_data *sim_data, t_config *config,
 				break ;
 			}
 			else
-			{
 				pthread_mutex_unlock(&(sim_data->meals_had_mutexes[i]));
-			}
 			i++;
 		}
 		if (config->n_meals > 0 && all_philos_met_the_quota)
@@ -243,6 +104,15 @@ void	join_threads(t_config *config, pthread_t *philo_threads)
 		pthread_join(philo_threads[i], NULL);
 		i++;
 	}
+}
+
+int	end_simulation(t_data *data_array, t_philo_data *philo_data_array,
+		pthread_t *philo_threads)
+{
+	join_threads(data_array[0].config, philo_threads);
+	destroy_mutexes(data_array[0].sim, philo_data_array, data_array[0].config);
+	free_stuff(data_array, philo_threads);
+	return (EXIT_SUCCESS);
 }
 
 int	main(int argc, char *argv[])
@@ -270,10 +140,7 @@ int	main(int argc, char *argv[])
 	philo_threads = create_philo_threads(data_array, config);
 	if (!philo_threads)
 		return (EXIT_FAILURE);
-	infinite_check_for_death(sim_data, config, philo_data_array);
-	join_threads(config, philo_threads);
-	destroy_mutexes(sim_data, philo_data_array, config);
-	free_stuff(data_array, philo_threads);
-	return (EXIT_SUCCESS);
+	monitor_threads(sim_data, config, philo_data_array);
+	return (end_simulation(data_array, philo_data_array, philo_threads));
 }
 // TODO: Check LEAKS!
