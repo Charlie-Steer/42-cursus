@@ -12,7 +12,8 @@ SOURCES = \
 	time_management.c \
 	utils.c \
 	simulation.c \
-	termination_checks.c
+	termination_checks.c \
+	monitoring.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 17:32:06 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/06/24 17:47:44 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:13:44 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,15 @@ bool	check_if_arguments_are_valid(int argc, char *argv[])
 	return (true);
 }
 
+bool	is_philo_zero(char *number_of_philosophers_str)
+{
+	if (number_of_philosophers_str[0] != '\0'
+		&& number_of_philosophers_str[0] != '0')
+		return (false);
+	else
+		return (true);
+}
+
 bool	are_arguments_valid(int argc, char *argv[])
 {
 	if (argc != 5 && argc != 6)
@@ -51,6 +60,11 @@ bool	are_arguments_valid(int argc, char *argv[])
 	else if (!check_if_arguments_are_valid(argc, argv))
 	{
 		printf("ERROR: All arguments must be positive numbers.\n");
+		return (false);
+	}
+	else if (is_philo_zero(argv[1]))
+	{
+		printf("ERROR: Number of philosophers must be larger than 0.\n");
 		return (false);
 	}
 	else
