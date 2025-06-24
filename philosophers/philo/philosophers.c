@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 12:22:20 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/06/24 18:58:21 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/06/24 19:16:39 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,8 +159,8 @@ void	*simulate_philo(void *args)
 		if (go_sleep(philo, sim, config) == -1)
 			return (NULL);
 		printf("%05ld %d is thinking\n", get_time_ms(sim), philo->id);
-		// if (philo->id % 2 != 0)
-		usleep(200);
+		if (philo->id % 2 != 0)
+			usleep(1000);
 	}
 	return (NULL);
 }
