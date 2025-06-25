@@ -6,14 +6,12 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 19:19:58 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/06/24 19:25:01 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:21:52 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-#include "time_management.h"
 #include <stdbool.h>
-#include <stdio.h>
 
 bool	is_philo_dead(t_sim_data *sim_data, t_philo_data *philo,
 		bool is_during_meal)
@@ -21,8 +19,6 @@ bool	is_philo_dead(t_sim_data *sim_data, t_philo_data *philo,
 	pthread_mutex_lock(&sim_data->death_mutex);
 	if (sim_data->some_philo_is_dead)
 	{
-		if (philo->is_dead)
-			printf("%05ld %d died\n", get_time_ms(sim_data), philo->id);
 		pthread_mutex_unlock(&sim_data->death_mutex);
 		if (is_during_meal)
 		{

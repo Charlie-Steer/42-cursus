@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 19:17:41 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/06/24 19:25:40 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:31:08 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	grab_forks(t_philo_data *philo, t_config *config, t_sim_data *sim)
 
 int	eat(t_philo_data *philo, t_sim_data *sim, t_config *config)
 {
+	pthread_mutex_lock(&sim->death_mutex);
 	pthread_mutex_lock(&(philo->last_meal_time_mutex[0]));
 	philo->last_meal_time_us = get_time_us(sim);
 	pthread_mutex_unlock(&(philo->last_meal_time_mutex[0]));
@@ -68,11 +69,16 @@ int	eat(t_philo_data *philo, t_sim_data *sim, t_config *config)
 	sim->meals_had[philo->id - 1] += 1;
 	pthread_mutex_unlock(&(sim->meals_had_mutexes[philo->id - 1]));
 	printf("%05ld %d is eating\n", get_time_ms(sim), philo->id);
+	pthread_mutex_unlock(&sim->death_mutex);
 	usleep(config->eat_time_us);
 	if (is_philo_dead(sim, philo, true) || is_quota_met(sim, philo, true))
+	{
 		return (-1);
+	}
 	else
+	{
 		return (0);
+	}
 }
 
 int	go_sleep(t_philo_data *philo, t_sim_data *sim, t_config *config)
