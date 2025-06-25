@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 19:56:17 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/06/25 12:15:12 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:43:03 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static bool	check_for_death(t_philo_data *philo_data_array,
 			pthread_mutex_unlock(&(philo_data_array->last_meal_time_mutex[i]));
 			pthread_mutex_lock(&sim_data->death_mutex);
 			sim_data->some_philo_is_dead = true;
-			philo_data_array[i].is_dead = true;
 			usleep(1000);
 			printf("%05ld %d died\n", get_time_ms(sim_data), i + 1);
 			pthread_mutex_unlock(&sim_data->death_mutex);

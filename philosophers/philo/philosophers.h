@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 17:21:08 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/06/24 17:25:23 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:42:10 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef struct s_philo_data
 	pthread_mutex_t	*right_fork;
 	long			last_meal_time_us;
 	pthread_mutex_t	*last_meal_time_mutex;
-	bool			is_dead;
 }					t_philo_data;
 
 typedef struct s_config
