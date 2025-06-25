@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 12:22:20 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/06/24 20:14:34 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/06/25 11:13:56 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	main(int argc, char *argv[])
 	t_data			*data_array;
 
 	// TODO: Check SUBJECT!
-	// TODO: Check NORMINEETE!
+	// TODO: Check NORMINETTE!
 	// TODO: Check LEAKS!
 	if (!are_arguments_valid(argc, argv))
 		return (EXIT_FAILURE);

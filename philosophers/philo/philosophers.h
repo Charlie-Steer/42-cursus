@@ -37,6 +37,7 @@ typedef struct s_philo_data
 	pthread_mutex_t	*right_fork;
 	long			last_meal_time_us;
 	pthread_mutex_t	*last_meal_time_mutex;
+	bool			is_dead;
 }					t_philo_data;
 
 typedef struct s_config

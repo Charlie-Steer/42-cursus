@@ -6,17 +6,16 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 19:56:17 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/06/24 19:57:44 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/06/25 11:13:56 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 #include "time_management.h"
-#include <stdio.h>
 #include <unistd.h>
 
-bool	check_for_death(t_philo_data *philo_data_array, t_sim_data *sim_data,
-		t_config *config)
+static bool	check_for_death(t_philo_data *philo_data_array,
+		t_sim_data *sim_data, t_config *config)
 {
 	int	i;
 
@@ -28,7 +27,10 @@ bool	check_for_death(t_philo_data *philo_data_array, t_sim_data *sim_data,
 			- philo_data_array[i].last_meal_time_us >= config->death_time_us)
 		{
 			pthread_mutex_unlock(&(philo_data_array->last_meal_time_mutex[i]));
-			printf("%05ld %d died\n", get_time_ms(sim_data), i + 1);
+			pthread_mutex_lock(&sim_data->death_mutex);
+			sim_data->some_philo_is_dead = true;
+			philo_data_array[i].is_dead = true;
+			pthread_mutex_unlock(&sim_data->death_mutex);
 			return (true);
 		}
 		pthread_mutex_unlock(&(philo_data_array->last_meal_time_mutex[i]));
@@ -37,7 +39,7 @@ bool	check_for_death(t_philo_data *philo_data_array, t_sim_data *sim_data,
 	return (false);
 }
 
-bool	check_for_quota_met(t_sim_data *sim_data, t_config *config)
+static bool	check_for_quota_met(t_sim_data *sim_data, t_config *config)
 {
 	int	i;
 
@@ -64,9 +66,6 @@ void	monitor_threads(t_sim_data *sim_data, t_config *config,
 	{
 		if (check_for_death(philo_data_array, sim_data, config))
 		{
-			pthread_mutex_lock(&sim_data->death_mutex);
-			sim_data->some_philo_is_dead = true;
-			pthread_mutex_unlock(&sim_data->death_mutex);
 			return ;
 		}
 		if (config->n_meals > 0 && check_for_quota_met(sim_data, config))
