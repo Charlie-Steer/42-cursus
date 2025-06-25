@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 17:32:06 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/06/24 20:13:44 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/06/25 10:37:01 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ bool	are_arguments_valid(int argc, char *argv[])
 	if (argc != 5 && argc != 6)
 	{
 		printf("Format: philo number_of_philosophers time_to_die time_to_eat "
-				"time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
+			"time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
 		return (false);
 	}
 	else if (!check_if_arguments_are_valid(argc, argv))
